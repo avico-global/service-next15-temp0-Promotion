@@ -168,9 +168,9 @@ export default function Banner({ image, data, contact_info }) {
               {data?.description}
             </p>
 
-            {data?.list?.length > 0 ? (
+           
               <ul className="flex flex-col gap-2">
-                {data.list.map((item, index) => (
+                {data?.list?.map((item, index) => (
                   <li
                     key={index}
                     className="flex items-center text-xl font-semibold  gap-2"
@@ -193,14 +193,6 @@ export default function Banner({ image, data, contact_info }) {
                   </li>
                 ))}
               </ul>
-            ) : (
-              <div className="flex flex-col items-center md:items-start pt-3">
-                <CallButton phone={contact_info?.phone} />
-                <p className="text-[22px] md:text-4xl leading-none mt-4 md:mt-2 font-bold">
-                  Call Us Today
-                </p>
-              </div>
-            )}
           </div>
 
           <div className="flex flex-col justify-center">

@@ -14,7 +14,7 @@ const barlow = Barlow_Condensed({
   subsets: ["latin"],
 });
 
-export default function Navbar({ logo, imagePath, contact_info, services }) {
+export default function Navbar({ logo, imagePath, contact_info, data }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showServices, setShowServices] = useState(false);
 
@@ -105,7 +105,7 @@ export default function Navbar({ logo, imagePath, contact_info, services }) {
                        msOverflowStyle: 'none',
                        '::-webkit-scrollbar': { display: 'none' } 
                      }}>
-                  {services?.map((service, index) => (
+                  {data?.map((service, index) => (
                     <Link
                       title={service?.title}
                       key={index}
@@ -189,7 +189,7 @@ export default function Navbar({ logo, imagePath, contact_info, services }) {
             
             {showServices && (
               <div className=" mt-2 flex flex-col max-h-[300px] overflow-y-auto gap-2">
-                {services?.map((service, index) => {
+                {data?.map((service, index) => {
                   const serviceUrl = sanitizeUrl(service?.title);
                   return (
                     <Link

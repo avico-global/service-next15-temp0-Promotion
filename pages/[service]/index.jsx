@@ -59,6 +59,8 @@ export default function Service({
     `/images/${imagePath}/${favicon}`) : 
   '/favicon.ico';
 
+  console.log("data Services", services)
+
   return (
     <div>
       <Head>
@@ -110,7 +112,7 @@ export default function Service({
         logo={logo}
         imagePath={imagePath}
         contact_info={contact_info}
-        services={services?.list}
+        data={services}
       />
       <ServiceBanner
         data={service_banner?.value}
@@ -216,7 +218,7 @@ export async function getServerSideProps({ req }) {
   const gtm_body = await callBackendApi({ domain, tag: "gtm_body" });
 
   const banner = await callBackendApi({ domain, tag: "banner" });
-  const services = await callBackendApi({ domain, tag: "services_list" });
+  const services = await callBackendApi({ domain, tag: "services" });
   const features = await callBackendApi({ domain, tag: "features" });
   const gallery = await callBackendApi({ domain, tag: "gallery" });
   const about = await callBackendApi({ domain, tag: "about" });

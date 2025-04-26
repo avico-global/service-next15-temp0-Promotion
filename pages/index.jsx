@@ -65,11 +65,16 @@ export default function Home({
   why_us,
   prices,
 }) {
+
+  console.log("data of banner", banner)
+   
   const faviconUrl = favicon
     ? imagePath.startsWith("http")
       ? `${imagePath}/${favicon}`
       : `/images/${imagePath}/${favicon}`
     : "/favicon.ico";
+
+
 
   return (
     <div className="bg-white">
@@ -100,7 +105,7 @@ export default function Home({
           logo={logo}
           imagePath={imagePath}
           contact_info={contact_info}
-          services={services?.list}
+          data={services}
         />
         <Banner
           data={banner?.value}

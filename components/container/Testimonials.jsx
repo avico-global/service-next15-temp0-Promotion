@@ -187,8 +187,7 @@ const Testimonials = ({ data,logo,imagePath }) => {
 
   return (
     <>
-      {data.design ? (
-        <section className="testimonials-section py-12 bg-white">
+       <section className="testimonials-section py-12 bg-white">
           <Container className="mx-auto px-4">
             <div className="grid grid-cols-testimonial">
 
@@ -300,100 +299,6 @@ const Testimonials = ({ data,logo,imagePath }) => {
             }
           `}</style>
         </section>
-      ) : (
-        <section className="testimonials-section py-8 overflow-hidden bg-gradient-to-b from-white to-gray-50">
-          <Container className="mx-auto px-4">
-            <Heading
-              text={data?.heading || "Our Happy Clients"}
-              className="pb-6"
-            />
-
-            <div className="testimonial-slider-container overflow-hidden mb-8">
-              <div
-                ref={sliderRef}
-                className={`testimonial-slider ${isDragging ? "grabbing" : ""}`}
-                style={{ transform: `translateX(${currentTranslate}%)` }}
-                onTouchStart={handleDragStart}
-                onTouchMove={handleDragMove}
-                onTouchEnd={handleDragEnd}
-                onMouseDown={handleDragStart}
-                onMouseMove={handleDragMove}
-                onMouseUp={handleDragEnd}
-                onMouseLeave={handleDragEnd}
-              >
-                {testimonials.map((testimonial, index) => (
-                  <div key={index} className="testimonial-slide px-1.5">
-                    <div className="flex-1 py-6 px-10 border border-blue-900 rounded-3xl flex flex-col bg-white shadow-md h-full">
-                      <p className="text-center text-gray-900 italic mb-8 text-base md:text-lg leading-relaxed">
-                        "{testimonial.quote || testimonial.text}"
-                      </p>
-
-                      <div className="mt-auto text-center">
-                        <h4 className="text-2xl text-blue-800 font-bold mb-1">
-                          {testimonial.name}
-                        </h4>
-                        <p className="text-gray-600">{testimonial.location}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Container>
-
-          <style jsx>{`
-            .testimonials-section {
-              background: linear-gradient(to bottom, #ffffff, #f8f9fa);
-            }
-
-            .testimonials-section h2 {
-              color: #0a3161;
-              font-size: 2.25rem;
-              margin-bottom: 2.5rem;
-            }
-
-            .testimonial-slider-container {
-              overflow: hidden;
-              position: relative;
-            }
-
-            .testimonial-slider {
-              display: flex;
-              transition: ${isDragging ? "none" : "transform 0.5s ease"};
-              cursor: grab;
-              will-change: transform;
-            }
-
-            .testimonial-slider.grabbing {
-              cursor: grabbing;
-              transition: none;
-            }
-
-            .testimonial-slide {
-              width: ${isMobile ? "100%" : "50%"};
-              box-sizing: border-box;
-              flex-shrink: 0;
-            }
-
-            .testimonials-section .flex-1 {
-              border-radius: 20px;
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-              background-color: white;
-            }
-
-            .testimonials-section h4 {
-              color: #0a3161;
-              font-weight: 700;
-              font-size: 1.5rem;
-              margin-bottom: 0.25rem;
-            }
-
-            .testimonials-section p.text-gray-600 {
-              color: #6b7280;
-            }
-          `}</style>
-        </section>
-      )}
     </>
   );
 };
