@@ -2,17 +2,16 @@ import Head from "next/head";
 import Banner from "../components/container/home/Banner";
 import Navbar from "../components/container/Navbar/Navbar";
 import WhyChoose from "../components/container/home/WhyChoose";
-import OurServices from "../components/container/home/OurServices";
 import { useInView } from "react-intersection-observer";
 import ServiceCities from "../components/container/ServiceCities";
 import FAQs from "../components/container/FAQs";
-import Testimonials from "../components/container/Testimonials";
+// import Testimonials from "../components/container/Testimonials";
 import About from "../components/container/home/About";
 import Footer from "../components/container/Footer";
 import Contact from "../components/container/Contact";
 import ServiceBenefits from "../components/container/home/ServiceBenefits";
 import { useEffect, useState } from "react";
-import Gallery from "@/components/container/home/Gallery";
+// import Gallery from "@/components/container/home/Gallery";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 import Link from "next/link";
@@ -66,7 +65,7 @@ export default function Home({
   prices,
 }) {
 
-  console.log("data of banner", banner)
+  console.log("data of banner", services)
    
   const faviconUrl = favicon
     ? imagePath.startsWith("http")
@@ -116,23 +115,19 @@ export default function Home({
 
         <FullMonthPromotion why_us={why_us} prices={prices} />
 
-        <OurServices
-          phone={contact_info?.phone}
-          data={services}
-          imagePath={imagePath}
-        />
+       
         <WhyChoose
           data={features?.value}
           image={`${imagePath}/${features?.file_name}`}
           contact_info={contact_info}
           phone={contact_info?.phone}
         />
-        <Gallery
+        {/* <Gallery
           data={gallery_head}
           gallery={gallery}
           imagePath={imagePath}
           contact_info={contact_info}
-        />
+        /> */}
         <FullContainer className="pt-2 pb-6">
           <Container className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 md:justify-between px-2 md:px-4">
             {[
@@ -186,9 +181,9 @@ export default function Home({
           image={`${imagePath}/${benefits?.file_name}`}
         />
         {}
-        {testimonials && (
+        {/* {testimonials && (
           <Testimonials logo={logo} imagePath={imagePath} data={testimonials} />
-        )}
+        )} */}
         <div id="contact-us">
           <Contact contact_info={contact_info} />
         </div>
