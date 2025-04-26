@@ -5,7 +5,7 @@ import WhyChoose from "../components/container/home/WhyChoose";
 import { useInView } from "react-intersection-observer";
 import ServiceCities from "../components/container/ServiceCities";
 import FAQs from "../components/container/FAQs";
-// import Testimonials from "../components/container/Testimonials";
+import Testimonials from "../components/container/Testimonials";
 import About from "../components/container/home/About";
 import Footer from "../components/container/Footer";
 import Contact from "../components/container/Contact";
@@ -114,7 +114,9 @@ export default function Home({
         />
 
         <FullMonthPromotion why_us={why_us} prices={prices} />
-
+        {testimonials && (
+          <Testimonials logo={logo} imagePath={imagePath} data={testimonials} />
+        )}
        
         <WhyChoose
           data={features?.value}
@@ -181,9 +183,7 @@ export default function Home({
           image={`${imagePath}/${benefits?.file_name}`}
         />
         {}
-        {/* {testimonials && (
-          <Testimonials logo={logo} imagePath={imagePath} data={testimonials} />
-        )} */}
+     
         <div id="contact-us">
           <Contact contact_info={contact_info} />
         </div>
