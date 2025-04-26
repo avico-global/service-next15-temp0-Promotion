@@ -62,14 +62,14 @@ export default function Home({
   locations,
   gallery_head,
   faqs,
+  why_us,
+  prices,
 }) {
   const faviconUrl = favicon
     ? imagePath.startsWith("http")
       ? `${imagePath}/${favicon}`
       : `/images/${imagePath}/${favicon}`
     : "/favicon.ico";
-
-  console.log("Banner Image", `${imagePath}/${banner?.file_name}`);
 
   return (
     <div className="bg-white">
@@ -109,15 +109,18 @@ export default function Home({
           contact_info={contact_info}
         />
 
-        
+        <FullMonthPromotion why_us={why_us} prices={prices} />
 
-        <FullMonthPromotion/>
-
-        <OurServices phone={contact_info?.phone} data={services} />
+        <OurServices
+          phone={contact_info?.phone}
+          data={services}
+          imagePath={imagePath}
+        />
         <WhyChoose
           data={features?.value}
           image={`${imagePath}/${features?.file_name}`}
           contact_info={contact_info}
+          phone={contact_info?.phone}
         />
         <Gallery
           data={gallery_head}
@@ -178,7 +181,9 @@ export default function Home({
           image={`${imagePath}/${benefits?.file_name}`}
         />
         {}
-        {testimonials && <Testimonials logo={logo} imagePath={imagePath} data={testimonials} />}
+        {testimonials && (
+          <Testimonials logo={logo} imagePath={imagePath} data={testimonials} />
+        )}
         <div id="contact-us">
           <Contact contact_info={contact_info} />
         </div>
@@ -238,7 +243,7 @@ export async function getServerSideProps({ req }) {
   const gtm_body = await callBackendApi({ domain, tag: "gtm_body" });
 
   const banner = await callBackendApi({ domain, tag: "banner" });
-  const services = await callBackendApi({ domain, tag: "services_list" });
+  const services = await callBackendApi({ domain, tag: "services" });
   const features = await callBackendApi({ domain, tag: "features" });
   const gallery = await callBackendApi({ domain, tag: "gallery" });
   const about = await callBackendApi({ domain, tag: "about" });
@@ -248,6 +253,8 @@ export async function getServerSideProps({ req }) {
   const favicon = await callBackendApi({ domain, tag: "favicon" });
   const footer = await callBackendApi({ domain, tag: "footer" });
   const locations = await callBackendApi({ domain, tag: "locations" });
+  const why_us = await callBackendApi({ domain, tag: "why_us" });
+  const prices = await callBackendApi({ domain, tag: "prices" });
 
   robotsTxt({ domain });
 
@@ -274,6 +281,8 @@ export async function getServerSideProps({ req }) {
       favicon: favicon?.data[0]?.file_name || null,
       footer: footer?.data[0] || null,
       locations: locations?.data[0]?.value || [],
+      why_us: why_us?.data[0]?.value || [],
+      prices: prices?.data[0]?.value || [],
     },
   };
 }

@@ -11,76 +11,84 @@ import {
   ThumbsUp,
   Phone,
   TextQuote,
+  FileText,
+  MessageSquare,
 } from "lucide-react";
 import FullContainer from "@/components/common/FullContainer";
-import Link from "next/link";
 import CallButton from "@/components/CallButton";
 import QuoteButton from "@/components/QuoteButton";
-import Heading from "@/components/common/Heading";
 
-const iconMapping = {
-  Award: Award,
-  Clock: Clock,
-  Star: Star,
-  Shield: Shield,
-  CheckCircle: CheckCircle,
-  Trophy: Trophy,
-  ThumbsUp: ThumbsUp,
-};
+const features = [
+  {
+    icon: FileText,
+    text: "Airdut Cleaning & Maintenances",
+  },
+  {
+    icon: Clock,
+    text: "Same Day Service",
+  },
+  {
+    icon: Star,
+    text: "5 Star Rated On Google",
+  },
+  {
+    icon: Shield,
+    text: "Licensed And Insured",
+  },
+  {
+    icon: MessageSquare,
+    text: "10+ Years Of Experience",
+  },
+];
 
-
-export default function WhyChoose({ data, image, contact_info }) {
+export default function WhyChoose({ image, contact_info, phone }) {
   return (
-    <FullContainer className="py-6 md:py-8">
-      <Container className="">
-        <div className="flex flex-col md:flex-row h-fit gap-8 items-center">
-          <div className="w-fit flex flex-col justify-center items-center md:items-start md:justify-start gap-4 md:pr-10">
-            <div className="flex justify-start">
-              <Heading text={data?.heading} className="" />
-            </div>
-            <div className="space-y-2 w-fit">
-              {data?.features?.map((feature, index) => {
-                // Get the actual icon component from the mapping
-                const IconComponent = iconMapping[feature.icon] || Award; // Fallback to Award if not found
-
-                return (
-                  <div key={index} className="flex items-center gap-4 group">
-                    <div className="w-6 h-6 flex items-center justify-center rounded-full text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                      <IconComponent className="w-6 h-6" />
-                    </div>
-                    <div className="flex flex-col">
-                      <h3
-                        className={`font-barlow text-xl md:text-xl text-primary font-extralight mb-1`}
-                      >
-                        {feature.title}
-                      </h3>
-                      {/* {feature.description && (
-                        <p className="text-gray-600 text-sm">
-                          {feature.description}
-                        </p>
-                      )} */}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="hidden md:flex flex-wrap w-full justify-start items-center gap-4 lg:gap-7">
-              <CallButton phone={contact_info?.phone} />
-              <QuoteButton phone={contact_info?.phone} />
+    <FullContainer className="py-8 md:py-12 bg-white">
+      <Container>
+        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          {/* Left: Text & Features */}
+          <div className="w-5/12 flex flex-col items-start justify-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#1A2956] mb-4">
+              Why Choose Us
+            </h2>
+            <ul className="mb-6 space-y-3">
+              {features.map((feature, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center gap-3 text-[#1A2956] font-medium text-base md:text-[17px]"
+                >
+                  <feature.icon className="w-5 h-5 text-[#1A2956]" />
+                  {feature.text}
+                </li>
+              ))}
+            </ul>
+            <div className="flex gap-4 w-full mt-2">
+              <a
+                href={`tel:${contact_info?.phone}`}
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#1A2956] text-white font-semibold text-lg shadow hover:bg-[#22397a] transition-all"
+              >
+                <Phone className="w-5 h-5" />
+                {phone}
+              </a>
+              <a
+                href="#quote"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#6B9AED] text-[#1A2956] font-semibold text-lg shadow hover:bg-[#4d7edc] transition-all"
+              >
+                <FileText className="w-5 h-5" />
+                GET A QUOTE
+              </a>
             </div>
           </div>
-
-          <div className="flex-1 w-full md:w-1/2 lg:w-3/5 h-full relative hidden md:block">
-            <div className="overflow-hidden rounded-md h-[360px] w-full relative">
+          {/* Right: Image */}
+          <div className="w-7/12 flex justify-center relative">
+            <div className="rounded-lg overflow-hidden w-full h-[320px] bg-gray-200 relative">
               <Image
-                title="Why Choose Image"
                 src={image}
-                alt="Professional chimney services"
-                className="object-cover transition-transform duration-700 hover:scale-105"
-                priority
+                alt="Professional air duct cleaning"
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+                style={{ position: "absolute" }}
+                priority
               />
             </div>
           </div>
