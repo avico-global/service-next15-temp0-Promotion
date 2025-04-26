@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.prose strong {
+  color: #01306e;
+  font-weight: 700;
+  width: 100%;
+}
+.prose h2 {
+  color: #01306e;
+  font-weight: 700;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 32px;
+  font-family: "Montserrat", sans-serif;
+}
+.prose h3 {
+  color: #01306e;
+  font-weight: 700;
+  width: 100%;
+  font-size: 24px;
+  font-family: "Montserrat", sans-serif;
+}
+.prose p {
+  color: #01306e;
+  font-weight: 400;
+  width: 100%;
+  font-size: 18px;
+  font-family: "barlow", sans-serif;
+  margin-bottom: 14.4px;
+  margin-top: 0px;
+  line-height: 1.5;
+}
+
