@@ -158,54 +158,47 @@ export default function ServiceBanner({ image, data, contact_info }) {
             <div className="bg-gradient-to-br  from-blue-800 to-sky-300 rounded-full text-7xl font-bold aspect-square h-36 w-36 flex items-center justify-center">
               {data?.price || "$80"}
             </div>
-            <h1 className="flex flex-col  max-w-3xl text-4xl md:text-5xl lg:text-6xl font-bold ">
-         
-        </h1>
 
-        <span className="block mb-3 max-w-3xl capitalize text-3xl lg:leading-[55px] md:text-4xl lg:text-[50px] font-semibold drop-shadow-lg text-white">
-          <span className="text-white leading-none">
-            {data?.heading?.replaceAll(
-              "##service##",
-              service?.replace(/-/g, " ")
-            )}
-          </span>
-        </span>
-            <h2 className="text-[28px] md:px-0 md:text-6xl uppercase font-[900] leading-tight text-[#90D4E1] text-center md:text-start lg:text-left mt-2">
-            {data?.tagline?.replaceAll(
-              "##service##",
-              service?.replace(/-/g, " ")
-            )}
-
+            <h1 className="text-white leading-none text-6xl font-extrabold uppercase">
+              {data?.heading?.replaceAll(
+                "##service##",
+                service?.replace(/-/g, " ")
+              )}
+            </h1>
+            <h2 className="text-[28px] md:px-0 md:text-4xl uppercase mt-3 font-bold leading-tight text-white text-center md:text-start lg:text-left ">
+              {data?.tagline?.replaceAll(
+                "##service##",
+                service?.replace(/-/g, " ")
+              )}
             </h2>
             <p className="text-[16px] md:text-3xl text-center md:text-start lg:text-left mt-4 mb-1">
               {data?.description}
             </p>
 
-           
-              <ul className="flex flex-col gap-2">
-                {data?.list?.map((item, index) => (
-                  <li
-                    key={index}
-                    className="flex items-center text-xl font-semibold  gap-2"
+            <ul className="flex flex-col gap-2">
+              {data?.list?.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex items-center text-xl font-semibold  gap-2"
+                >
+                  <svg
+                    className="w-5 h-5 text-green-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      className="w-5 h-5 text-green-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 13l4 4L19 7"
-                      ></path>
-                    </svg>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    ></path>
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="flex flex-col justify-center">
@@ -258,7 +251,6 @@ export default function ServiceBanner({ image, data, contact_info }) {
                         />
                       </div>
                     </div>
-                   
 
                     <div className="">
                       <label

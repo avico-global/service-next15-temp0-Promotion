@@ -12,6 +12,7 @@ import {
   getImagePath,
   robotsTxt,
 } from "@/lib/myFun";
+
 import ServiceBanner from "@/components/container/ServiceBanner";
 import Gallery from "@/components/container/home/Gallery";
 import About from "@/components/container/home/About";
@@ -53,13 +54,13 @@ export default function Service({
   const { service } = router.query;
   const breadcrumbs = useBreadcrumbs();
 
-  const faviconUrl = favicon ? 
-  (imagePath.startsWith('http') ? 
-    `${imagePath}/${favicon}` : 
-    `/images/${imagePath}/${favicon}`) : 
-  '/favicon.ico';
+  const faviconUrl = favicon
+    ? imagePath.startsWith("http")
+      ? `${imagePath}/${favicon}`
+      : `/images/${imagePath}/${favicon}`
+    : "/favicon.ico";
 
-  console.log("data Services", services)
+  console.log("data Services", services);
 
   return (
     <div>
@@ -89,23 +90,9 @@ export default function Service({
           name="google-site-verification"
           content="zbriSQArMtpCR3s5simGqO5aZTDqEZZi9qwinSrsRPk"
         />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href={faviconUrl}
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href={faviconUrl}
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href={faviconUrl}
-        />
+        <link rel="apple-touch-icon" sizes="180x180" href={faviconUrl} />
+        <link rel="icon" type="image/png" sizes="32x32" href={faviconUrl} />
+        <link rel="icon" type="image/png" sizes="16x16" href={faviconUrl} />
       </Head>
 
       <Navbar
@@ -141,7 +128,12 @@ export default function Service({
         service={service}
         data={service_gallery_head}
       />
-      <ServiceText contact_info={contact_info} data={service_text1} service={service} data2={service_text2}/>
+      <ServiceText
+        contact_info={contact_info}
+        data={service_text1}
+        service={service}
+        data2={service_text2}
+      />
       <Contact contact_info={contact_info} />
       <FAQs faqs={faqs} />
       <ServiceCities data={locations} />
@@ -228,7 +220,10 @@ export async function getServerSideProps({ req }) {
   const favicon = await callBackendApi({ domain, tag: "favicon" });
   const footer = await callBackendApi({ domain, tag: "footer" });
   const locations = await callBackendApi({ domain, tag: "locations" });
-  const service_gallery_head = await callBackendApi({ domain, tag: "service_gallery_head" });
+  const service_gallery_head = await callBackendApi({
+    domain,
+    tag: "service_gallery_head",
+  });
   const service_banner = await callBackendApi({
     domain,
     tag: "service_banner",
