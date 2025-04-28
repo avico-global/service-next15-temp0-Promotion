@@ -221,7 +221,11 @@ export default function ServiceBanner({ image, data, form_head }) {
                       name="first_name"
                       value={formData.first_name}
                       onChange={handleChange}
-                      className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                      className={`w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
+                        fieldErrors.first_name
+                          ? "border-red-500"
+                          : "border-gray-200"
+                      }`}
                       placeholder="First name"
                       required
                     />
@@ -231,7 +235,11 @@ export default function ServiceBanner({ image, data, form_head }) {
                       name="last_name"
                       value={formData.last_name}
                       onChange={handleChange}
-                      className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                      className={`w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
+                        fieldErrors.last_name
+                          ? "border-red-500"
+                          : "border-gray-200"
+                      }`}
                       placeholder="Last name"
                       required
                     />
@@ -241,9 +249,9 @@ export default function ServiceBanner({ image, data, form_head }) {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className={`w-full pl-3 py-2 bg-white border ${
+                      className={`w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
                         fieldErrors.phone ? "border-red-500" : "border-gray-200"
-                      } rounded-md outline-none`}
+                      }`}
                       placeholder="(123) 456-7890"
                       required
                     />
@@ -253,7 +261,9 @@ export default function ServiceBanner({ image, data, form_head }) {
                       name="zip"
                       value={formData.zip}
                       onChange={handleChange}
-                      className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                      className={`w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
+                        fieldErrors.zip ? "border-red-500" : "border-gray-200"
+                      }`}
                       placeholder="Zip Code"
                       required
                     />
@@ -264,7 +274,9 @@ export default function ServiceBanner({ image, data, form_head }) {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                    className={`w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
+                      fieldErrors.email ? "border-red-500" : "border-gray-200"
+                    }`}
                     placeholder="your@email.com"
                     required
                   />
@@ -274,7 +286,9 @@ export default function ServiceBanner({ image, data, form_head }) {
                     value={formData.message}
                     onChange={handleChange}
                     rows="3"
-                    className="w-full pl-3 py-2 max-h-[75px] bg-white border border-gray-200 rounded-md outline-none "
+                    className={`w-full pl-3 py-2 max-h-[75px] bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
+                      fieldErrors.message ? "border-red-500" : "border-gray-200"
+                    }`}
                     placeholder="Message"
                     required
                   ></textarea>
