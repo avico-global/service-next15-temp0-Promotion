@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import FullContainer from "@/components/common/FullContainer";
 
-export default function WhyChoose({ image, contact_info, phone, features }) {
+export default function WhyChoose({ image, contact_info, phone, data }) {
   const iconMap = {
     Clock,
     Star,
@@ -39,7 +39,7 @@ export default function WhyChoose({ image, contact_info, phone, features }) {
               Why Choose Us
             </h2>
             <ul className="mb-6 space-y-3">
-              {features?.map((feature, idx) => {
+              {data?.map((feature, idx) => {
                 const IconComponent = iconMap[feature.icon];
                 return (
                   <li
