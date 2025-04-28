@@ -27,6 +27,7 @@ import {
 import { Montserrat, Inter, Barlow } from "next/font/google";
 import { Link as ScrollLink } from "react-scroll";
 import FullMonthPromotion from "@/components/Promotion";
+import OurServices from "@/components/container/home/OurServices";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -63,17 +64,13 @@ export default function Home({
   faqs,
   why_us,
   prices,
+  slogan_1,
 }) {
-
-  console.log("data of banner", services)
-   
   const faviconUrl = favicon
     ? imagePath.startsWith("http")
       ? `${imagePath}/${favicon}`
       : `/images/${imagePath}/${favicon}`
     : "/favicon.ico";
-
-
 
   return (
     <div className="bg-white">
@@ -117,20 +114,46 @@ export default function Home({
         {testimonials && (
           <Testimonials logo={logo} imagePath={imagePath} data={testimonials} />
         )}
-       
+
+        <OurServices
+          data={services}
+          phone={contact_info?.phone}
+          imagePath={imagePath}
+        />
+
         <WhyChoose
           data={features?.value}
           image={`${imagePath}/${features?.file_name}`}
           contact_info={contact_info}
           phone={contact_info?.phone}
         />
+
         {/* <Gallery
           data={gallery_head}
           gallery={gallery}
           imagePath={imagePath}
           contact_info={contact_info}
         /> */}
-        <FullContainer className="pt-2 pb-6">
+
+        {/* Slogan 1 */}
+        <FullContainer className="bg-white pt-10 flex flex-col items-center justify-center">
+          <Container className="text-center flex flex-col items-center justify-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#1A2956] mb-4">
+              {slogan_1?.title}
+            </h2>
+            <p className="text-base md:text-lg text-[#1A2956] mb-4">
+              {slogan_1?.description}
+            </p>
+          </Container>
+        </FullContainer>
+
+        <About
+          services={services?.list}
+          data={about?.value}
+          image={`${imagePath}/${about?.file_name}`}
+        />
+
+        <FullContainer className="pt-2 mt-12 pb-6">
           <Container className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 md:justify-between px-2 md:px-4">
             {[
               {
@@ -172,18 +195,12 @@ export default function Home({
           </Container>
         </FullContainer>
 
-        <About
-          services={services?.list}
-          data={about?.value}
-          image={`${imagePath}/${about?.file_name}`}
-        />
         <ServiceBenefits
           contact_info={contact_info}
           data={benefits?.value}
           image={`${imagePath}/${benefits?.file_name}`}
         />
-        {}
-     
+
         <div id="contact-us">
           <Contact contact_info={contact_info} />
         </div>
@@ -255,7 +272,7 @@ export async function getServerSideProps({ req }) {
   const locations = await callBackendApi({ domain, tag: "locations" });
   const why_us = await callBackendApi({ domain, tag: "why_us" });
   const prices = await callBackendApi({ domain, tag: "prices" });
-
+  const slogan_1 = await callBackendApi({ domain, tag: "slogan_1" });
   robotsTxt({ domain });
 
   return {
@@ -283,6 +300,7 @@ export async function getServerSideProps({ req }) {
       locations: locations?.data[0]?.value || [],
       why_us: why_us?.data[0]?.value || [],
       prices: prices?.data[0]?.value || [],
+      slogan_1: slogan_1?.data[0]?.value || null,
     },
   };
 }

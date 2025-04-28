@@ -146,10 +146,10 @@ export default function Banner({ image, data, contact_info }) {
           sizes="100vw"
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gray-900/60"></div>
+        <div className="absolute inset-0 bg-gray-950/70"></div>
       </div>
-      <Container className="py-20 font-barlow relative z-10">
-        <div className="w-full grid grid-cols-1 md:grid-cols-banner gap-10 md:gap-[66px] text-white lg:min-h-[630px]">
+      <Container className="py-10 font-barlow relative z-10">
+        <div className="w-full grid grid-cols-1 md:grid-cols-banner gap-10 md:gap-[66px] text-white">
           <div className="relative -mt-10 flex flex-col lg:pr-10 justify-center">
             <div className="bg-gradient-to-br  from-blue-800 to-sky-300 rounded-full text-7xl font-bold aspect-square h-36 w-36 flex items-center justify-center">
               {data?.price || "$80"}
@@ -158,7 +158,7 @@ export default function Banner({ image, data, contact_info }) {
               Special Complete Inspection
             </p>
 
-            <h1 className="font-[900] uppercase text-[28px] px-4 md:px-0 md:text-6xl leading-tight text-center md:text-start lg:text-left text-shadow-lg">
+            <h1 className="font-[900] uppercase text-[28px] mt-3 px-4 md:px-0 md:text-6xl leading-tight text-center md:text-start lg:text-left text-shadow-lg">
               {data?.title}
             </h1>
             <h2 className="text-[28px] md:px-0 md:text-6xl uppercase font-[900] leading-tight text-[#90D4E1] text-center md:text-start lg:text-left mt-2">
@@ -168,31 +168,30 @@ export default function Banner({ image, data, contact_info }) {
               {data?.description}
             </p>
 
-           
-              <ul className="flex flex-col gap-2">
-                {data?.list?.map((item, index) => (
-                  <li
-                    key={index}
-                    className="flex items-center text-xl font-semibold  gap-2"
+            <ul className="flex flex-col gap-2">
+              {data?.list?.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex items-center text-xl font-semibold  gap-2"
+                >
+                  <svg
+                    className="w-5 h-5 text-green-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      className="w-5 h-5 text-green-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 13l4 4L19 7"
-                      ></path>
-                    </svg>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    ></path>
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="flex flex-col justify-center">
@@ -200,7 +199,7 @@ export default function Banner({ image, data, contact_info }) {
               {data?.price || "$80"}
             </div>
 
-            <div className="bg-white shadow-[0_0_10px_rgba(0,0,0,0.4)] font-barlow rounded-[20px] px-4 md:px-12 pb-8 md:pb-12 pt-10 md:pt-14">
+            <div className="bg-white shadow-[0_0_10px_rgba(0,0,0,0.4)] font-barlow rounded-[20px] px-4 md:px-10 pb-8 md:pb-10 pt-10 md:pt-14">
               <h3 className="text-3xl md:text-4xl leading-7 md:leading-[30px] font-bold text-center mb-2 text-primary">
                 10% Off Total Price for Online Booking
               </h3>
@@ -224,147 +223,69 @@ export default function Banner({ image, data, contact_info }) {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3 text-black">
                   <div className="grid grid-cols-2 gap-[10px]">
-                    <div>
-                      <label
-                        htmlFor="first_name"
-                        className="block text-md font-thin mb-1 text-gray-700 "
-                      >
-                        First Name
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3  pointer-events-none"></div>
-                        <input
-                          type="text"
-                          id="first_name"
-                          name="first_name"
-                          value={formData.first_name}
-                          onChange={handleChange}
-                          className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
-                          placeholder="First name"
-                          required
-                        />
-                      </div>
-                    </div>
-                    {/* <div>
-                      <label
-                        htmlFor="last_name"
-                        className="block text-sm mb-1 text-gray-700 font-medium"
-                      >
-                        Last Name
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <User className="h-4 w-4 text-blue-500" />
-                        </div>
-                        <input
-                          type="text"
-                          id="last_name"
-                          name="last_name"
-                          value={formData.last_name}
-                          onChange={handleChange}
-                          className="w-full pl-10 py-2 bg-gray-50 border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 shadow-sm"
-                          placeholder="Last name"
-                          required
-                        />
-                      </div>
-                    </div> */}
-
-                    <div className="">
-                      <label
-                        htmlFor="phone"
-                        className="block text-md font-thin mb-1 text-gray-700 "
-                      >
-                        Phone Number
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className={`w-full pl-3 py-2 bg-white border ${
-                            fieldErrors.phone
-                              ? "border-red-500"
-                              : "border-gray-200"
-                          } rounded-md outline-none`}
-                          placeholder="(123) 456-7890"
-                          required
-                        />
-                      </div>
-                      {fieldErrors.phone && (
-                        <p className="text-red-500 text-xs mt-1">
-                          {fieldErrors.phone}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="col-span-2 md:col-span-1">
-                      <label
-                        htmlFor="zip"
-                        className="block text-md font-thin mb-1 text-gray-700 "
-                      >
-                        Zip Code
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                        <input
-                          type="text"
-                          id="zip"
-                          name="zip"
-                          value={formData.zip}
-                          onChange={handleChange}
-                          className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
-                          placeholder="Zip Code"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="col-span-2 md:col-span-1">
-                      <label
-                        htmlFor="email"
-                        className="block text-md font-thin mb-1 text-gray-700 "
-                      >
-                        Email
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
-                          placeholder="your@email.com"
-                          required
-                        />
-                      </div>
-                    </div>
+                    <input
+                      type="text"
+                      id="first_name"
+                      name="first_name"
+                      value={formData.first_name}
+                      onChange={handleChange}
+                      className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                      placeholder="First name"
+                      required
+                    />
+                    <input
+                      type="text"
+                      id="last_name"
+                      name="last_name"
+                      value={formData.last_name}
+                      onChange={handleChange}
+                      className="w-full pl-10 py-2 bg-gray-50 border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 shadow-sm"
+                      placeholder="Last name"
+                      required
+                    />
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className={`w-full pl-3 py-2 bg-white border ${
+                        fieldErrors.phone ? "border-red-500" : "border-gray-200"
+                      } rounded-md outline-none`}
+                      placeholder="(123) 456-7890"
+                      required
+                    />
+                    <input
+                      type="text"
+                      id="zip"
+                      name="zip"
+                      value={formData.zip}
+                      onChange={handleChange}
+                      className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                      placeholder="Zip Code"
+                      required
+                    />
                   </div>
-
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-md font-thin mb-1 text-gray-700 "
-                    >
-                      Message
-                    </label>
-                    <div className="relative">
-                      <div className="absolute top-3 left-3 pointer-events-none"></div>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        rows="3"
-                        className="w-full pl-3 py-2 max-h-[75px] bg-white border border-gray-200 rounded-md outline-none "
-                        placeholder="Message"
-                        required
-                      ></textarea>
-                    </div>
-                  </div>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                    placeholder="your@email.com"
+                    required
+                  />
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows="3"
+                    className="w-full pl-3 py-2 max-h-[75px] bg-white border border-gray-200 rounded-md outline-none "
+                    placeholder="Message"
+                    required
+                  ></textarea>
 
                   {error && (
                     <div className="text-red-500 text-sm font-medium">

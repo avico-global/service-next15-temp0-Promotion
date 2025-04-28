@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import Container from "../common/Container";
 import Heading from "../common/Heading";
 import Logo from "@/components/Logo";
+import Image from "next/image";
 
-const Testimonials = ({ data,logo,imagePath }) => {
+const Testimonials = ({ data, logo, imagePath }) => {
   const testimonials = data?.list || [];
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -46,8 +47,11 @@ const Testimonials = ({ data,logo,imagePath }) => {
           setActiveIndex((prev) => {
             // Check if we're at the last possible position
             const visibleSlides = isMobile ? 1 : 3;
-            const maxAllowedIndex = Math.max(0, testimonials.length - visibleSlides);
-            
+            const maxAllowedIndex = Math.max(
+              0,
+              testimonials.length - visibleSlides
+            );
+
             // If at max, go back to 0, otherwise increment
             return prev >= maxAllowedIndex ? 0 : prev + 1;
           });
@@ -156,7 +160,7 @@ const Testimonials = ({ data,logo,imagePath }) => {
     const visibleSlides = isMobile ? 1 : 3;
     const maxAllowedIndex = Math.max(0, testimonials.length - visibleSlides);
 
-    if (direction === 'next') {
+    if (direction === "next") {
       if (activeIndex >= maxAllowedIndex) {
         // If at the end, go back to start
         setActiveIndex(0);
@@ -173,132 +177,189 @@ const Testimonials = ({ data,logo,imagePath }) => {
     }
   };
 
-  // Get visible testimonials
-  const getCurrentTestimonials = () => {
-    if (isMobile) {
-      // On mobile, show just the active one
-      return [testimonials[activeIndex]];
-    } else {
-      // On desktop, show the active one and the next one
-      const nextIndex = (activeIndex + 1) % testimonials.length;
-      return [testimonials[activeIndex], testimonials[nextIndex]];
-    }
-  };
+  // Default avatar for profiles without images
+  const defaultAvatar = "/images/default-avatar.svg";
 
   return (
     <>
-       <section className="testimonials-section py-12 bg-white">
-          <Container className="mx-auto px-4">
-            <div className="grid grid-cols-testimonial">
+      <section className="testimonials-section py-12 bg-white">
+        <Container className="mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-[#002B5B] mb-2">
+              Our Happy Clients
+            </h2>
+            <div className="w-20 h-1 bg-primary mx-auto"></div>
+          </div>
 
-
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-[180px]">
-                <Logo logo={logo} imagePath={imagePath} />
+          <div className="grid grid-cols-testimonial">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <div className="w-[160px] h-auto">
+                  <Logo logo={logo} imagePath={imagePath} />
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-gray-600 font-bold">
+                    {logo.value.logoText}
+                  </p>
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span key={star} className="text-yellow-400 text-lg">
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-gray-600 text-sm font-medium">
+                    {data?.reviewCount || "16"} Google Reviews
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1">
-                  {[1,2,3,4,5].map((star) => (
-                    <span key={star} className="text-yellow-400 text-xl">★</span>
+            </div>
+
+            {/* Navigation Arrows for larger screens */}
+            <div className="relative h-80 w-full">
+              <div className="hidden md:flex gap-3 w-full absolute items-center justify-between z-20 h-80">
+                <button
+                  onClick={() => handleArrowClick("prev")}
+                  className="w-10 h-10 flex items-center -ml-3 justify-center rounded-full bg-gray-100 border border-gray-300 hover:bg-primary hover:text-white transition-colors"
+                  aria-label="Previous testimonial"
+                >
+                  ←
+                </button>
+                <button
+                  onClick={() => handleArrowClick("next")}
+                  className="w-10 h-10 flex items-center -mr-3 justify-center rounded-full bg-gray-100 border border-gray-300 hover:bg-primary hover:text-white transition-colors"
+                  aria-label="Next testimonial"
+                >
+                  →
+                </button>
+              </div>
+              {/* Slide Indicators */}
+              {testimonials.length > 1 && (
+                <div className="flex justify-center gap-2 mt-6 absolute bottom-0 w-full">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveIndex(index)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        activeIndex === index
+                          ? "bg-primary w-6"
+                          : "bg-gray-300 hover:bg-gray-400"
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
                   ))}
                 </div>
-                <p className="text-gray-600 text-sm">{data?.reviewCount || "16"} Google Reviews</p>
-              </div>
-            </div>
-
-            <div className="testimonial-slider-container overflow-hidden mb-8">
-              <div 
-                ref={sliderRef}
-                className={`testimonial-slider ${isDragging ? 'grabbing' : ''} gap-4`}
-                style={{ transform: `translateX(${currentTranslate}%)` }}
-                onTouchStart={handleDragStart}
-                onTouchMove={handleDragMove}
-                onTouchEnd={handleDragEnd}
-                onMouseDown={handleDragStart}
-                onMouseMove={handleDragMove}
-                onMouseUp={handleDragEnd}
-                onMouseLeave={handleDragEnd}
-              >
-                {testimonials.map((testimonial, index) => (
-                  <div key={index} className="testimonial-slide px-2">
-                    <div className="flex-1 p-6 rounded-xl bg-gray-50 shadow-sm h-full border border-gray-100">
-                      {/* Profile and Google Icon Header */}
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-3">
-                          <img 
-                            src={testimonial.avatar || "https://via.placeholder.com/40"} 
-                            alt={testimonial.name} 
-                            className="w-10 h-10 rounded-full"
-                          />
-                          <div>
-                            <h4 className="text-gray-800 font-semibold">{testimonial.name}</h4>
-                            <p className="text-gray-500 text-sm">{testimonial.date || "2025-03-17"}</p>
+              )}
+              <div className="testimonial-slider-container overflow-hidden mb-8 absolute bottom-0 w-full">
+                <div
+                  ref={sliderRef}
+                  className={`testimonial-slider ${
+                    isDragging ? "grabbing" : ""
+                  } gap-4`}
+                  style={{ transform: `translateX(${currentTranslate}%)` }}
+                  onTouchStart={handleDragStart}
+                  onTouchMove={handleDragMove}
+                  onTouchEnd={handleDragEnd}
+                  onMouseDown={handleDragStart}
+                  onMouseMove={handleDragMove}
+                  onMouseUp={handleDragEnd}
+                  onMouseLeave={handleDragEnd}
+                >
+                  {testimonials.map((testimonial, index) => (
+                    <div key={index} className="testimonial-slide px-2">
+                      <div className="flex-1 p-6 rounded-xl bg-gray-100 shadow-md h-full border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                        {/* Profile and Google Icon Header */}
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full overflow-hidden relative border-2 border-primary">
+                              <Image
+                                src={testimonial.avatar || defaultAvatar}
+                                alt={testimonial.name}
+                                width={48}
+                                height={48}
+                                className="object-cover"
+                              />
+                            </div>
+                            <div>
+                              <h4 className="text-gray-800 font-semibold">
+                                {testimonial.name}
+                              </h4>
+                              <p className="text-gray-500 text-xs">
+                                {testimonial.date || "2025-03-17"}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="w-6 h-6 relative">
+                            <Image
+                              src="/images/google-icon.svg"
+                              alt="Google Review"
+                              width={24}
+                              height={24}
+                            />
                           </div>
                         </div>
-                        <img 
-                          src="/google-icon.png" 
-                          alt="Google Review" 
-                          className="w-5 h-5"
-                        />
+
+                        {/* Star Rating */}
+                        <div className="flex gap-0.5 mb-4">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <span key={star} className="text-yellow-400">
+                              ★
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Review Text */}
+                        <p className="text-gray-700 text-sm leading-relaxed italic">
+                          "{testimonial.quote || testimonial.text}"
+                        </p>
                       </div>
-                      
-                      {/* Star Rating */}
-                      <div className="flex gap-0.5 mb-3">
-                        {[1,2,3,4,5].map((star) => (
-                          <span key={star} className="text-yellow-400 text-sm">★</span>
-                        ))}
-                      </div>
-                      
-                      {/* Review Text */}
-                      <p className="text-gray-700 text-sm leading-relaxed">
-                        {testimonial.quote || testimonial.text}
-                      </p>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile Navigation Arrows */}
+              <div className="flex md:hidden justify-between gap-3 mt-4 absolute bottom-0 w-full bg-green-600">
+                <button
+                  onClick={() => handleArrowClick("prev")}
+                  className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-primary hover:text-white transition-colors"
+                  aria-label="Previous testimonial"
+                >
+                  ←
+                </button>
+                <button
+                  onClick={() => handleArrowClick("next")}
+                  className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-primary hover:text-white transition-colors"
+                  aria-label="Next testimonial"
+                >
+                  →
+                </button>
               </div>
             </div>
-            </div>
+          </div>
+        </Container>
 
+        <style jsx>{`
+          .testimonial-slider {
+            display: flex;
+            transition: ${isDragging ? "none" : "transform 0.5s ease"};
+            cursor: grab;
+            will-change: transform;
+            gap: 1rem;
+          }
 
-            {/* Updated Navigation Arrows */}
-            <div className="flex justify-center gap-2 mt-6">
-              <button 
-                onClick={() => handleArrowClick('prev')}
-                className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 hover:bg-gray-50"
-              >
-                ←
-              </button>
-              <button 
-                onClick={() => handleArrowClick('next')}
-                className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 hover:bg-gray-50"
-              >
-                →
-              </button>
-            </div>
-          </Container>
-          
-          <style jsx>{`
-            .testimonial-slider {
-              display: flex;
-              transition: ${isDragging ? 'none' : 'transform 0.5s ease'};
-              cursor: grab;
-              will-change: transform;
-              gap: 1rem;
-            }
-            
-            .testimonial-slider.grabbing {
-              cursor: grabbing;
-              transition: none;
-            }
-            
-            .testimonial-slide {
-              width: ${isMobile ? '100%' : '33.333%'};
-              box-sizing: border-box;
-              flex-shrink: 0;
-            }
-          `}</style>
-        </section>
+          .testimonial-slider.grabbing {
+            cursor: grabbing;
+            transition: none;
+          }
+
+          .testimonial-slide {
+            width: ${isMobile ? "100%" : "33.333%"};
+            box-sizing: border-box;
+            flex-shrink: 0;
+          }
+        `}</style>
+      </section>
     </>
   );
 };
