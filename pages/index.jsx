@@ -284,6 +284,8 @@ export async function getServerSideProps({ req }) {
   const slogan_1 = await callBackendApi({ domain, tag: "slogan_1" });
   const form_head = await callBackendApi({ domain, tag: "form_head" });
 
+  console.log("Form Head", form_head);
+
   robotsTxt({ domain });
 
   return {

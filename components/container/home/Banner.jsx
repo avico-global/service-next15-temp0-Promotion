@@ -3,16 +3,7 @@ import Image from "next/image";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 import { Barlow_Condensed } from "next/font/google";
-import {
-  Phone,
-  User,
-  Mail,
-  MessageSquare,
-  CheckCircle,
-  ArrowRight,
-  Loader,
-  MapPin,
-} from "lucide-react";
+import { CheckCircle, ArrowRight, Loader, MapPin } from "lucide-react";
 import CallButton from "@/components/CallButton";
 const Barlow = Barlow_Condensed({
   subsets: ["latin"],
@@ -28,6 +19,8 @@ export default function Banner({ image, data, form_head }) {
     zip: "",
     message: "",
   });
+
+  console.log("Form Head", form_head);
 
   const [fieldErrors, setFieldErrors] = useState({
     phone: "",
@@ -203,7 +196,7 @@ export default function Banner({ image, data, form_head }) {
               <h3 className="text-3xl md:text-4xl leading-7 md:leading-[30px] font-bold text-center mb-2 text-primary">
                 {form_head?.title || "10% Off Total Price for Online Booking"}
               </h3>
-              <h4 className="text-[26px] md:text-4xl pt-4 font-extrabold text-center mb-6 text-[#11121A]">
+              <h4 className="text-lg pt-3 font-bold text-center mb-6 text-[#11121A]">
                 {form_head?.sub_title || "Request a Quote"}
               </h4>
 

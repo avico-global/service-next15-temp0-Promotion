@@ -195,7 +195,7 @@ export default function ServiceBanner({ image, data, form_head }) {
               <h3 className="text-3xl md:text-4xl leading-7 md:leading-[30px] font-bold text-center mb-2 text-primary">
                 {form_head?.title || "10% Off Total Price for Online Booking"}
               </h3>
-              <h4 className="text-[26px] md:text-4xl pt-4 font-extrabold text-center mb-6 text-[#11121A]">
+              <h4 className="text-lg pt-3 font-bold text-center mb-6 text-[#11121A]">
                 {form_head?.sub_title || "Request a Quote"}
               </h4>
 
@@ -215,130 +215,69 @@ export default function ServiceBanner({ image, data, form_head }) {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3 text-black">
                   <div className="grid grid-cols-2 gap-[10px]">
-                    <div>
-                      <label
-                        htmlFor="first_name"
-                        className="block text-md font-thin mb-1 text-gray-700 "
-                      >
-                        First Name
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3  pointer-events-none"></div>
-                        <input
-                          type="text"
-                          id="first_name"
-                          name="first_name"
-                          value={formData.first_name}
-                          onChange={handleChange}
-                          className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
-                          placeholder="First name"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="">
-                      <label
-                        htmlFor="phone"
-                        className="block text-md font-thin mb-1 text-gray-700 "
-                      >
-                        Phone Number
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className={`w-full pl-3 py-2 bg-white border ${
-                            fieldErrors.phone
-                              ? "border-red-500"
-                              : "border-gray-200"
-                          } rounded-md outline-none`}
-                          placeholder="(123) 456-7890"
-                          required
-                        />
-                      </div>
-                      {fieldErrors.phone && (
-                        <p className="text-red-500 text-xs mt-1">
-                          {fieldErrors.phone}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="col-span-2 md:col-span-1">
-                      <label
-                        htmlFor="zip"
-                        className="block text-md font-thin mb-1 text-gray-700 "
-                      >
-                        Zip Code
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                        <input
-                          type="text"
-                          id="zip"
-                          name="zip"
-                          value={formData.zip}
-                          onChange={handleChange}
-                          className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
-                          placeholder="Zip Code"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="col-span-2 md:col-span-1">
-                      <label
-                        htmlFor="email"
-                        className="block text-md font-thin mb-1 text-gray-700 "
-                      >
-                        Email
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
-                          placeholder="your@email.com"
-                          required
-                        />
-                      </div>
-                    </div>
+                    <input
+                      type="text"
+                      id="first_name"
+                      name="first_name"
+                      value={formData.first_name}
+                      onChange={handleChange}
+                      className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                      placeholder="First name"
+                      required
+                    />
+                    <input
+                      type="text"
+                      id="last_name"
+                      name="last_name"
+                      value={formData.last_name}
+                      onChange={handleChange}
+                      className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                      placeholder="Last name"
+                      required
+                    />
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className={`w-full pl-3 py-2 bg-white border ${
+                        fieldErrors.phone ? "border-red-500" : "border-gray-200"
+                      } rounded-md outline-none`}
+                      placeholder="(123) 456-7890"
+                      required
+                    />
+                    <input
+                      type="text"
+                      id="zip"
+                      name="zip"
+                      value={formData.zip}
+                      onChange={handleChange}
+                      className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                      placeholder="Zip Code"
+                      required
+                    />
                   </div>
-
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-md font-thin mb-1 text-gray-700 "
-                    >
-                      Message
-                    </label>
-                    <div className="relative">
-                      <div className="absolute top-3 left-3 pointer-events-none"></div>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        rows="3"
-                        className="w-full pl-3 py-2 max-h-[75px] bg-white border border-gray-200 rounded-md outline-none "
-                        placeholder="Message"
-                        required
-                      ></textarea>
-                    </div>
-                  </div>
-
-                  {error && (
-                    <div className="text-red-500 text-sm font-medium">
-                      {error}
-                    </div>
-                  )}
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none "
+                    placeholder="your@email.com"
+                    required
+                  />
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows="3"
+                    className="w-full pl-3 py-2 max-h-[75px] bg-white border border-gray-200 rounded-md outline-none "
+                    placeholder="Message"
+                    required
+                  ></textarea>
 
                   <button
                     type="submit"
