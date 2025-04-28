@@ -128,31 +128,31 @@ const FullMonthPromotion = ({ prices }) => {
               />
             ) : hasThirdPrice ? (
               <PromotionCard
-                price={prices.price3.price_now?.replace("$", "")}
-                originalPrice={prices.price3.original_price?.replace("$", "")}
-                serviceTitle={prices.price3.service_title}
-                features={prices.price3.features}
+                price={prices.price1.price_now?.replace("$", "")}
+                originalPrice={prices.price1.original_price?.replace("$", "")}
+                serviceTitle={prices.price1.service_title}
+                features={prices.price1.features}
                 filled={true}
               />
             ) : (
               <div /> // Empty div as fallback if neither is present
             )}
-            
+
             {/* Middle Card - Always Price1 */}
-            <PromotionCard
-              price={prices?.price1?.price_now?.replace("$", "")}
-              originalPrice={prices?.price1?.original_price?.replace("$", "")}
-              serviceTitle={prices?.price1?.service_title}
-              features={prices?.price1?.features}
-              isMainCard={true}
-            />
-            
-            {/* Right Card - Always Price2 */}
             <PromotionCard
               price={prices?.price2?.price_now?.replace("$", "")}
               originalPrice={prices?.price2?.original_price?.replace("$", "")}
               serviceTitle={prices?.price2?.service_title}
               features={prices?.price2?.features}
+              isMainCard={true}
+            />
+
+            {/* Right Card - Always Price2 */}
+            <PromotionCard
+              price={prices?.price3?.price_now?.replace("$", "")}
+              originalPrice={prices?.price3?.original_price?.replace("$", "")}
+              serviceTitle={prices?.price3?.service_title}
+              features={prices?.price3?.features}
               filled={true}
             />
           </div>
