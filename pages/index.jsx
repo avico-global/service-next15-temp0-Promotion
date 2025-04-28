@@ -65,7 +65,6 @@ export default function Home({
   slogan_1,
   form_head,
 }) {
-  console.log("Meta", meta);
   return (
     <div className="bg-white">
       <Head>
