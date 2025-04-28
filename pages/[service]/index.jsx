@@ -54,14 +54,6 @@ export default function Service({
   const { service } = router.query;
   const breadcrumbs = useBreadcrumbs();
 
-  const faviconUrl = favicon
-    ? imagePath.startsWith("http")
-      ? `${imagePath}/${favicon}`
-      : `/images/${imagePath}/${favicon}`
-    : "/favicon.ico";
-
-  console.log("data Services", services);
-
   return (
     <div>
       <Head>
@@ -90,9 +82,23 @@ export default function Service({
           name="google-site-verification"
           content="zbriSQArMtpCR3s5simGqO5aZTDqEZZi9qwinSrsRPk"
         />
-        <link rel="apple-touch-icon" sizes="180x180" href={faviconUrl} />
-        <link rel="icon" type="image/png" sizes="32x32" href={faviconUrl} />
-        <link rel="icon" type="image/png" sizes="16x16" href={faviconUrl} />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
+        />
       </Head>
 
       <Navbar
