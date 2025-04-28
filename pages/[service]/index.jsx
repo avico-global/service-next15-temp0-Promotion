@@ -49,6 +49,7 @@ export default function Service({
   service_description,
   city_name,
   service_gallery_head,
+  form_head,
 }) {
   const router = useRouter();
   const { service } = router.query;
@@ -112,6 +113,7 @@ export default function Service({
         image={`${imagePath}/${service_banner?.file_name}`}
         imagePath={imagePath}
         contact_info={contact_info}
+        form_head={form_head}
       />
       <FullContainer>
         <Container>
@@ -242,6 +244,10 @@ export async function getServerSideProps({ req }) {
     domain,
     tag: "city_name",
   });
+  const form_head = await callBackendApi({
+    domain,
+    tag: "form_head",
+  });
 
   robotsTxt({ domain });
 
@@ -274,6 +280,7 @@ export async function getServerSideProps({ req }) {
       locations: locations?.data[0]?.value || [],
       service_description: service_description?.data[0] || null,
       city_name: city_name?.data[0]?.value || null,
+      form_head: form_head?.data[0]?.value || null,
     },
   };
 }

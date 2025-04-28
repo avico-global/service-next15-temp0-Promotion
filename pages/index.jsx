@@ -65,6 +65,7 @@ export default function Home({
   why_us,
   prices,
   slogan_1,
+  form_head,
 }) {
   return (
     <div className="bg-white">
@@ -115,6 +116,7 @@ export default function Home({
           image={`${imagePath}/${banner?.file_name}`}
           imagePath={imagePath}
           contact_info={contact_info}
+          form_head={form_head}
         />
 
         <FullMonthPromotion why_us={why_us} prices={prices} />
@@ -280,6 +282,8 @@ export async function getServerSideProps({ req }) {
   const why_us = await callBackendApi({ domain, tag: "why_us" });
   const prices = await callBackendApi({ domain, tag: "prices" });
   const slogan_1 = await callBackendApi({ domain, tag: "slogan_1" });
+  const form_head = await callBackendApi({ domain, tag: "form_head" });
+
   robotsTxt({ domain });
 
   return {
@@ -308,6 +312,7 @@ export async function getServerSideProps({ req }) {
       why_us: why_us?.data[0]?.value || [],
       prices: prices?.data[0]?.value || [],
       slogan_1: slogan_1?.data[0]?.value || null,
+      form_head: form_head?.data[0]?.value || null,
     },
   };
 }

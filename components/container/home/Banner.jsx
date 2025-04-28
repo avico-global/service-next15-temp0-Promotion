@@ -19,7 +19,7 @@ const Barlow = Barlow_Condensed({
   weight: ["400", "500", "600", "700"],
 });
 
-export default function Banner({ image, data, contact_info }) {
+export default function Banner({ image, data, form_head }) {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -201,10 +201,10 @@ export default function Banner({ image, data, contact_info }) {
 
             <div className="bg-white shadow-[0_0_10px_rgba(0,0,0,0.4)] font-barlow rounded-[20px] px-4 md:px-10 pb-8 md:pb-10 pt-10 md:pt-14">
               <h3 className="text-3xl md:text-4xl leading-7 md:leading-[30px] font-bold text-center mb-2 text-primary">
-                10% Off Total Price for Online Booking
+                {form_head?.title || "10% Off Total Price for Online Booking"}
               </h3>
               <h4 className="text-[26px] md:text-4xl pt-4 font-extrabold text-center mb-6 text-[#11121A]">
-                Request a Quote
+                {form_head?.sub_title || "Request a Quote"}
               </h4>
 
               {formSubmitted ? (
