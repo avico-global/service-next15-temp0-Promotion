@@ -121,7 +121,7 @@ export default function Service({
       {service_description?.value && (
         <ServiceDescription
           data={service_description?.value}
-          image={`${imagePath}/${service_description?.file_name}`}
+          image={`${imagePath}/${service_banner?.file_name}`}
           contact_info={contact_info}
           service={service}
           city={city_name}

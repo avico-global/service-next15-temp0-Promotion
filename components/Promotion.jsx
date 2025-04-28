@@ -78,11 +78,13 @@ const PromotionCard = ({
         </div>
       )}
 
-      <div className="space-y-4 flex-1">
+      <div className="space-y-3 flex-1">
         {features?.map((feature, index) => (
           <div
             key={index}
-            className="flex items-start gap-3 text-base font-medium"
+            className={`flex items-start gap-2 text-sm font-medium ${
+              isMainCard ? "" : "text-black"
+            }`}
           >
             <CheckIcon filled={filled} />
             <span className="pt-0.5">{feature}</span>
