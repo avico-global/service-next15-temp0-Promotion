@@ -66,12 +66,6 @@ export default function Home({
   prices,
   slogan_1,
 }) {
-  const faviconUrl = favicon
-    ? imagePath.startsWith("http")
-      ? `${imagePath}/${favicon}`
-      : `/images/${imagePath}/${favicon}`
-    : "/favicon.ico";
-
   return (
     <div className="bg-white">
       <Head>
@@ -85,15 +79,28 @@ export default function Home({
         <link rel="manifest" href="/manifest.json" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href={faviconUrl} />
 
         <meta
           name="google-site-verification"
           content="zbriSQArMtpCR3s5simGqO5aZTDqEZZi9qwinSrsRPk"
         />
-        <link rel="apple-touch-icon" sizes="180x180" href={faviconUrl} />
-        <link rel="icon" type="image/png" sizes="32x32" href={faviconUrl} />
-        <link rel="icon" type="image/png" sizes="16x16" href={faviconUrl} />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
+        />
       </Head>
 
       <div className={`${montserrat.className}`}>
