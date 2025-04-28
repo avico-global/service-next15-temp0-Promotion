@@ -106,6 +106,10 @@ const PromotionCard = ({
 };
 
 const FullMonthPromotion = ({ prices }) => {
+  // Check if we have a third price or why_choose_us
+  const hasThirdPrice = !!prices?.price3;
+  const hasWhyChooseUs = !!prices?.why_choose_us;
+
   return (
     <FullContainer>
       <Container>
@@ -114,14 +118,27 @@ const FullMonthPromotion = ({ prices }) => {
             Full Month Promotion
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 max-w-6xl mx-auto">
-            {/* Left Card */}
-            <PromotionCard
-              title={prices?.why_choose_us?.heading}
-              whyUsData={prices?.why_choose_us}
-              features={prices?.why_choose_us?.features}
-              filled={true}
-            />
-            {/* Middle Card */}
+            {/* Left Card - Either Why Choose Us or Price3 */}
+            {hasWhyChooseUs ? (
+              <PromotionCard
+                title={prices.why_choose_us.heading}
+                whyUsData={prices.why_choose_us}
+                features={prices.why_choose_us.features}
+                filled={true}
+              />
+            ) : hasThirdPrice ? (
+              <PromotionCard
+                price={prices.price3.price_now?.replace("$", "")}
+                originalPrice={prices.price3.original_price?.replace("$", "")}
+                serviceTitle={prices.price3.service_title}
+                features={prices.price3.features}
+                filled={true}
+              />
+            ) : (
+              <div /> // Empty div as fallback if neither is present
+            )}
+            
+            {/* Middle Card - Always Price1 */}
             <PromotionCard
               price={prices?.price1?.price_now?.replace("$", "")}
               originalPrice={prices?.price1?.original_price?.replace("$", "")}
@@ -129,7 +146,8 @@ const FullMonthPromotion = ({ prices }) => {
               features={prices?.price1?.features}
               isMainCard={true}
             />
-            {/* Right Card */}
+            
+            {/* Right Card - Always Price2 */}
             <PromotionCard
               price={prices?.price2?.price_now?.replace("$", "")}
               originalPrice={prices?.price2?.original_price?.replace("$", "")}
