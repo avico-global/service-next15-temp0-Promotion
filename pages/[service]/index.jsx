@@ -108,6 +108,7 @@ export default function Service({
         contact_info={contact_info}
         data={services}
       />
+
       <ServiceBanner
         data={service_banner?.value}
         image={`${imagePath}/${service_banner?.file_name}`}

@@ -85,9 +85,10 @@ export default function TermsAndConditions({
         contact_info={contact_info}
         logo={logo}
         imagePath={imagePath}
+        services={services}
         phone={phone}
-        services={services?.list}
       />
+
       <FullContainer>
         <Container>
           <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
@@ -98,9 +99,13 @@ export default function TermsAndConditions({
           />
         </Container>
       </FullContainer>
-    
 
-      <Footer data={footer} logo={logo} imagePath={imagePath} contact_info={contact_info} />
+      <Footer
+        data={footer}
+        logo={logo}
+        imagePath={imagePath}
+        contact_info={contact_info}
+      />
     </main>
   );
 }

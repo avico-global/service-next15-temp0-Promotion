@@ -51,7 +51,6 @@ export default function Home({
   banner,
   services,
   features,
-  gallery,
   about,
   benefits,
   testimonials,
@@ -60,13 +59,13 @@ export default function Home({
   favicon,
   footer,
   locations,
-  gallery_head,
   faqs,
   why_us,
   prices,
   slogan_1,
   form_head,
 }) {
+  console.log("Meta", meta);
   return (
     <div className="bg-white">
       <Head>
@@ -283,8 +282,6 @@ export async function getServerSideProps({ req }) {
   const prices = await callBackendApi({ domain, tag: "prices" });
   const slogan_1 = await callBackendApi({ domain, tag: "slogan_1" });
   const form_head = await callBackendApi({ domain, tag: "form_head" });
-
-  console.log("Form Head", form_head);
 
   robotsTxt({ domain });
 

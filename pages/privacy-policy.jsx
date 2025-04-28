@@ -81,9 +81,10 @@ export default function PrivacyPolicy({
       <Navbar
         logo={logo}
         imagePath={imagePath}
-        services={services?.list}
         contact_info={contact_info}
+        services={services}
       />
+
       <FullContainer>
         <Container>
           <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
@@ -94,7 +95,13 @@ export default function PrivacyPolicy({
           />
         </Container>
       </FullContainer>
-      <Footer data={footer} logo={logo} imagePath={imagePath} contact_info={contact_info} />
+
+      <Footer
+        data={footer}
+        logo={logo}
+        imagePath={imagePath}
+        contact_info={contact_info}
+      />
     </main>
   );
 }
