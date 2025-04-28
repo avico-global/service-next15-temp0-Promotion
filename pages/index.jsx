@@ -65,6 +65,7 @@ export default function Home({
   slogan_1,
   form_head,
 }) {
+  console.log("Features", features);
   return (
     <div className="bg-white">
       <Head>

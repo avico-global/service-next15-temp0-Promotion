@@ -10,38 +10,25 @@ import {
   Trophy,
   ThumbsUp,
   Phone,
-  TextQuote,
   FileText,
   MessageSquare,
 } from "lucide-react";
 import FullContainer from "@/components/common/FullContainer";
-import CallButton from "@/components/CallButton";
-import QuoteButton from "@/components/QuoteButton";
 
-const features = [
-  {
-    icon: FileText,
-    text: "Airdut Cleaning & Maintenances",
-  },
-  {
-    icon: Clock,
-    text: "Same Day Service",
-  },
-  {
-    icon: Star,
-    text: "5 Star Rated On Google",
-  },
-  {
-    icon: Shield,
-    text: "Licensed And Insured",
-  },
-  {
-    icon: MessageSquare,
-    text: "10+ Years Of Experience",
-  },
-];
+export default function WhyChoose({ image, contact_info, phone, features }) {
+  const iconMap = {
+    Clock,
+    Star,
+    Shield,
+    Award,
+    CheckCircle,
+    Trophy,
+    ThumbsUp,
+    Phone,
+    FileText,
+    MessageSquare,
+  };
 
-export default function WhyChoose({ image, contact_info, phone }) {
   return (
     <FullContainer className="py-8 md:py-12 bg-white mt-4">
       <Container>
@@ -52,15 +39,20 @@ export default function WhyChoose({ image, contact_info, phone }) {
               Why Choose Us
             </h2>
             <ul className="mb-6 space-y-3">
-              {features.map((feature, idx) => (
-                <li
-                  key={idx}
-                  className="flex items-center gap-3 text-[#1A2956] font-medium text-base md:text-[17px]"
-                >
-                  <feature.icon className="w-5 h-5 text-[#1A2956]" />
-                  {feature.text}
-                </li>
-              ))}
+              {features?.map((feature, idx) => {
+                const IconComponent = iconMap[feature.icon];
+                return (
+                  <li
+                    key={idx}
+                    className="flex items-center gap-3 text-[#1A2956] font-medium text-base md:text-[17px]"
+                  >
+                    {IconComponent && (
+                      <IconComponent className="w-5 h-5 text-[#1A2956]" />
+                    )}
+                    {feature.text}
+                  </li>
+                );
+              })}
             </ul>
             <div className="flex gap-4 w-full mt-2">
               <a
