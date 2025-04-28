@@ -16,6 +16,20 @@ const Testimonials = ({ data, logo, imagePath }) => {
   const autoSlideRef = useRef(null);
   const animationRef = useRef(null);
 
+  // Generate random avatars for testimonials
+  const getRandomAvatar = (seed) => {
+    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
+  };
+
+  // Add random avatars to testimonials if they don't have one
+  const testimonialsWithAvatars = testimonials.map((testimonial, index) => ({
+    ...testimonial,
+    avatar: testimonial.avatar || getRandomAvatar(testimonial.name || `user-${index}`)
+  }));
+
+  // Default avatar using DiceBear
+  const defaultAvatar = "https://api.dicebear.com/7.x/avataaars/svg?seed=default";
+
   // Check screen size
   useEffect(() => {
     const checkScreenSize = () => {
@@ -177,9 +191,6 @@ const Testimonials = ({ data, logo, imagePath }) => {
     }
   };
 
-  // Default avatar for profiles without images
-  const defaultAvatar = "/images/default-avatar.svg";
-
   return (
     <>
       <section className="testimonials-section py-12 bg-white">
@@ -265,7 +276,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
                   onMouseUp={handleDragEnd}
                   onMouseLeave={handleDragEnd}
                 >
-                  {testimonials.map((testimonial, index) => (
+                  {testimonialsWithAvatars.map((testimonial, index) => (
                     <div key={index} className="testimonial-slide px-2">
                       <div className="flex-1 p-6 rounded-xl bg-gray-100 shadow-md h-full border border-gray-100 hover:shadow-lg transition-shadow duration-300">
                         {/* Profile and Google Icon Header */}
@@ -278,6 +289,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
                                 width={48}
                                 height={48}
                                 className="object-cover"
+                                unoptimized
                               />
                             </div>
                             <div>
