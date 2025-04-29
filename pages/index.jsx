@@ -207,7 +207,7 @@ export default function Home({
 
       {/* Fixed Call Button */}
       <div className="grid md:hidden fixed bottom-0 left-0 right-0 z-50 p-2 bg-white">
-        <div className="w-full bg-gradient-to-b from-green-600 via-lime-600 to-green-600 flex flex-col items-center justify-center py-3">
+        <div className="w-full bg-gradient-to-b from-green-700 via-lime-600 to-green-600 rounded-md flex flex-col items-center justify-center py-3">
           <Link
             title="Call Button"
             href={`tel:${contact_info?.phone}`}
@@ -215,11 +215,12 @@ export default function Home({
           >
             <div className="flex items-center mb-1">
               <Phone className="w-8 h-8 mr-3" />
-              <div className="uppercase text-4xl font-bold">CALL US NOW</div>
+              <div className="uppercase text-4xl font-extrabold">
+                CALL US NOW
+              </div>
             </div>
-            <div className="text-3xl font-medium">
-              ({contact_info?.phone?.slice(0, 3)}){" "}
-              {contact_info?.phone?.slice(3, 6)}-{contact_info?.phone?.slice(6)}
+            <div className="text-3xl font-semibold">
+              {contact_info?.phone ? contact_info?.phone : "Contact Us"}
             </div>
           </Link>
         </div>
