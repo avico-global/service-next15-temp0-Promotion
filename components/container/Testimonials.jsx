@@ -12,6 +12,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
   const [currentTranslate, setCurrentTranslate] = useState(0);
   const [prevTranslate, setPrevTranslate] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
   const sliderRef = useRef(null);
   const autoSlideRef = useRef(null);
   const animationRef = useRef(null);
@@ -24,16 +25,20 @@ const Testimonials = ({ data, logo, imagePath }) => {
   // Add random avatars to testimonials if they don't have one
   const testimonialsWithAvatars = testimonials.map((testimonial, index) => ({
     ...testimonial,
-    avatar: testimonial.avatar || getRandomAvatar(testimonial.name || `user-${index}`)
+    avatar:
+      testimonial.avatar ||
+      getRandomAvatar(testimonial.name || `user-${index}`),
   }));
 
   // Default avatar using DiceBear
-  const defaultAvatar = "https://api.dicebear.com/7.x/avataaars/svg?seed=default";
+  const defaultAvatar =
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=default";
 
   // Check screen size
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 1024);
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
     };
 
     checkScreenSize();
@@ -44,8 +49,14 @@ const Testimonials = ({ data, logo, imagePath }) => {
   // Maximum index calculation (always slide one at a time)
   const maxIndex = Math.max(0, testimonials.length - 1);
 
-  // Calculate slide width as percentage
-  const slideSize = isMobile ? 100 : 50;
+  // Calculate slide width as percentage based on screen size
+  const getSlideSize = () => {
+    if (isMobile) return 100;
+    if (isTablet) return 50;
+    return 33.333;
+  };
+
+  const slideSize = getSlideSize();
 
   // Reset position when active index changes
   useEffect(() => {
@@ -59,8 +70,8 @@ const Testimonials = ({ data, logo, imagePath }) => {
       autoSlideRef.current = setInterval(() => {
         if (testimonials.length > 1) {
           setActiveIndex((prev) => {
-            // Check if we're at the last possible position
-            const visibleSlides = isMobile ? 1 : 3;
+            // Calculate visible slides based on screen size
+            const visibleSlides = isMobile ? 1 : isTablet ? 2 : 3;
             const maxAllowedIndex = Math.max(
               0,
               testimonials.length - visibleSlides
@@ -82,7 +93,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
         clearInterval(autoSlideRef.current);
       }
     };
-  }, [isDragging, testimonials.length, isMobile]);
+  }, [isDragging, testimonials.length, isMobile, isTablet]);
 
   // Animation for smooth movement
   const animation = () => {
@@ -139,7 +150,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
 
     const movedPercent = currentTranslate - prevTranslate;
     const threshold = -15;
-    const visibleSlides = isMobile ? 1 : 3;
+    const visibleSlides = isMobile ? 1 : isTablet ? 2 : 3;
     const maxAllowedIndex = Math.max(0, testimonials.length - visibleSlides);
 
     if (movedPercent < threshold) {
@@ -171,7 +182,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
 
   // Update the handleDragEnd function and add a new function to handle arrow clicks
   const handleArrowClick = (direction) => {
-    const visibleSlides = isMobile ? 1 : 3;
+    const visibleSlides = isMobile ? 1 : isTablet ? 2 : 3;
     const maxAllowedIndex = Math.max(0, testimonials.length - visibleSlides);
 
     if (direction === "next") {
@@ -193,67 +204,71 @@ const Testimonials = ({ data, logo, imagePath }) => {
 
   return (
     <>
-      <section className="testimonials-section py-12 bg-white">
+      <section className="testimonials-section py-8 md:py-12 bg-white">
         <Container className="mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-[#002B5B] mb-2">
+          <div className="text-center mb-6 md:mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#002B5B] mb-2">
               Our Happy Clients
             </h2>
-            <div className="w-20 h-1 bg-primary mx-auto"></div>
+            <div className="w-16 md:w-20 h-1 bg-primary mx-auto"></div>
           </div>
 
-          <div className="grid grid-cols-testimonial">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-4">
-                <div className="w-[160px] h-auto">
+          <div className="grid grid-cols-1">
+            <div className="flex items-center justify-between mb-6 md:mb-8">
+              <div className="flex items-center gap-2 md:gap-4">
+                <div className="w-[120px] md:w-[160px] h-auto">
                   <Logo logo={logo} imagePath={imagePath} />
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-gray-600 font-bold">
+                  <p className="text-gray-600 font-bold text-sm md:text-base">
                     {logo.value.logoText}
                   </p>
                   <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <span key={star} className="text-yellow-400 text-lg">
+                      <span
+                        key={star}
+                        className="text-yellow-400 text-base md:text-lg"
+                      >
                         ★
                       </span>
                     ))}
                   </div>
-                  <p className="text-gray-600 text-sm font-medium">
+                  <p className="text-gray-600 text-xs md:text-sm font-medium">
                     {data?.reviewCount || "16"} Google Reviews
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Navigation Arrows for larger screens */}
-            <div className="relative h-80 w-full">
-              <div className="hidden md:flex gap-3 w-full absolute items-center justify-between z-20 h-80">
+            <div className="relative h-[250px] md:h-80 w-full">
+              {/* Navigation Arrows */}
+              <div className="hidden md:flex w-full absolute items-center justify-between z-20 h-full pointer-events-none">
                 <button
                   onClick={() => handleArrowClick("prev")}
-                  className="w-10 h-10 flex items-center -ml-3 justify-center rounded-full bg-gray-100 border border-gray-300 hover:bg-primary hover:text-white transition-colors"
+                  className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-gray-100 border border-gray-300 hover:bg-primary hover:text-white transition-colors shadow-md pointer-events-auto"
                   aria-label="Previous testimonial"
                 >
                   ←
                 </button>
                 <button
                   onClick={() => handleArrowClick("next")}
-                  className="w-10 h-10 flex items-center -mr-3 justify-center rounded-full bg-gray-100 border border-gray-300 hover:bg-primary hover:text-white transition-colors"
+                  className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-gray-100 border border-gray-300 hover:bg-primary hover:text-white transition-colors shadow-md pointer-events-auto"
                   aria-label="Next testimonial"
                 >
                   →
                 </button>
               </div>
+
               {/* Slide Indicators */}
               {testimonials.length > 1 && (
-                <div className="flex justify-center gap-2 mt-6 absolute bottom-0 w-full">
+                <div className="flex justify-center gap-1.5 md:gap-2 mt-6 absolute bottom-1 md:bottom-0 w-full z-10">
                   {testimonials.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setActiveIndex(index)}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
                         activeIndex === index
-                          ? "bg-primary w-6"
+                          ? "bg-primary w-4 md:w-6"
                           : "bg-gray-300 hover:bg-gray-400"
                       }`}
                       aria-label={`Go to slide ${index + 1}`}
@@ -261,12 +276,13 @@ const Testimonials = ({ data, logo, imagePath }) => {
                   ))}
                 </div>
               )}
-              <div className="testimonial-slider-container overflow-hidden mb-8 absolute bottom-0 w-full">
+
+              <div className="testimonial-slider-container overflow-hidden mb-8 absolute h-[280px] md:h-72 top-0 w-full">
                 <div
                   ref={sliderRef}
                   className={`testimonial-slider ${
                     isDragging ? "grabbing" : ""
-                  } gap-4`}
+                  } gap-3 md:gap-4`}
                   style={{ transform: `translateX(${currentTranslate}%)` }}
                   onTouchStart={handleDragStart}
                   onTouchMove={handleDragMove}
@@ -277,12 +293,12 @@ const Testimonials = ({ data, logo, imagePath }) => {
                   onMouseLeave={handleDragEnd}
                 >
                   {testimonialsWithAvatars.map((testimonial, index) => (
-                    <div key={index} className="testimonial-slide px-2">
-                      <div className="flex-1 p-6 rounded-xl bg-gray-100 shadow-md h-full border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                    <div key={index} className="testimonial-slide px-1 md:px-2">
+                      <div className="flex-1 p-4 md:p-6 rounded-xl bg-gray-100 shadow-md h-full border border-gray-100 hover:shadow-lg transition-shadow duration-300">
                         {/* Profile and Google Icon Header */}
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full overflow-hidden relative border-2 border-primary">
+                        <div className="flex items-center justify-between mb-2 md:mb-3">
+                          <div className="flex items-center gap-2 md:gap-3">
+                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden relative border-2 border-primary">
                               <Image
                                 src={testimonial.avatar || defaultAvatar}
                                 alt={testimonial.name}
@@ -293,7 +309,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
                               />
                             </div>
                             <div>
-                              <h4 className="text-gray-800 font-semibold">
+                              <h4 className="text-gray-800 font-semibold text-sm md:text-base">
                                 {testimonial.name}
                               </h4>
                               <p className="text-gray-500 text-xs">
@@ -301,7 +317,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
                               </p>
                             </div>
                           </div>
-                          <div className="w-6 h-6 relative">
+                          <div className="w-5 h-5 md:w-6 md:h-6 relative">
                             <Image
                               src="/images/google-icon.svg"
                               alt="Google Review"
@@ -312,40 +328,25 @@ const Testimonials = ({ data, logo, imagePath }) => {
                         </div>
 
                         {/* Star Rating */}
-                        <div className="flex gap-0.5 mb-4">
+                        <div className="flex gap-0.5 mb-3 md:mb-4">
                           {[1, 2, 3, 4, 5].map((star) => (
-                            <span key={star} className="text-yellow-400">
+                            <span
+                              key={star}
+                              className="text-yellow-400 text-sm md:text-base"
+                            >
                               ★
                             </span>
                           ))}
                         </div>
 
                         {/* Review Text */}
-                        <p className="text-gray-700 text-sm leading-relaxed italic">
+                        <p className="text-gray-700 text-xs md:text-sm leading-relaxed italic line-clamp-5 md:line-clamp-none">
                           "{testimonial.quote || testimonial.text}"
                         </p>
                       </div>
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Mobile Navigation Arrows */}
-              <div className="flex md:hidden justify-between gap-3 mt-4 absolute bottom-0 w-full bg-green-600">
-                <button
-                  onClick={() => handleArrowClick("prev")}
-                  className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-primary hover:text-white transition-colors"
-                  aria-label="Previous testimonial"
-                >
-                  ←
-                </button>
-                <button
-                  onClick={() => handleArrowClick("next")}
-                  className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-primary hover:text-white transition-colors"
-                  aria-label="Next testimonial"
-                >
-                  →
-                </button>
               </div>
             </div>
           </div>
@@ -357,7 +358,6 @@ const Testimonials = ({ data, logo, imagePath }) => {
             transition: ${isDragging ? "none" : "transform 0.5s ease"};
             cursor: grab;
             will-change: transform;
-            gap: 1rem;
           }
 
           .testimonial-slider.grabbing {
@@ -366,7 +366,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
           }
 
           .testimonial-slide {
-            width: ${isMobile ? "100%" : "33.333%"};
+            width: ${isMobile ? "100%" : isTablet ? "50%" : "33.333%"};
             box-sizing: border-box;
             flex-shrink: 0;
           }

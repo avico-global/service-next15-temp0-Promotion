@@ -34,7 +34,7 @@ export default function WhyChoose({ image, contact_info, phone, data }) {
       <Container>
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
           {/* Left: Text & Features */}
-          <div className="w-5/12 flex flex-col items-start justify-center">
+          <div className="w-full md:w-5/12 flex flex-col items-start justify-center">
             <h2 className="text-2xl md:text-3xl font-bold text-[#1A2956] mb-4">
               Why Choose Us
             </h2>
@@ -47,24 +47,24 @@ export default function WhyChoose({ image, contact_info, phone, data }) {
                     className="flex items-center gap-3 text-[#1A2956] font-medium text-base md:text-[17px]"
                   >
                     {IconComponent && (
-                      <IconComponent className="w-5 h-5 text-[#1A2956]" />
+                      <IconComponent className="min-w-5 w-5 h-5 text-[#1A2956]" />
                     )}
                     {feature.text}
                   </li>
                 );
               })}
             </ul>
-            <div className="flex gap-4 w-full mt-2">
+            <div className="flex flex-col sm:flex-row gap-4 w-full mt-2">
               <a
                 href={`tel:${contact_info?.phone}`}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#1A2956] text-white font-semibold text-lg shadow hover:bg-[#22397a] transition-all"
+                className="flex items-center justify-center sm:justify-start gap-2 px-6 py-3 rounded-full bg-[#1A2956] text-white font-semibold text-lg shadow hover:bg-[#22397a] transition-all"
               >
                 <Phone className="w-5 h-5" />
                 {phone}
               </a>
               <a
                 href="#quote"
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#6B9AED] text-[#1A2956] font-semibold text-lg shadow hover:bg-[#4d7edc] transition-all"
+                className="flex items-center justify-center sm:justify-start gap-2 px-6 py-3 rounded-full bg-[#6B9AED] text-[#1A2956] font-semibold text-lg shadow hover:bg-[#4d7edc] transition-all"
               >
                 <FileText className="w-5 h-5" />
                 GET A QUOTE
@@ -72,8 +72,8 @@ export default function WhyChoose({ image, contact_info, phone, data }) {
             </div>
           </div>
           {/* Right: Image */}
-          <div className="w-7/12 flex justify-center relative">
-            <div className="rounded-lg overflow-hidden w-full h-[320px] bg-gray-200 relative">
+          <div className="w-full md:w-7/12 flex justify-center relative mt-6 md:mt-0">
+            <div className="rounded-lg overflow-hidden w-full h-[250px] sm:h-[280px] md:h-[320px] bg-gray-200 relative">
               <Image
                 src={image}
                 alt="Professional air duct cleaning"

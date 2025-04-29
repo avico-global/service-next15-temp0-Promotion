@@ -4,33 +4,18 @@ import Container from "../common/Container";
 import Link from "next/link";
 import Image from "next/image";
 import { Clock4, Mail, Phone } from "lucide-react";
-import Logo from "../Logo";
 import image1 from "../../public/st-images/footer1.png";
 import image2 from "../../public/st-images/footer2.png";
 import image3 from "../../public/st-images/footer3.png";
 import image4 from "../../public/st-images/footer4.png";
 import image5 from "../../public/st-images/footer5.png";
-import { Barlow_Condensed, Montserrat, Inter } from "next/font/google";
 
-const barlow = Barlow_Condensed({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-export default function Footer({ logo, imagePath, data, contact_info }) {
+export default function Footer({ imagePath, data, contact_info }) {
   const companies = [image1, image2, image3, image4, image5];
   return (
     <footer>
       <FullContainer
-        className={`bg-[#1E1B21] py-6 md:py-[52px] md:pb-[52px] relative ${inter.className}`}
+        className={`bg-[#1E1B21] py-6 md:py-[52px] md:pb-[52px] mb-16 md:mb-0 relative`}
       >
         <Image
           title="Footer Image"
@@ -99,7 +84,8 @@ export default function Footer({ logo, imagePath, data, contact_info }) {
                       <Clock4 className="w-5 h-5" />
                     </div>
                     <span className="text-white text-sm md:text-[15px]">
-                      {contact_info?.working_hours || "Monday - Friday: 7AM - 8PM"}
+                      {contact_info?.working_hours ||
+                        "Monday - Friday: 7AM - 8PM"}
                     </span>
                   </li>
                 </ul>
@@ -119,11 +105,11 @@ export default function Footer({ logo, imagePath, data, contact_info }) {
                   Privacy Policy
                 </Link>
                 <Link
-                title="Terms and conditions"
-                href="terms-and-conditions"
-                className="text-white text-sm md:text-[15px]"
+                  title="Terms and conditions"
+                  href="terms-and-conditions"
+                  className="text-white text-sm md:text-[15px]"
                 >
-                Terms and conditions
+                  Terms and conditions
                 </Link>
               </div>
             </div>

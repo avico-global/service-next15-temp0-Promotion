@@ -2,15 +2,23 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
-import { Barlow_Condensed } from "next/font/google";
-import { CheckCircle, ArrowRight, Loader, MapPin } from "lucide-react";
-import CallButton from "@/components/CallButton";
-const Barlow = Barlow_Condensed({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
-export default function Banner({ image, data, form_head }) {
+import {
+  CheckCircle,
+  ArrowRight,
+  Loader,
+  Clock,
+  Star,
+  Shield,
+  Award,
+  Trophy,
+  ThumbsUp,
+  Phone,
+  FileText,
+  MessageSquare,
+} from "lucide-react";
+
+export default function Banner({ image, data, form_head, features }) {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -127,9 +135,22 @@ export default function Banner({ image, data, form_head }) {
     }
   };
 
+  const iconMap = {
+    Clock,
+    Star,
+    Shield,
+    Award,
+    CheckCircle,
+    Trophy,
+    ThumbsUp,
+    Phone,
+    FileText,
+    MessageSquare,
+  };
+
   return (
     <FullContainer className="relative bg-white overflow-hidden md:!h-[790px]">
-      <div className="absolute inset-0 h-[460px] md:h-[790px] overflow-hidden">
+      <div className="absolute inset-0 h-[600px] md:min-h-[790px] overflow-hidden">
         <Image
           src={image}
           title={data?.imageTitle || data?.title || "Banner"}
@@ -141,13 +162,14 @@ export default function Banner({ image, data, form_head }) {
         />
         <div className="absolute inset-0 bg-gray-950/70"></div>
       </div>
-      <Container className="py-10 font-barlow relative z-10">
+
+      <Container className="py-10 font-barlow relative z-10 mt-10 md:mt-0">
         <div className="w-full grid grid-cols-1 md:grid-cols-banner gap-10 md:gap-[66px] text-white">
-          <div className="relative -mt-10 flex flex-col lg:pr-10 justify-center">
-            <div className="bg-gradient-to-br  from-blue-800 to-sky-300 rounded-full text-7xl font-bold aspect-square h-36 w-36 flex items-center justify-center">
+          <div className="relative -mt-10 flex items-center md:items-start flex-col lg:pr-10 justify-center">
+            <div className="bg-gradient-to-br  from-blue-800 to-sky-300 rounded-full text-5xl md:text-7xl font-bold aspect-square h-28 md:h-36 w-28 md:w-36 flex items-center justify-center">
               {data?.price || "$80"}
             </div>
-            <p className="text-center md:text-start lg:text-left text-3xl font-semibold mt-3">
+            <p className="text-center md:text-start lg:text-left text-xl md:text-3xl font-semibold mt-3 text-[#90D4E1]">
               Special Complete Inspection
             </p>
 
@@ -161,38 +183,30 @@ export default function Banner({ image, data, form_head }) {
               {data?.description}
             </p>
 
-            <ul className="flex flex-col gap-2">
-              {data?.list?.map((item, index) => (
-                <li
-                  key={index}
-                  className="flex items-center text-xl font-semibold  gap-2"
-                >
-                  <svg
-                    className="w-5 h-5 text-green-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+            <ul className="mb-6 space-y-2 md:space-y-3">
+              {features?.map((feature, idx) => {
+                const IconComponent = iconMap[feature.icon];
+                return (
+                  <li
+                    key={idx}
+                    className="flex items-center gap-3 text-white font-medium text-base md:text-[17px]"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                  {item}
-                </li>
-              ))}
+                    {IconComponent && (
+                      <IconComponent className="w-5 h-5 text-white" />
+                    )}
+                    {feature.text}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
-          <div className="flex flex-col justify-center">
-            <div className="bg-gradient-to-br relative from-blue-800 via-sky-400 from-20% to-green-400 -mb-9 -ml-8 rounded-full p-3 text-5xl font-bold aspect-square h-24 w-24 flex items-center justify-center text-white">
-              {data?.price || "$80"}
-            </div>
+          <div className="flex flex-col justify-center px-3">
+            <div className="bg-white shadow-[0_0_10px_rgba(0,0,0,0.4)] relative font-barlow rounded-[15px] px-4 md:px-10 pb-8 md:pb-10 pt-10 md:pt-14">
+              <div className="bg-gradient-to-br absolute -top-10 -left-5 md:-left-10 from-blue-800 via-sky-400 from-20% to-green-400 rounded-full p-3 text-4xl md:text-5xl font-bold aspect-square h-20 w-20 md:h-24 md:w-24 flex items-center justify-center text-white">
+                {data?.price || "$80"}
+              </div>
 
-            <div className="bg-white shadow-[0_0_10px_rgba(0,0,0,0.4)] font-barlow rounded-[20px] px-4 md:px-10 pb-8 md:pb-10 pt-10 md:pt-14">
               <h3 className="text-3xl md:text-4xl leading-7 md:leading-[30px] font-bold text-center mb-2 text-primary">
                 {form_head?.title || "10% Off Total Price for Online Booking"}
               </h3>

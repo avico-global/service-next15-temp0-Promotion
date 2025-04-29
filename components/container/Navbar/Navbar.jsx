@@ -6,13 +6,7 @@ import FullContainer from "../../common/FullContainer";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/Logo";
 import { sanitizeUrl } from "@/lib/myFun";
-import { Barlow_Condensed } from "next/font/google";
 import CallButton from "@/components/CallButton";
-
-const barlow = Barlow_Condensed({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
-});
 
 export default function Navbar({ logo, imagePath, contact_info, data }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +17,8 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
   };
 
   const router = useRouter();
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "/";
 
   const navLinks = [
     { title: "Locations", link: "locations" },
@@ -58,11 +53,11 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
   };
 
   const scrollDropdown = () => {
-    const dropdown = document.querySelector('.dropdown-services-container');
+    const dropdown = document.querySelector(".dropdown-services-container");
     if (dropdown) {
       dropdown.scrollBy({
         top: 200,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   };
@@ -99,12 +94,14 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
                     : "opacity-0 invisible transform -translate-y-2"
                 }`}
               >
-                <div className="flex-grow dropdown-services-container overflow-y-auto scrollbar-hide" 
-                     style={{ 
-                       scrollbarWidth: 'none', 
-                       msOverflowStyle: 'none',
-                       '::-webkit-scrollbar': { display: 'none' } 
-                     }}>
+                <div
+                  className="flex-grow dropdown-services-container overflow-y-auto scrollbar-hide"
+                  style={{
+                    scrollbarWidth: "none",
+                    msOverflowStyle: "none",
+                    "::-webkit-scrollbar": { display: "none" },
+                  }}
+                >
                   {data?.map((service, index) => (
                     <Link
                       title={service?.title}
@@ -116,9 +113,9 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
                     </Link>
                   ))}
                 </div>
-                
+
                 <div className="sticky bottom-0 w-full bg-white py-2 mt-2 flex justify-center border-t">
-                  <div 
+                  <div
                     className="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer hover:bg-[#002B5B] transition-colors"
                     onClick={scrollDropdown}
                   >
@@ -151,10 +148,13 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
               </h2>
             </div>
 
-            <div className="lg:hidden text-white pl-5 cursor-pointer" onClick={toggleMenu}>
+            <div
+              className="hidden text-white pl-5 cursor-pointer"
+              onClick={toggleMenu}
+            >
               {isOpen ? (
                 <div className="bg-primary  pt-1.5 rounded-[3px] p-0.5">
-                <X className="w-7 h-6" />
+                  <X className="w-7 h-6" />
                 </div>
               ) : (
                 <div className="bg-primary  pt-1.5 rounded-[3px] p-0.5">
@@ -167,26 +167,40 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
       </Container>
 
       {/* Mobile Menu */}
-      <div className={`lg:hidden py-2 bg-white absolute top-[75px] left-0 right-0 w-full transition-all duration-300 ${isOpen ? 'h-fit opacity-100 visible' : 'h-0 opacity-0 invisible overflow-hidden'}`}>
+      <div
+        className={`lg:hidden py-2 bg-white absolute top-[75px] left-0 right-0 w-full transition-all duration-300 ${
+          isOpen
+            ? "h-fit opacity-100 visible"
+            : "h-0 opacity-0 invisible overflow-hidden"
+        }`}
+      >
         <div className="flex flex-col font-barlow font-[600] text-[18px]">
           <Link
             title="Home"
             href="/"
-            className={`px-4 py-1 ${pathname === '/' ? 'bg-primary text-white' : 'text-black bg-transparent'}`}
+            className={`px-4 py-1 ${
+              pathname === "/"
+                ? "bg-primary text-white"
+                : "text-black bg-transparent"
+            }`}
             onClick={() => setIsOpen(false)}
           >
             Home
           </Link>
-          
+
           <div className="">
-            <div 
-              className={`px-4 py-1 flex items-center cursor-pointer ${pathname.includes('/services') ? 'bg-primary text-white' : 'text-black bg-transparent'}`}
+            <div
+              className={`px-4 py-1 flex items-center cursor-pointer ${
+                pathname.includes("/services")
+                  ? "bg-primary text-white"
+                  : "text-black bg-transparent"
+              }`}
               onClick={() => setShowServices(!showServices)}
             >
               Services
               <ChevronDown className="w-4 h-4" />
             </div>
-            
+
             {showServices && (
               <div className=" mt-2 flex flex-col max-h-[300px] overflow-y-auto gap-2">
                 {data?.map((service, index) => {
@@ -196,7 +210,11 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
                       title={service?.title}
                       key={index}
                       href={serviceUrl}
-                      className={`py-1 pl-7 px-4 ${pathname.includes(serviceUrl) ? 'bg-primary text-white' : 'text-black hover:text-primary'} text-lg`}
+                      className={`py-1 pl-7 px-4 ${
+                        pathname.includes(serviceUrl)
+                          ? "bg-primary text-white"
+                          : "text-black hover:text-primary"
+                      } text-lg`}
                       onClick={() => setIsOpen(false)}
                     >
                       {service?.title}
@@ -206,13 +224,17 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
               </div>
             )}
           </div>
-          
+
           {navLinks.map((item, index) => {
             const linkPath = `/${item.link}`;
             return (
               <button
                 key={index}
-                className={`px-4 py-1 cursor-pointer text-left ${pathname.includes(linkPath) ? 'bg-primary text-white' : 'text-black bg-transparent'}`}
+                className={`px-4 py-1 cursor-pointer text-left ${
+                  pathname.includes(linkPath)
+                    ? "bg-primary text-white"
+                    : "text-black bg-transparent"
+                }`}
                 onClick={() => {
                   handleNavigation(item.link);
                   setIsOpen(false);
@@ -222,7 +244,6 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
               </button>
             );
           })}
-          
         </div>
       </div>
     </FullContainer>

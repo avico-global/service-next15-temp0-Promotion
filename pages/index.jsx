@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 import Link from "next/link";
-import { Phone, TextQuote } from "lucide-react";
+import { Phone } from "lucide-react";
 
 import {
   callBackendApi,
@@ -24,25 +24,8 @@ import {
   robotsTxt,
 } from "@/lib/myFun";
 
-import { Montserrat, Inter, Barlow } from "next/font/google";
-import { Link as ScrollLink } from "react-scroll";
 import FullMonthPromotion from "@/components/Promotion";
 import OurServices from "@/components/container/home/OurServices";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-montserrat",
-});
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
-});
-const barlow = Barlow({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "900"],
-});
 
 export default function Home({
   contact_info,
@@ -65,7 +48,6 @@ export default function Home({
   slogan_1,
   form_head,
 }) {
-  console.log("Features", features);
   return (
     <div className="bg-white">
       <Head>
@@ -103,7 +85,7 @@ export default function Home({
         />
       </Head>
 
-      <div className={`${montserrat.className}`}>
+      <div>
         <Navbar
           logo={logo}
           imagePath={imagePath}
@@ -116,6 +98,7 @@ export default function Home({
           imagePath={imagePath}
           contact_info={contact_info}
           form_head={form_head}
+          features={features?.value}
         />
 
         <FullMonthPromotion why_us={why_us} prices={prices} />
@@ -193,7 +176,7 @@ export default function Home({
                     />
                   </h3>
                   <h2
-                    className={`text-base sm:text-lg md:text-xl capitalize font-medium leading-none text-start md:text-center text-[#082347] relative z-10 mt-1 md:mt-2 ${inter.className}`}
+                    className={`text-base sm:text-lg md:text-xl capitalize font-medium leading-none text-start md:text-center text-[#082347] relative z-10 mt-1 md:mt-2`}
                   >
                     {item.title}
                   </h2>
@@ -221,34 +204,24 @@ export default function Home({
           contact_info={contact_info}
         />
       </div>
-      <div className="grid md:hidden fixed bottom-0 left-0 right-0 grid-cols-2 gap-2 p-2 bg-white z-50">
-        <div className="w-full rounded-lg bg-[#01306E] flex items-center justify-center">
+
+      {/* Fixed Call Button */}
+      <div className="grid md:hidden fixed bottom-0 left-0 right-0 z-50 p-2 bg-white">
+        <div className="w-full bg-gradient-to-b from-green-600 via-lime-600 to-green-600 flex flex-col items-center justify-center py-3">
           <Link
             title="Call Button"
             href={`tel:${contact_info?.phone}`}
-            className="bg-[radial-gradient(ellipse_at_center,_#1652A2_10%,_#01306E_100%)] 
-             flex text-white py-2 md:py-3 px-2 md:px-8 font-medium 
-             rounded-full items-center justify-center text-[19px] w-full font-barlow"
+            className="flex flex-col text-white items-center justify-center w-full font-barlow"
           >
-            <Phone className="w-4 h-4 md:w-6 md:h-6 mr-2" />
-            <div className="uppercase">Call Us Now</div>
+            <div className="flex items-center mb-1">
+              <Phone className="w-8 h-8 mr-3" />
+              <div className="uppercase text-4xl font-bold">CALL US NOW</div>
+            </div>
+            <div className="text-3xl font-medium">
+              ({contact_info?.phone?.slice(0, 3)}){" "}
+              {contact_info?.phone?.slice(3, 6)}-{contact_info?.phone?.slice(6)}
+            </div>
           </Link>
-        </div>
-        <div className="w-full rounded-lg flex items-center bg-[#85B8FB] justify-center p-2">
-          <ScrollLink
-            to="contact-us"
-            spy={true}
-            smooth={true}
-            offset={-100}
-            className="flex items-center justify-center w-fit min-w-[160px] rounded-lg text-md md:text-2xl font-barlow py-1 md:py-3 px-3 md:px-6 font-bold  z-10 cursor-pointer"
-          >
-            <span className="flex items-center gap-2 z-10">
-              <TextQuote className="w-6 h-6 text-black" />
-              <h2 className="text-[19px] font-semibold text-black">
-                GET A QUOTE
-              </h2>
-            </span>
-          </ScrollLink>
         </div>
       </div>
     </div>
