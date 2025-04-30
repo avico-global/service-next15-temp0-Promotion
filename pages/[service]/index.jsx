@@ -60,12 +60,9 @@ export default function Service({
       <Head>
         <meta charSet="UTF-8" />
         <title>
-          {meta?.title?.replaceAll(
-            "##service##",
-            service
-              ?.replaceAll("-", " ")
-              ?.replaceAll("##city_name##", city_name)
-          )}
+          {meta?.title
+            ?.replaceAll("##service##", service?.replaceAll("-", " "))
+            ?.replaceAll("##city_name##", city_name)}
         </title>
         <meta
           name="description"
