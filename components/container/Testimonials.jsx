@@ -215,9 +215,11 @@ const Testimonials = ({ data, logo, imagePath }) => {
           <div className="flex gap-10">
             <div className="flex items-center justify-between mb-6 md:mb-8">
               <div className="flex items-center gap-2 md:gap-4">
-                <div className="w-[120px] md:w-[160px] h-auto flex flex-col">
-                  <Logo logo={logo} imagePath={imagePath} />
-                </div>
+                {logo.value.type === "image" && (
+                  <div className="w-[120px] md:w-[160px] h-auto flex flex-col">
+                    <Logo logo={logo} imagePath={imagePath} />
+                  </div>
+                )}
                 <div className="flex flex-col w-32">
                   <p className="text-gray-600 font-bold text-xl md:text-3xl capitalize">
                     {logo.value.logoText}
