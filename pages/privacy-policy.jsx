@@ -103,6 +103,7 @@ export default function PrivacyPolicy({
       </FullContainer>
 
       <Footer
+        city_name={city_name}
         data={footer}
         logo={logo}
         imagePath={imagePath}

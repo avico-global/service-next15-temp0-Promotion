@@ -151,6 +151,7 @@ export default function Service({
       <FAQs faqs={faqs} />
       <ServiceCities data={locations} />
       <Footer
+        city_name={city_name}
         data={footer}
         logo={logo}
         imagePath={imagePath}
