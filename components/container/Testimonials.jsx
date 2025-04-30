@@ -213,7 +213,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
             <div className="w-16 md:w-20 h-1 bg-primary mx-auto"></div>
           </div>
 
-          <div className="grid grid-cols-1">
+          <div className="flex gap-10">
             <div className="flex items-center justify-between mb-6 md:mb-8">
               <div className="flex items-center gap-2 md:gap-4">
                 <div className="w-[120px] md:w-[160px] h-auto">
@@ -240,7 +240,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
               </div>
             </div>
 
-            <div className="relative h-[250px] md:h-80 w-full">
+            <div className="relative h-[250px] md:h-80 w-full flex-1">
               {/* Navigation Arrows */}
               <div className="hidden md:flex w-full absolute items-center justify-between z-20 h-full pointer-events-none">
                 <button
@@ -319,7 +319,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
                           </div>
                           <div className="w-5 h-5 md:w-6 md:h-6 relative">
                             <Image
-                              src="/images/google-icon.svg"
+                              src="/st-images/google-icon.svg"
                               alt="Google Review"
                               width={24}
                               height={24}
