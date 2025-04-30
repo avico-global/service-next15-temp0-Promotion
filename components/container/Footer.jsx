@@ -10,7 +10,7 @@ import image3 from "../../public/st-images/footer3.png";
 import image4 from "../../public/st-images/footer4.png";
 import image5 from "../../public/st-images/footer5.png";
 
-export default function Footer({ imagePath, data, contact_info, city_name }) {
+export default function Footer({ imagePath, data, contact_info }) {
   const companies = [image1, image2, image3, image4, image5];
   return (
     <footer>
@@ -64,10 +64,7 @@ export default function Footer({ imagePath, data, contact_info, city_name }) {
                       href={`tel:${contact_info?.phone}`}
                       className="text-white text-sm md:text-[15px]"
                     >
-                      {contact_info?.phone?.replaceAll(
-                        "##city_name##",
-                        city_name
-                      ) || "(656) 245-0412"}
+                      {contact_info?.phone || "(656) 245-0412"}
                     </Link>
                   </li>
                   <li className="flex items-center gap-1.5">
@@ -79,10 +76,8 @@ export default function Footer({ imagePath, data, contact_info, city_name }) {
                       href={`mailto:${contact_info?.email}`}
                       className="text-white  text-sm md:text-[15px]"
                     >
-                      {contact_info?.email?.replaceAll(
-                        "##city_name##",
-                        city_name
-                      ) || "sales@tampa-chimney.com"}
+                      {contact_info?.email?.replaceAll("##website##", domain) ||
+                        "sales@tampa-chimney.com"}
                     </Link>
                   </li>
                   <li className="flex items-center gap-1.5">
