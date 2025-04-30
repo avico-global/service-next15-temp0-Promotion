@@ -15,7 +15,7 @@ export default function Footer({ imagePath, data, contact_info }) {
   return (
     <footer>
       <FullContainer
-        className={`bg-[#1E1B21] py-6 md:py-[52px] md:pb-[52px] mb-16 md:mb-0 relative`}
+        className={`bg-black py-6 md:py-[52px] md:pb-[52px] mb-16 md:mb-0 relative`}
       >
         <Image
           title="Footer Image"

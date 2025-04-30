@@ -204,23 +204,22 @@ const Testimonials = ({ data, logo, imagePath }) => {
 
   return (
     <>
-      <section className="testimonials-section py-8 md:py-12 bg-white">
+      <section className="testimonials-section py-6 md:py-6 bg-white">
         <Container className="mx-auto px-4">
           <div className="text-center mb-6 md:mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#002B5B] mb-2">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#002B5B] mb-2">
               Our Happy Clients
             </h2>
-            <div className="w-16 md:w-20 h-1 bg-primary mx-auto"></div>
           </div>
 
           <div className="flex gap-10">
             <div className="flex items-center justify-between mb-6 md:mb-8">
               <div className="flex items-center gap-2 md:gap-4">
-                <div className="w-[120px] md:w-[160px] h-auto">
+                <div className="w-[120px] md:w-[160px] h-auto flex flex-col">
                   <Logo logo={logo} imagePath={imagePath} />
                 </div>
-                <div className="flex flex-col">
-                  <p className="text-gray-600 font-bold text-sm md:text-base">
+                <div className="flex flex-col w-32">
+                  <p className="text-gray-600 font-bold text-xl md:text-3xl capitalize">
                     {logo.value.logoText}
                   </p>
                   <div className="flex items-center gap-1">
@@ -260,7 +259,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
               </div>
 
               {/* Slide Indicators */}
-              {testimonials.length > 1 && (
+              {/* {testimonials.length > 1 && (
                 <div className="flex justify-center gap-1.5 md:gap-2 mt-6 absolute bottom-1 md:bottom-0 w-full z-10">
                   {testimonials.map((_, index) => (
                     <button
@@ -275,7 +274,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
                     />
                   ))}
                 </div>
-              )}
+              )} */}
 
               <div className="testimonial-slider-container overflow-hidden mb-8 absolute h-[280px] md:h-72 top-0 w-full">
                 <div
@@ -294,7 +293,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
                 >
                   {testimonialsWithAvatars.map((testimonial, index) => (
                     <div key={index} className="testimonial-slide px-1 md:px-2">
-                      <div className="flex-1 p-4 md:p-6 rounded-xl bg-gray-100 shadow-md h-full border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                      <div className="flex-1 p-4 md:p-5 rounded-xl bg-[#f4f4f4] shadow-md h-full border border-gray-100 hover:shadow-lg transition-shadow duration-300">
                         {/* Profile and Google Icon Header */}
                         <div className="flex items-center justify-between mb-2 md:mb-3">
                           <div className="flex items-center gap-2 md:gap-3">
@@ -328,11 +327,11 @@ const Testimonials = ({ data, logo, imagePath }) => {
                         </div>
 
                         {/* Star Rating */}
-                        <div className="flex gap-0.5 mb-3 md:mb-4">
+                        <div className="flex gap-0.5 mb-2">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <span
                               key={star}
-                              className="text-yellow-400 text-sm md:text-base"
+                              className="text-yellow-500 text-sm md:text-base"
                             >
                               ★
                             </span>
@@ -340,7 +339,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
                         </div>
 
                         {/* Review Text */}
-                        <p className="text-gray-700 text-xs md:text-sm leading-relaxed italic line-clamp-5 md:line-clamp-none">
+                        <p className="text-gray-800 text-xs md:text-sm leading-relaxed italic line-clamp-5 md:line-clamp-none">
                           "{testimonial.quote || testimonial.text}"
                         </p>
                       </div>

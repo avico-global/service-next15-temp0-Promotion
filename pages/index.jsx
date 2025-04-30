@@ -129,7 +129,7 @@ export default function Home({
         {/* Slogan 1 */}
         <FullContainer className="bg-white pt-10 flex flex-col items-center justify-center">
           <Container className="text-center flex flex-col items-center justify-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#1A2956] mb-4">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#1A2956] mb-4">
               {slogan_1?.title}
             </h2>
             <p className="text-base md:text-lg text-[#1A2956] mb-4">
@@ -143,48 +143,6 @@ export default function Home({
           data={about?.value}
           image={`${imagePath}/${about?.file_name}`}
         />
-
-        <FullContainer className="pt-2 mt-12 pb-6">
-          <Container className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 md:justify-between px-2 md:px-4">
-            {[
-              {
-                title: "Number Of Clients",
-                number: 1200,
-              },
-              {
-                title: "Years of Experience",
-                number: 10,
-              },
-              {
-                title: "Locations Served",
-                number: 21,
-              },
-              {
-                title: "Certifications Or Awards",
-                number: 14,
-              },
-            ].map((item, index) => (
-              <div key={index}>
-                <div className="flex flex-col items-center justify-center">
-                  <h3
-                    className={`font-[900] text-center text-[#082347] relative z-10 font-barlow`}
-                  >
-                    <Counter
-                      targetNumber={item.number}
-                      duration={3000}
-                      className="text-7xl"
-                    />
-                  </h3>
-                  <h2
-                    className={`text-base sm:text-lg md:text-xl capitalize font-medium leading-none text-start md:text-center text-[#082347] relative z-10 mt-1 md:mt-2`}
-                  >
-                    {item.title}
-                  </h2>
-                </div>
-              </div>
-            ))}
-          </Container>
-        </FullContainer>
 
         <ServiceBenefits
           contact_info={contact_info}

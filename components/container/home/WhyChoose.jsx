@@ -14,6 +14,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import FullContainer from "@/components/common/FullContainer";
+import Link from "next/link";
 
 export default function WhyChoose({ image, contact_info, phone, data }) {
   const iconMap = {
@@ -35,7 +36,7 @@ export default function WhyChoose({ image, contact_info, phone, data }) {
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
           {/* Left: Text & Features */}
           <div className="w-full md:w-5/12 flex flex-col items-start justify-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#1A2956] mb-4">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#1A2956] mb-4">
               Why Choose Us
             </h2>
             <ul className="mb-6 space-y-3">
@@ -62,13 +63,13 @@ export default function WhyChoose({ image, contact_info, phone, data }) {
                 <Phone className="w-5 h-5" />
                 {phone}
               </a>
-              <a
-                href="#quote"
+              <Link
+                href="#contact-us"
                 className="flex items-center justify-center sm:justify-start gap-2 px-6 py-3 rounded-full bg-[#6B9AED] text-[#1A2956] font-semibold text-lg shadow hover:bg-[#4d7edc] transition-all"
               >
                 <FileText className="w-5 h-5" />
                 GET A QUOTE
-              </a>
+              </Link>
             </div>
           </div>
           {/* Right: Image */}

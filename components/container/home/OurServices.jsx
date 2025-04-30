@@ -9,7 +9,7 @@ export default function OurServices({ phone, data, imagePath }) {
   return (
     <FullContainer>
       <Container>
-        <h2 className="text-3xl md:text-4xl font-extrabold text-center text-blue-900 mb-8 mt-2 tracking-tight">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center text-blue-900 mb-8 tracking-tight">
           Services Provided
         </h2>
         <div className="grid grid-cols-2 md:gap-8 gap-4">
@@ -34,15 +34,15 @@ export default function OurServices({ phone, data, imagePath }) {
                 )}
               </div>
               <div className="flex flex-col flex-1 p-3 md:p-6 pb-4">
-                <h3 className="md:text-xl font-bold text-blue-900 mb-2 text-center">
+                <h3 className="md:text-2xl font-bold text-blue-900 mb-2 text-center">
                   {service.title}
                 </h3>
-                <p className="text-gray-800 text-sm md:text-base font-medium text-center mb-3 md:mb-6 md:min-h-[48px]">
+                <p className="text-gray-800 text-sm md:text-base font-medium text-center mb-3 md:min-h-[48px]">
                   {service.description || "No description provided."}
                 </p>
                 <a
                   href={`tel:${phone}`}
-                  className="mt-auto w-full bg-blue-900 text-white font-bold py-2 rounded-md text-center text-lg hover:bg-blue-800 transition-colors duration-200"
+                  className="mt-auto w-fit bg-blue-950 text-white font-bold py-2 px-8 mx-auto rounded text-center text-lg hover:bg-blue-900 transition-colors duration-200"
                 >
                   Call Us Today
                 </a>

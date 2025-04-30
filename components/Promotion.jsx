@@ -35,27 +35,26 @@ const PromotionCard = ({
 }) => {
   return (
     <div
-      className={`relative flex flex-col h-full border-2 border-dashed border-blue-900 rounded-md p-8 transition-all duration-200 ${
+      className={`relative flex flex-col h-full border-2 border-dashed border-blue-950 rounded-md p-8 transition-all duration-200 ${
         isMainCard
-          ? "bg-blue-900 text-white shadow-xl z-10 scale-105"
-          : "bg-white text-blue-900"
+          ? "bg-blue-950 text-white shadow-xl z-10 scale-105"
+          : "bg-white text-blue-950"
       }`}
-      style={{ minHeight: 600 }}
     >
       {title && (
-        <div className="mb-2 text-center">
+        <div className="mb-3 text-center">
           <h3 className="text-3xl font-extrabold tracking-tight mb-2">
             {title}
           </h3>
           {whyUsData && whyUsData.subheading && (
             <p className="text-2xl font-bold mb-2">{whyUsData.subheading}</p>
           )}
-          <div className="border-b border-dotted border-blue-900 w-3/4 mx-auto my-4" />
+          <div className="border-b border-dotted border-blue-950 w-3/4 mx-auto my-4" />
         </div>
       )}
 
       {price && (
-        <div className="mb-4 text-center">
+        <div className=" text-center">
           <div className="flex flex-col items-center justify-center">
             <span className="text-2xl font-bold">
               Now <span className="text-5xl font-extrabold">${price}</span>
@@ -74,7 +73,7 @@ const PromotionCard = ({
               </span>
             </div>
           )}
-          <div className="border-b border-dotted border-white/60 border-blue-900 w-3/4 mx-auto my-4" />
+          <div className="border-b border-dotted border-white/60 border-blue-950 w-3/4 mx-auto my-4" />
         </div>
       )}
 
@@ -93,10 +92,10 @@ const PromotionCard = ({
       </div>
 
       <button
-        className={`w-full mt-8 py-3 rounded-lg font-extrabold text-lg tracking-wide transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-offset-2 ${
+        className={`w-full mt-6 py-2 rounded font-bold text-xl tracking-wide transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-offset-2 ${
           isMainCard
-            ? "bg-white text-blue-900 hover:bg-blue-100"
-            : "bg-blue-900 text-white hover:bg-blue-800"
+            ? "bg-white text-blue-950 hover:bg-blue-100"
+            : "bg-blue-950 text-white hover:bg-blue-800"
         }`}
       >
         Call For Redeem
@@ -114,7 +113,7 @@ const FullMonthPromotion = ({ prices }) => {
     <FullContainer>
       <Container>
         <div className="w-full py-12">
-          <h2 className="text-4xl font-extrabold text-center text-blue-900 mb-12 tracking-tight">
+          <h2 className="text-4xl font-extrabold text-center text-blue-950 mb-12 tracking-tight">
             Full Month Promotion
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 max-w-6xl mx-auto">
