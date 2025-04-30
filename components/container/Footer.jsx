@@ -10,8 +10,9 @@ import image3 from "../../public/st-images/footer3.png";
 import image4 from "../../public/st-images/footer4.png";
 import image5 from "../../public/st-images/footer5.png";
 
-export default function Footer({ imagePath, data, contact_info }) {
+export default function Footer({ imagePath, data, contact_info, domain }) {
   const companies = [image1, image2, image3, image4, image5];
+
   return (
     <footer>
       <FullContainer
