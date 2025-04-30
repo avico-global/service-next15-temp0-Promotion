@@ -12,6 +12,7 @@ import {
   getImagePath,
   robotsTxt,
 } from "@/lib/myFun";
+
 import FullContainer from "@/components/common/FullContainer";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
@@ -27,11 +28,15 @@ export default function TermsAndConditions({
   meta,
   footer,
   terms,
-  gtmId,
   contact_info,
+  city_name,
 }) {
   const markdownIt = new MarkdownIt();
-  const content = markdownIt.render(terms || "");
+  const content = markdownIt.render(
+    terms
+      ?.replaceAll("##city_name##", city_name)
+      ?.replaceAll("##website##", `${domain}`) || ""
+  );
   const breadcrumbs = useBreadcrumbs();
   const router = useRouter();
   const currentPath = router.asPath;
@@ -133,6 +138,7 @@ export async function getServerSideProps({ req }) {
   const footer = await callBackendApi({ domain, tag: "footer" });
   const locations = await callBackendApi({ domain, tag: "locations" });
   const terms = await callBackendApi({ domain, tag: "terms" });
+  const city_name = await callBackendApi({ domain, tag: "city_name" });
 
   robotsTxt({ domain });
 
@@ -159,6 +165,7 @@ export async function getServerSideProps({ req }) {
       terms: terms?.data[0]?.value || null,
       gtmId: gtmId?.data[0]?.value || null,
       contact_info: contact_info?.data[0]?.value || null,
+      city_name: city_name?.data[0]?.value || null,
     },
   };
 }

@@ -18,7 +18,7 @@ export default function ServiceAbout({
   image,
   contact_info,
   service,
-  city,
+  city_name,
 }) {
   const markdown = new MarkdownIt();
   const content = markdown.render(
@@ -28,8 +28,8 @@ export default function ServiceAbout({
         capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " "))
       )
       ?.replaceAll(
-        "##city##",
-        capitalizeFirstLetterOfEachWord(city?.replaceAll("-", " "))
+        "##city_name##",
+        capitalizeFirstLetterOfEachWord(city_name?.replaceAll("-", " "))
       )
   );
 

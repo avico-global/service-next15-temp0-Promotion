@@ -47,13 +47,17 @@ export default function Home({
   prices,
   slogan_1,
   form_head,
+  city_name,
 }) {
   return (
     <div className="bg-white">
       <Head>
         <meta charSet="UTF-8" />
-        <title>{meta?.title}</title>
-        <meta name="description" content={meta?.description} />
+        <title>{meta?.title?.replaceAll("##city_name##", city_name)}</title>
+        <meta
+          name="description"
+          content={meta?.description?.replaceAll("##city_name##", city_name)}
+        />
         <link rel="author" href={`https://www.${domain}`} />
         <link rel="publisher" href={`https://www.${domain}`} />
         <link rel="canonical" href={`https://www.${domain}`} />
@@ -142,6 +146,7 @@ export default function Home({
           services={services?.list}
           data={about?.value}
           image={`${imagePath}/${about?.file_name}`}
+          city_name={city_name}
         />
 
         <ServiceBenefits
@@ -214,6 +219,7 @@ export async function getServerSideProps({ req }) {
   const prices = await callBackendApi({ domain, tag: "prices" });
   const slogan_1 = await callBackendApi({ domain, tag: "slogan_1" });
   const form_head = await callBackendApi({ domain, tag: "form_head" });
+  const city_name = await callBackendApi({ domain, tag: "city_name" });
 
   robotsTxt({ domain });
 
@@ -244,34 +250,7 @@ export async function getServerSideProps({ req }) {
       prices: prices?.data[0]?.value || [],
       slogan_1: slogan_1?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
+      city_name: city_name?.data[0]?.value || null,
     },
   };
 }
-
-const Counter = ({ targetNumber, duration = 1000 }) => {
-  const [count, setCount] = useState(0);
-  const { ref, inView } = useInView({ triggerOnce: true });
-
-  useEffect(() => {
-    if (!inView) return;
-    let start = 0;
-    const increment = targetNumber / (duration / 50);
-    const interval = setInterval(() => {
-      start += increment;
-      if (start >= targetNumber) {
-        setCount(targetNumber);
-        clearInterval(interval);
-      } else {
-        setCount(Math.ceil(start));
-      }
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, [inView, targetNumber, duration]);
-
-  return (
-    <span ref={ref} className="text-5xl sm:text-6xl md:text-7xl font-bold">
-      {count}+
-    </span>
-  );
-};

@@ -62,14 +62,18 @@ export default function Service({
         <title>
           {meta?.title?.replaceAll(
             "##service##",
-            service?.replaceAll("-", " ")
+            service
+              ?.replaceAll("-", " ")
+              ?.replaceAll("##city_name##", city_name)
           )}
         </title>
         <meta
           name="description"
-          content={meta?.description.replaceAll(
+          content={meta?.description?.replaceAll(
             "##service##",
-            service?.replaceAll("-", " ")
+            service
+              ?.replaceAll("-", " ")
+              ?.replaceAll("##city_name##", city_name)
           )}
         />
         <link rel="author" href={`https://www.${domain}`} />
@@ -127,7 +131,7 @@ export default function Service({
           image={`${imagePath}/${service_banner?.file_name}`}
           contact_info={contact_info}
           service={service}
-          city={city_name}
+          city_name={city_name}
         />
       )}
       <Gallery

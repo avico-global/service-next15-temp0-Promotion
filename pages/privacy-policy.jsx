@@ -20,18 +20,21 @@ import { useRouter } from "next/router";
 export default function PrivacyPolicy({
   logo,
   imagePath,
-  phone,
   services,
   domain,
   favicon,
   meta,
   footer,
   policy,
-  gtmId,
   contact_info,
+  city_name,
 }) {
   const markdownIt = new MarkdownIt();
-  const content = markdownIt.render(policy || "");
+  const content = markdownIt.render(
+    policy
+      ?.replaceAll("##city_name##", city_name)
+      ?.replaceAll("##website##", `${domain}`) || ""
+  );
   const breadcrumbs = useBreadcrumbs();
   const router = useRouter();
   const currentPath = router.asPath;
@@ -46,8 +49,11 @@ export default function PrivacyPolicy({
     <main>
       <Head>
         <meta charSet="UTF-8" />
-        <title>{meta?.title}</title>
-        <meta name="description" content={meta?.description} />
+        <title>{meta?.title?.replaceAll("##city_name##", city_name)}</title>
+        <meta
+          name="description"
+          content={meta?.description?.replaceAll("##city_name##", city_name)}
+        />
         <link rel="author" href={`https://www.${domain}`} />
         <link rel="publisher" href={`https://www.${domain}`} />
         <link rel="canonical" href={`https://www.${domain}/privacy-policy`} />
@@ -129,6 +135,7 @@ export async function getServerSideProps({ req }) {
   const locations = await callBackendApi({ domain, tag: "locations" });
   const policy = await callBackendApi({ domain, tag: "policy" });
   const contact_info = await callBackendApi({ domain, tag: "contact_info" });
+  const city_name = await callBackendApi({ domain, tag: "city_name" });
 
   robotsTxt({ domain });
 
@@ -154,6 +161,7 @@ export async function getServerSideProps({ req }) {
       policy: policy?.data[0]?.value || null,
       gtmId: gtmId?.data[0]?.value || null,
       contact_info: contact_info?.data[0]?.value || null,
+      city_name: city_name?.data[0]?.value || null,
     },
   };
 }

@@ -3,7 +3,7 @@ import Image from "next/image";
 import FullContainer from "@/components/common/FullContainer";
 import Container from "@/components/common/Container";
 
-export default function About({ image, data }) {
+export default function About({ image, data, city_name }) {
   return (
     <FullContainer className="py-4 md:py-8 " id="about-us">
       <Container className="relative overflow-hidden !px-0 md:!px-4">
@@ -27,13 +27,13 @@ export default function About({ image, data }) {
             <h2
               className={`text-white text-[26px] md:text-[28px] font-bold z-10`}
             >
-              {data?.heading}
+              {data?.heading?.replaceAll("##city_name##", city_name)}
             </h2>
             <p className={`text-white text-[22px] leading-none z-10`}>
-              {data?.description1}
+              {data?.description1?.replaceAll("##city_name##", city_name)}
             </p>
             <p className={`text-white text-[22px] leading-none z-10`}>
-              {data?.description2}
+              {data?.description2?.replaceAll("##city_name##", city_name)}
             </p>
           </div>
         </div>
