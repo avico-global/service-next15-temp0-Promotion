@@ -13,6 +13,7 @@ export default function Gallery({
   imagePath,
   data,
   service,
+  city_name,
 }) {
   const markdown = new MarkdownIt();
   const capitalizeFirstLetterOfEachWord = (string) => {
@@ -21,13 +22,15 @@ export default function Gallery({
       ?.map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
       ?.join(" ");
   };
-  
+
   const content = data
     ? markdown.render(
-        data?.replaceAll(
-          "##service##",
-          capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " "))
-        )
+        data
+          ?.replaceAll(
+            "##service##",
+            capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " "))
+          )
+          ?.replaceAll("##city_name##", city_name)
       )
     : "";
 

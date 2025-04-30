@@ -140,6 +140,7 @@ export default function Service({
         imagePath={imagePath}
         service={service}
         data={service_gallery_head}
+        city_name={city_name}
       />
       <ServiceText
         contact_info={contact_info}
