@@ -54,9 +54,9 @@ export default function PrivacyPolicy({
           name="description"
           content={meta?.description?.replaceAll("##city_name##", city_name)}
         />
-        <link rel="author" href={`https://www.${domain}`} />
-        <link rel="publisher" href={`https://www.${domain}`} />
-        <link rel="canonical" href={`https://www.${domain}/privacy-policy`} />
+        <link rel="author" href={`https://${domain}`} />
+        <link rel="publisher" href={`https://${domain}`} />
+        <link rel="canonical" href={`https://${domain}/privacy-policy`} />
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
