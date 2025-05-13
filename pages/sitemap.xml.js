@@ -1,5 +1,7 @@
 import { checkOrCreateSitemap } from "@/lib/createInitialFiles";
-import { getDomain, getSitemaps } from "@/lib/myFun";
+import { getDomain } from "@/lib/myFun";
+import fs from 'fs';
+import path from 'path';
 
 const Sitemap = () => {
   return null; // This component doesn't render anything
@@ -18,21 +20,23 @@ export const getServerSideProps = async ({ req, res }) => {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
     
-    // Fetch sitemaps safely
-    let sitemaps = [];
+    // Read services from the JSON file
+    let services = [];
     try {
-      sitemaps = await getSitemaps({ domain: baseUrl }) || [];
+      const filePath = path.join(process.cwd(), 'public/json', baseUrl, 'api_public_project_data_by_domain_data', 'services.json');
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      const data = JSON.parse(fileContent);
+      
+      if (data?.data?.[0]?.value && Array.isArray(data.data[0].value)) {
+        services = data.data[0].value;
+      }
     } catch (error) {
-      console.error("Error fetching sitemaps:", error);
+      console.error('Error reading services.json:', error);
     }
-
+    
     // Format date
     const currentDate = new Date();
-    const isoDate = currentDate.toISOString();
-    const isoDateParts = isoDate.split("T");
-    const datePart = isoDateParts[0];
-    const timePart = isoDateParts[1]?.split(".")[0];
-    const formattedDate = `${datePart}T${timePart}+00:00`;
+    const formattedDate = currentDate.toISOString().split(".")[0] + "+00:00";
     
     // Process XSL content with proper title
     const modifiedXslContent = xslContent
@@ -42,22 +46,22 @@ export const getServerSideProps = async ({ req, res }) => {
       )
       ?.replaceAll("%TITLE%", siteTitle);
 
-    // Create XML
+    // Calculate number of sitemaps needed (20 services per sitemap)
+    const ITEMS_PER_SITEMAP = 20;
+    const totalSitemaps = Math.max(1, Math.ceil(services.length / ITEMS_PER_SITEMAP));
+    
+    // Create XML with references to individual sitemaps
     const sitemapindex = `<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="data:text/xml;charset=utf-8;base64,${Buffer.from(
       modifiedXslContent || ''
     ).toString("base64")}"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${Array.isArray(sitemaps) && sitemaps.length > 0 
-  ? sitemaps.map((sitemap, index) => 
-      `<sitemap>
-    <loc>${baseUrl.startsWith("https://") ? baseUrl : `https://${baseUrl.startsWith("www.") ? baseUrl : `www.${baseUrl}`}`}/sitemaps/${index + 1}</loc>
+${Array.from({ length: totalSitemaps }, (_, i) => i + 1)
+  .map(index => 
+  `<sitemap>
+    <loc>https://${baseUrl.startsWith("www.") ? baseUrl : `www.${baseUrl}`}/sitemaps/${index}</loc>
     <lastmod>${formattedDate}</lastmod>
-  </sitemap>`).join("")
-  : `<sitemap>
-    <loc>https://${baseUrl.startsWith("www.") ? baseUrl : `www.${baseUrl}`}</loc>
-    <lastmod>${formattedDate}</lastmod>
-  </sitemap>`}
+  </sitemap>`).join("")}
 </sitemapindex>`;
     
     // Send response

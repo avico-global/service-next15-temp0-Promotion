@@ -1,26 +1,39 @@
 import { getDomain } from "@/lib/myFun";
-import fs from "fs";
 
-const e = () => <></>;
-export default e;
+const RobotsTxt = () => null;
+export default RobotsTxt;
 
 export const getServerSideProps = async ({ req, res }) => {
-  const domain = getDomain(req?.headers?.host);
   try {
-    const robots = fs.readFileSync(
-      `${process.cwd()}/public/robots/${domain}/robots.txt`
-    );
+    const domain = getDomain(req?.headers?.host);
+    const fullDomain = domain.startsWith('www.') ? domain : `www.${domain}`;
+    
+    // Generate default robots.txt content
+    const robotsTxt = `User-agent: *
+Allow: /
+Disallow: /api/
 
-    res.setHeader("Content-Type", "text/plain");
-    res.write(robots);
+# Sitemaps
+Sitemap: https://${fullDomain}/sitemap.xml
+`;
+
+    res.setHeader('Content-Type', 'text/plain');
+    res.write(robotsTxt);
     res.end();
 
     return {
       props: {},
     };
-  } catch (err) {
+  } catch (error) {
+    console.error('Error generating robots.txt:', error);
+    
+    // Return basic robots.txt on error
+    res.setHeader('Content-Type', 'text/plain');
+    res.write(`User-agent: *\nAllow: /\nDisallow: /api/`);
+    res.end();
+    
     return {
-      notFound: true,
+      props: {},
     };
   }
 };
