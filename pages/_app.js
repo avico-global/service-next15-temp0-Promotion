@@ -16,9 +16,9 @@ export default function App({ Component, pageProps }) {
       injectGTMScript(pageProps.gtm_head);
     }
 
-    if (pageProps.gtm_body) {
-      injectGTMBodyScript(pageProps.gtm_body);
-    }
+    // if (pageProps.gtm_body) {
+    //   injectGTMBodyScript(pageProps.gtm_body);
+    // }
   }, [pageProps.gtm_head, pageProps.gtm_body]);
 
   return (
