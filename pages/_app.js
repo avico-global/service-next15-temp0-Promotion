@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import { Barlow } from "next/font/google";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { injectGTMScript, injectGTMBodyScript } from "@/lib/gtm";
 
 const barlow = Barlow({
@@ -10,16 +10,37 @@ const barlow = Barlow({
 });
 
 export default function App({ Component, pageProps }) {
-  // Inject GTM script if available
-  useEffect(() => {
-    if (pageProps.gtm_head) {
-      injectGTMScript(pageProps.gtm_head);
-    }
+  const [gtmLoaded, setGtmLoaded] = useState(false);
 
-    // if (pageProps.gtm_body) {
-    //   injectGTMBodyScript(pageProps.gtm_body);
-    // }
-  }, [pageProps.gtm_head, pageProps.gtm_body]);
+  // Securely fetch and inject GTM script if not already loaded
+  useEffect(() => {
+    async function loadGTM() {
+      if (gtmLoaded) return;
+      
+      try {
+        // Fetch GTM configuration from our secure API endpoint
+        const response = await fetch('/api/site-config?configType=gtm');
+        if (!response.ok) return;
+        
+        const { gtm_head, gtm_body } = await response.json();
+        
+        // Inject GTM scripts if available
+        if (gtm_head) {
+          injectGTMScript(gtm_head);
+        }
+        
+        if (gtm_body) {
+          injectGTMBodyScript(gtm_body);
+        }
+        
+        setGtmLoaded(true);
+      } catch (error) {
+        console.error('Error loading GTM:', error);
+      }
+    }
+    
+    loadGTM();
+  }, [gtmLoaded]);
 
   return (
     <div className={barlow.className}>

@@ -201,10 +201,9 @@ export async function getServerSideProps({ req }) {
   const logo = await callBackendApi({ domain, tag: "logo" });
   const project_id = logo?.data[0]?.project_id || null;
   const imagePath = await getImagePath(project_id, domain);
-  const gtmId = await callBackendApi({ domain, tag: "gtmId" });
-  const gtm_head = await callBackendApi({ domain, tag: "gtm_head" });
-  const gtm_body = await callBackendApi({ domain, tag: "gtm_body" });
-
+  
+  // Removed GTM variables since they're now handled via API
+  
   const banner = await callBackendApi({ domain, tag: "banner" });
   const services = await callBackendApi({ domain, tag: "services" });
   const features = await callBackendApi({ domain, tag: "features" });
@@ -224,15 +223,12 @@ export async function getServerSideProps({ req }) {
 
   robotsTxt({ domain });
 
+  // Keep secret variables server-side only
   return {
     props: {
       contact_info: contact_info?.data[0]?.value || null,
       domain,
       imagePath,
-      gtmId: gtmId?.data[0]?.value || null,
-      gtm_head: gtm_head?.data[0]?.value || null,
-      gtm_body: gtm_body?.data[0]?.value || null,
-
       gallery_head: gallery_head?.data[0]?.value || null,
       faqs: faqs?.data[0]?.value || null,
       logo: logo?.data[0] || null,
@@ -252,6 +248,6 @@ export async function getServerSideProps({ req }) {
       slogan_1: slogan_1?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
       city_name: city_name?.data[0]?.value || null,
-    },
+    }
   };
 }
