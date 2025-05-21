@@ -20,20 +20,27 @@ export default function App({ Component, pageProps }) {
       try {
         // Fetch GTM configuration from our secure API endpoint
         const response = await fetch('/api/site-config?configType=gtm');
-        if (!response.ok) return;
+        if (!response.ok) {
+          console.error('Failed to fetch GTM config:', response.status);
+          return;
+        }
         
         const { gtm_head, gtm_body } = await response.json();
+        let scriptsLoaded = false;
         
         // Inject GTM scripts if available
         if (gtm_head) {
-          injectGTMScript(gtm_head);
+          scriptsLoaded = injectGTMScript(gtm_head);
         }
         
         if (gtm_body) {
-          injectGTMBodyScript(gtm_body);
+          const bodyScriptLoaded = injectGTMBodyScript(gtm_body);
+          scriptsLoaded = scriptsLoaded || bodyScriptLoaded;
         }
         
-        setGtmLoaded(true);
+        if (scriptsLoaded) {
+          setGtmLoaded(true);
+        }
       } catch (error) {
         console.error('Error loading GTM:', error);
       }
