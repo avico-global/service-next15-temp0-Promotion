@@ -7,7 +7,7 @@ const barlow = Barlow({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
-}); 
+});
 
 export default function App({ Component, pageProps }) {
   // Inject GTM script if available
@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
     if (pageProps.gtm_head) {
       injectGTMScript(pageProps.gtm_head);
     }
-    
+
     if (pageProps.gtm_body) {
       injectGTMBodyScript(pageProps.gtm_body);
     }
