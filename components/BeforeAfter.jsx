@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import Container from './common/Container'
 import Image from 'next/image'
 import FullContainer from './common/FullContainer'
-import Heading from './common/Heading'
+import arrow from '../public/st-images/arrowhead.jpg'
 
 export default function BeforeAfter({ project_id }) {
 
      console.log("project_id in before after", project_id)
-    const image = [
+    const chimeny = [
         {
             before: "/st-images/beforeafter/chimeny/before1.webp",
             before_alt: "before",
@@ -33,7 +33,7 @@ export default function BeforeAfter({ project_id }) {
             after_alt: "after",
         },
     ]
-    const image2 = [
+    const airduct = [
         {
             before: "/st-images/beforeafter/airduct/before1.webp",
             before_alt: "before",
@@ -60,7 +60,7 @@ export default function BeforeAfter({ project_id }) {
         },
 
     ]
-    const image3 = [
+    const dryervent = [
         {
             before: "/st-images/beforeafter/dryervent/before1.webp",
             before_alt: "before",
@@ -86,7 +86,7 @@ export default function BeforeAfter({ project_id }) {
             after_alt: "after",
         },
     ]
-    const image4 = [
+    const carpet = [
         {
             before: "/st-images/beforeafter/carpet/before1.webp",
             before_alt: "before",
@@ -112,14 +112,15 @@ export default function BeforeAfter({ project_id }) {
             after_alt: "after",
         },
     ]
-    
+
     const projectid = async () => {
         const res = await fetch(`/api/projects/${project_id}`);
         const data = await res.json();
         console.log("data in projectid", data);
     }
+    const selectedImage = carpet;
 
-    const selectedImage = image4;
+
     return (
         <FullContainer>
             <Container className='pb-16 pt-6 '>
@@ -243,16 +244,15 @@ function BeforeAfterSlider({ beforeImage, afterImage, beforeAlt, afterAlt }) {
             {/* Slider Control */}
             <div 
                 ref={sliderRef}
-                className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-10"
+                className="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10"
                 style={{ left: `${sliderPosition}%`, marginLeft: "-2px" }}
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
             >
-                <div onMouseEnter={() => setIshover(false)} onMouseLeave={() => setIshover(true)} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
-                    <div className="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" />
-                        </svg>
+                <div onMouseEnter={() => setIshover(false)} onMouseLeave={() => setIshover(true)} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-transparent border-[3px] border-white shadow-md flex items-center justify-center">
+                    <div className="flex items-center gap-2">
+                       <Image src={arrow} alt="arrow" width={20} height={20} className=' w-2.5 h-2.5' />
+                       <Image src={arrow} alt="arrow" width={20} height={20} className='rotate-180  w-2.5 h-2.5' />
                     </div>
                 </div>
             </div>

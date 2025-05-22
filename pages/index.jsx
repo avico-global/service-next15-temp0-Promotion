@@ -112,7 +112,7 @@ export default function Home({
           <Testimonials logo={logo} imagePath={imagePath} data={testimonials} />
         )}
 
-        <BeforeAfter project_id={project_id} />
+        {/* <BeforeAfter project_id={project_id} /> */}
 
         <OurServices
           data={services}
@@ -203,7 +203,7 @@ export async function getServerSideProps({ req }) {
   const gallery_head = await callBackendApi({ domain, tag: "gallery_head" });
   const contact_info = await callBackendApi({ domain, tag: "contact_info" });
   const logo = await callBackendApi({ domain, tag: "logo" });
-  console.log("logo in getServerSideProps", logo)
+  console.log("logo in getServerSideProps", logo);
   const project_id = logo?.data[0]?.project_id || null;
   console.log("project_id in getServerSideProps", project_id)
   const imagePath = await getImagePath(project_id, domain);
