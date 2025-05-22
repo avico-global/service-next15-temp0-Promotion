@@ -26,6 +26,14 @@ import { Phone, TextQuote } from "lucide-react";
 import { ScrollLink } from "react-scroll";
 import ServiceDescription from "@/components/container/services/ServiceDescription";
 import ServiceText from "@/components/container/services/ServiceText";
+
+const capitalizeFirstLetterOfEachWord = (string) => {
+  return string
+    ?.split(" ")
+    ?.map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
+    ?.join(" ");
+};
+
 export default function Service({
   contact_info,
   logo,
@@ -61,17 +69,15 @@ export default function Service({
         <meta charSet="UTF-8" />
         <title>
           {meta?.title
-            ?.replaceAll("##service##", service?.replaceAll("-", " "))
-            ?.replaceAll("##city_name##", city_name)}
+            ?.replaceAll("##service##", capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " ")))
+            ?.replaceAll("##city_name##", capitalizeFirstLetterOfEachWord(city_name))}
         </title>
         <meta
           name="description"
-          content={meta?.description?.replaceAll(
-            "##service##",
-            service
-              ?.replaceAll("-", " ")
-              ?.replaceAll("##city_name##", city_name)
-          )}
+          content={meta?.description
+            ?.replaceAll("##service##", capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " ")))
+            ?.replaceAll("##city_name##", capitalizeFirstLetterOfEachWord(city_name))
+          }
         />
         <link rel="author" href={`https://${domain}`} />
         <link rel="publisher" href={`https://${domain}`} />
@@ -201,7 +207,7 @@ export async function getServerSideProps({ req }) {
   const about = await callBackendApi({ domain, tag: "about" });
   const benefits = await callBackendApi({ domain, tag: "benefits" });
   const testimonials = await callBackendApi({ domain, tag: "testimonials" });
-  const meta = await callBackendApi({ domain, tag: "meta_home" });
+  const meta = await callBackendApi({ domain, tag: "meta_service" });
   const favicon = await callBackendApi({ domain, tag: "favicon" });
   const footer = await callBackendApi({ domain, tag: "footer" });
   const locations = await callBackendApi({ domain, tag: "locations" });

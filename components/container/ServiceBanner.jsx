@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
-import { CheckCircle, ArrowRight, Loader } from "lucide-react";
+import { CheckCircle, ArrowRight, Loader, FileText } from "lucide-react";
 
 export default function ServiceBanner({ image, data, form_head }) {
   const [formData, setFormData] = useState({
@@ -305,6 +305,7 @@ export default function ServiceBanner({ image, data, form_head }) {
                       </>
                     ) : (
                       <>
+                      <FileText className="w-5 h-5"/>
                         GET A QUOTE
                         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                       </>
