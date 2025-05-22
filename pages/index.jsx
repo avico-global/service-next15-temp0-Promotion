@@ -26,11 +26,12 @@ import {
 
 import FullMonthPromotion from "@/components/Promotion";
 import OurServices from "@/components/container/home/OurServices";
-
+import BeforeAfter from "@/components/BeforeAfter";
 export default function Home({
   contact_info,
   logo,
   imagePath,
+  project_id,
   banner,
   services,
   features,
@@ -49,6 +50,7 @@ export default function Home({
   form_head,
   city_name,
 }) {
+  console.log("project_id in home", project_id)
   return (
     <div className="bg-white">
       <Head>
@@ -109,6 +111,8 @@ export default function Home({
         {testimonials && (
           <Testimonials logo={logo} imagePath={imagePath} data={testimonials} />
         )}
+
+        <BeforeAfter project_id={project_id} />
 
         <OurServices
           data={services}
@@ -199,7 +203,9 @@ export async function getServerSideProps({ req }) {
   const gallery_head = await callBackendApi({ domain, tag: "gallery_head" });
   const contact_info = await callBackendApi({ domain, tag: "contact_info" });
   const logo = await callBackendApi({ domain, tag: "logo" });
+  console.log("logo in getServerSideProps", logo)
   const project_id = logo?.data[0]?.project_id || null;
+  console.log("project_id in getServerSideProps", project_id)
   const imagePath = await getImagePath(project_id, domain);
   
   // Removed GTM variables since they're now handled via API
@@ -229,6 +235,7 @@ export async function getServerSideProps({ req }) {
       contact_info: contact_info?.data[0]?.value || null,
       domain,
       imagePath,
+      project_id,
       gallery_head: gallery_head?.data[0]?.value || null,
       faqs: faqs?.data[0]?.value || null,
       logo: logo?.data[0] || null,
