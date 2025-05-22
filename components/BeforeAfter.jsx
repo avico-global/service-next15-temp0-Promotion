@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from 'react'
 import Container from './common/Container'
 import Image from 'next/image'
 import FullContainer from './common/FullContainer'
+import {project_id } from '@/lib/myFun'
 import arrow from '../public/st-images/arrowhead.jpg'
 
-export default function BeforeAfter({ project_id }) {
+export default function BeforeAfter({ project_id, niche }) {
 
      console.log("project_id in before after", project_id)
+
     const chimeny = [
         {
             before: "/st-images/beforeafter/chimeny/before1.webp",
@@ -113,13 +115,11 @@ export default function BeforeAfter({ project_id }) {
         },
     ]
 
-    const projectid = async () => {
-        const res = await fetch(`/api/projects/${project_id}`);
-        const data = await res.json();
-        console.log("data in projectid", data);
-    }
-    const selectedImage = carpet;
-
+    let selectedImage = carpet; 
+    if (niche === 'Chimney Cleaning') selectedImage = chimeny;
+    else if (niche === 'Air Conditioning') selectedImage = airduct;
+    else if (niche === 'Dryervent Cleaning') selectedImage = dryervent;
+    else if (niche === 'Carpet Cleaning') selectedImage = carpet;
 
     return (
         <FullContainer>
