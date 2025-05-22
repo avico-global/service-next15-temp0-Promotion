@@ -26,7 +26,7 @@ import {
 
 import FullMonthPromotion from "@/components/Promotion";
 import OurServices from "@/components/container/home/OurServices";
-import BeforeAfter from "@/components/BeforeAfter";
+
 export default function Home({
   contact_info,
   logo,
@@ -50,7 +50,21 @@ export default function Home({
   form_head,
   city_name,
 }) {
-  console.log("project_id in home", project_id)
+  const [niche, setNiche] = useState(null);
+  useEffect(() => {
+    if (project_id) {
+      fetch(`/api/get-project-info?id=${project_id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const niche_name = data?.data?.domain_id?.niche_id?.name;
+          setNiche(niche_name);
+        })
+        .catch((error) => {
+          console.error("Error fetching project info:", error);
+        });
+    }
+  }, [project_id, niche]);
+
   return (
     <div className="bg-white">
       <Head>
@@ -205,11 +219,11 @@ export async function getServerSideProps({ req }) {
   const logo = await callBackendApi({ domain, tag: "logo" });
   console.log("logo in getServerSideProps", logo);
   const project_id = logo?.data[0]?.project_id || null;
-  console.log("project_id in getServerSideProps", project_id)
+  console.log("project_id in getServerSideProps", project_id);
   const imagePath = await getImagePath(project_id, domain);
-  
+
   // Removed GTM variables since they're now handled via API
-  
+
   const banner = await callBackendApi({ domain, tag: "banner" });
   const services = await callBackendApi({ domain, tag: "services" });
   const features = await callBackendApi({ domain, tag: "features" });
@@ -255,6 +269,6 @@ export async function getServerSideProps({ req }) {
       slogan_1: slogan_1?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
       city_name: city_name?.data[0]?.value || null,
-    }
+    },
   };
 }
