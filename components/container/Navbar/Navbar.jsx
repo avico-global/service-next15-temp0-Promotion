@@ -22,7 +22,6 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
 
   const navLinks = [
     { title: "Locations", link: "locations" },
-    { title: "About Us", link: "about-us" },
     { title: "Contact", link: "contact-us" },
     { title: "FAQs", link: "faqs" },
   ];
@@ -71,6 +70,18 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
           </div>
 
           <div className="hidden lg:flex items-center text-[26px] font-barlow justify-center font-semibold gap-4 ">
+            <Link
+              href="/"
+              className="cursor-pointer text-black hover:text-[#002B5B] transition-colors"
+            >
+              Home
+            </Link>
+            <button
+              onClick={() => handleNavigation("locations")}
+              className="cursor-pointer text-black hover:text-[#002B5B] transition-colors"
+            >
+              Locations
+            </button>
             <div
               className="relative h-full"
               onMouseEnter={() => setShowServices(true)}
@@ -125,15 +136,18 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
               </div>
             </div>
 
-            {navLinks.map((item, index) => (
-              <button
-                key={index}
-                onClick={() => handleNavigation(item.link)}
-                className="cursor-pointer text-black hover:text-[#002B5B] transition-colors"
-              >
-                {item.title}
-              </button>
-            ))}
+            <button
+              onClick={() => handleNavigation("faqs")}
+              className="cursor-pointer text-black hover:text-[#002B5B] transition-colors"
+            >
+              FAQs
+            </button>
+            <button
+              onClick={() => handleNavigation("contact-us")}
+              className="cursor-pointer text-black hover:text-[#002B5B] transition-colors"
+            >
+              Contact Us
+            </button>
           </div>
 
           <div className=" flex items-center justify-end flex-row">
