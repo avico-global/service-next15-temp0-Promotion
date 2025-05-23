@@ -243,7 +243,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
 
             <div className="relative h-[250px] md:h-80 w-full flex-1">
               {/* Navigation Arrows */}
-              <div className="hidden md:flex w-full absolute items-center justify-between z-20 h-full pointer-events-none">
+              <div className="hidden md:flex w-full absolute items-center justify-between z-10 h-full pointer-events-none">
                 <button
                   onClick={() => handleArrowClick("prev")}
                   className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-gray-100 border border-gray-300 hover:bg-primary hover:text-white transition-colors shadow-md pointer-events-auto"
