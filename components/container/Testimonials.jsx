@@ -215,7 +215,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
           <div className="flex gap-10">
             <div className="flex items-center justify-between mb-6 md:mb-8">
               <div className="flex items-center gap-2 md:gap-4">
-                {logo.value.type === "image" && (
+                {logo.value.logoType === "image" && (
                   <div className="w-[120px] md:w-[160px] h-auto flex flex-col">
                     <Logo logo={logo} imagePath={imagePath} />
                   </div>
