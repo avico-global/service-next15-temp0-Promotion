@@ -207,7 +207,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
     <>
       <section className="testimonials-section pt-6 md:pt-6 bg-white">
         <Container className="mx-auto px-4 ">
-          <div className="text-center mb-6 md:mb-8">
+          <div className="text-center mb-6">
             <h2 className="text-2xl md:text-3xl font-extrabold text-[#002B5B] mb-2">
               Our Happy Clients
             </h2>
