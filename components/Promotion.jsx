@@ -144,7 +144,7 @@ const FullMonthPromotion = ({ prices }) => {
           <h2 className="text-4xl font-extrabold text-center text-blue-950 mb-12 tracking-tight">
             Full Month Promotion
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 w-full">
             {/* Left Card - Either Why Choose Us or Price3 */}
             {hasWhyChooseUs ? (
               <PromotionCard
