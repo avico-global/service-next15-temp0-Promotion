@@ -9,7 +9,7 @@ export default function OurServices({ phone, data, imagePath }) {
   return (
     <FullContainer>
       <Container>
-        <h2 className="text-3xl md:text-4xl font-extrabold text-center text-blue-900 mb-8 tracking-tight">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center text-[#002B5B] mb-8 tracking-tight">
           Services Provided
         </h2>
         <div className="grid grid-cols-2 md:gap-8 gap-4">
