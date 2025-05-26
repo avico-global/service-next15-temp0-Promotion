@@ -33,7 +33,12 @@ export default function PrivacyPolicy({
   const content = markdownIt.render(
     policy
       ?.replaceAll("##city_name##", city_name)
-      ?.replaceAll("##website##", `${domain}`) || ""
+      ?.replaceAll("##website##", `${domain}`)
+      ?.replaceAll("##phone##", `${contact_info?.phone}`)
+      ?.replaceAll("(805) 628-4877", `${contact_info?.phone}`)
+      ?.replaceAll("(408) 762-6429", `${contact_info?.phone}`)
+      ?.replaceAll("(408) 762-6407", `${contact_info?.phone}`)
+      ?.replaceAll("(408) 762-6323", `${contact_info?.phone}`)
   );
   const breadcrumbs = useBreadcrumbs();
   const router = useRouter();
