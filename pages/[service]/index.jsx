@@ -58,6 +58,7 @@ export default function Service({
   city_name,
   service_gallery_head,
   form_head,
+  features,
 }) {
   const router = useRouter();
   const { service } = router.query;
@@ -69,15 +70,26 @@ export default function Service({
         <meta charSet="UTF-8" />
         <title>
           {meta?.title
-            ?.replaceAll("##service##", capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " ")))
-            ?.replaceAll("##city_name##", capitalizeFirstLetterOfEachWord(city_name))}
+            ?.replaceAll(
+              "##service##",
+              capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " "))
+            )
+            ?.replaceAll(
+              "##city_name##",
+              capitalizeFirstLetterOfEachWord(city_name)
+            )}
         </title>
         <meta
           name="description"
           content={meta?.description
-            ?.replaceAll("##service##", capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " ")))
-            ?.replaceAll("##city_name##", capitalizeFirstLetterOfEachWord(city_name))
-          }
+            ?.replaceAll(
+              "##service##",
+              capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " "))
+            )
+            ?.replaceAll(
+              "##city_name##",
+              capitalizeFirstLetterOfEachWord(city_name)
+            )}
         />
         <link rel="author" href={`https://${domain}`} />
         <link rel="publisher" href={`https://${domain}`} />
@@ -122,6 +134,7 @@ export default function Service({
         imagePath={imagePath}
         contact_info={contact_info}
         form_head={form_head}
+        features={features?.value}
       />
       <FullContainer>
         <Container>

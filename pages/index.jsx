@@ -59,7 +59,7 @@ export default function Home({
         .then((data) => {
           const niche_name = data?.data?.domain_id?.niche_id?.name;
           setNiche(niche_name);
-          console.log("niche_name",data?.data?.domain_id?.niche_id?.name )
+          console.log("niche_name", data?.data?.domain_id?.niche_id?.name);
         })
         .catch((error) => {
           console.error("Error fetching project info:", error);
@@ -128,7 +128,7 @@ export default function Home({
           <Testimonials logo={logo} imagePath={imagePath} data={testimonials} />
         )}
 
-        <BeforeAfter  project_id={project_id} niche={niche} />
+        <BeforeAfter project_id={project_id} niche={niche} />
 
         <OurServices
           data={services}

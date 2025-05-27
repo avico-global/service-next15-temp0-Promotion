@@ -4,9 +4,22 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
-import { CheckCircle, ArrowRight, Loader, FileText } from "lucide-react";
+import {
+  CheckCircle,
+  ArrowRight,
+  Loader,
+  Clock,
+  Star,
+  Shield,
+  Award,
+  Trophy,
+  ThumbsUp,
+  Phone,
+  FileText,
+  MessageSquare,
+} from "lucide-react";
 
-export default function ServiceBanner({ image, data, form_head }) {
+export default function ServiceBanner({ image, data, form_head, features }) {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -15,6 +28,19 @@ export default function ServiceBanner({ image, data, form_head }) {
     zip: "",
     message: "",
   });
+
+  const iconMap = {
+    Clock,
+    Star,
+    Shield,
+    Award,
+    CheckCircle,
+    Trophy,
+    ThumbsUp,
+    Phone,
+    FileText,
+    MessageSquare,
+  };
 
   const router = useRouter();
   const { service } = router.query;
@@ -161,29 +187,21 @@ export default function ServiceBanner({ image, data, form_head }) {
               {data?.description}
             </p>
 
-            <ul className="flex flex-col gap-2 mb-6">
-              {data?.list?.map((item, index) => (
-                <li
-                  key={index}
-                  className="flex items-center text-base md:text-xl font-semibold gap-2"
-                >
-                  <svg
-                    className="w-5 h-5 text-green-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+            <ul className="mb-6 space-y-1 md:space-y-2">
+              {features?.map((feature, idx) => {
+                const IconComponent = iconMap[feature.icon];
+                return (
+                  <li
+                    key={idx}
+                    className="flex items-center gap-3 text-white font-medium text-base md:text-[17px]"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                  {item}
-                </li>
-              ))}
+                    {IconComponent && (
+                      <IconComponent className="w-5 h-5 text-white" />
+                    )}
+                    {feature.text}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -305,7 +323,7 @@ export default function ServiceBanner({ image, data, form_head }) {
                       </>
                     ) : (
                       <>
-                      <FileText className="w-5 h-5"/>
+                        <FileText className="w-5 h-5" />
                         GET A QUOTE
                         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                       </>
