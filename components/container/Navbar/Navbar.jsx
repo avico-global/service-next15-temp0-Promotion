@@ -51,16 +51,6 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
     }
   };
 
-  const scrollDropdown = () => {
-    const dropdown = document.querySelector(".dropdown-services-container");
-    if (dropdown) {
-      dropdown.scrollBy({
-        top: 200,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
     <FullContainer className="shadow-sm w-full sticky top-0 z-20 bg-white py-2 h-[82px] md:h-[112px]">
       <Container>
@@ -97,8 +87,8 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
               </button>
 
               <div
-                className={`absolute top-full left-0 w-auto min-w-[300px] bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] py-4 
-                transition-all duration-300 ease-in-out flex flex-col lg:max-h-[540px]
+                className={`absolute top-full left-0 w-auto min-w-[300px] bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)]
+                transition-all duration-300 ease-in-out flex flex-col
                 ${
                   showServices
                     ? "opacity-100 visible transform translate-y-0"
@@ -106,32 +96,30 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
                 }`}
               >
                 <div
-                  className="flex-grow dropdown-services-container overflow-y-auto scrollbar-hide"
+                  className="flex-grow dropdown-services-container"
                   style={{
                     scrollbarWidth: "none",
                     msOverflowStyle: "none",
                     "::-webkit-scrollbar": { display: "none" },
                   }}
                 >
-                  {data?.map((service, index) => (
-                    <Link
-                      title={service?.title}
-                      key={index}
-                      href={sanitizeUrl(service?.title)}
-                      className="text-black text-xl py-1 font-medium px-4 hover:bg-primary hover:text-white cursor-pointer transition-all duration-100 block"
-                    >
-                      {service?.title}
-                    </Link>
-                  ))}
-                </div>
-
-                <div className="sticky bottom-0 w-full bg-white py-2 mt-2 flex justify-center border-t">
-                  <div
-                    className="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer hover:bg-[#002B5B] transition-colors"
-                    onClick={scrollDropdown}
-                  >
-                    <ChevronDown className="w-5 h-5 text-white" />
-                  </div>
+                  {data?.map((service, index) => {
+                    const serviceUrl = sanitizeUrl(service?.title);
+                    return (
+                      <Link
+                        title={service?.title}
+                        key={index}
+                        href={serviceUrl}
+                        className={`text-xl py-1 font-semibold px-4 cursor-pointer transition-all duration-100 block ${
+                          pathname === `/${serviceUrl}`
+                            ? "bg-[#002B5B] text-white"
+                            : "text-black hover:bg-primary hover:text-white"
+                        }`}
+                      >
+                        {service?.title}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </div>
