@@ -25,6 +25,7 @@ import Link from "next/link";
 import { Phone, TextQuote } from "lucide-react";
 import { ScrollLink } from "react-scroll";
 import ServiceDescription from "@/components/container/services/ServiceDescription";
+import ServiceDescription1 from "@/components/container/services/ServicwDescription1";
 import ServiceText from "@/components/container/services/ServiceText";
 
 const capitalizeFirstLetterOfEachWord = (string) => {
@@ -56,6 +57,8 @@ export default function Service({
   service_text1,
   service_text2,
   service_description,
+  service_description1,
+
   city_name,
   service_gallery_head,
   form_head,
@@ -64,6 +67,8 @@ export default function Service({
   const router = useRouter();
   const { service } = router.query;
   const breadcrumbs = useBreadcrumbs();
+
+  console.log("SERVICE DESCRIPTION 1",service_description1)
 
   return (
     <div>
@@ -152,6 +157,17 @@ export default function Service({
           state_={state_}
         />
       )}
+
+{service_description1?.value && (
+        <ServiceDescription1
+          data={service_description1?.value}
+          contact_info={contact_info}
+          service={service}
+          city_name={city_name}
+         
+        />
+      )}
+
       <Gallery
         contact_info={contact_info}
         gallery={gallery}
@@ -203,6 +219,8 @@ export default function Service({
 
 export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
+  console.log("Current domain:", domain);
+  
   const faqs = await callBackendApi({ domain, tag: "faqs" });
   const service_text1 = await callBackendApi({ domain, tag: "service_text1" });
   const service_text2 = await callBackendApi({ domain, tag: "service_text2" });
@@ -238,6 +256,15 @@ export async function getServerSideProps({ req }) {
     domain,
     tag: "service_description",
   });
+  
+  const service_description1 = await callBackendApi({
+    domain,
+    tag: "service_description1",
+  });
+  console.log("Service Description1 Raw Response:", service_description1);
+  console.log("Service Description1 Data:", service_description1?.data);
+  console.log("Service Description1 Value:", service_description1?.data?.[0]?.value);
+
   const city_name = await callBackendApi({
     domain,
     tag: "city_name",
@@ -282,6 +309,8 @@ export async function getServerSideProps({ req }) {
       footer: footer?.data[0] || null,
       locations: locations?.data[0]?.value || [],
       service_description: service_description?.data[0] || null,
+      service_description1: service_description1?.data[0] || null,
+
       city_name: city_name?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
     },
