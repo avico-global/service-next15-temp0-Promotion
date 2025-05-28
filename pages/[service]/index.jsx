@@ -50,6 +50,7 @@ export default function Service({
   locations,
   service_banner,
   gallery_head,
+  state_,
   faqs,
   gtmId,
   service_text1,
@@ -148,6 +149,7 @@ export default function Service({
           contact_info={contact_info}
           service={service}
           city_name={city_name}
+          state_={state_}
         />
       )}
       <Gallery
@@ -244,6 +246,10 @@ export async function getServerSideProps({ req }) {
     domain,
     tag: "form_head",
   });
+  const state_ = await callBackendApi({
+    domain,
+    tag: "state_",
+  });
 
   robotsTxt({ domain });
 
@@ -259,6 +265,7 @@ export async function getServerSideProps({ req }) {
       gtmId: gtmId?.data[0]?.value || null,
       gtm_head: gtm_head?.data[0]?.value || null,
       gtm_body: gtm_body?.data[0]?.value || null,
+      state_: state_?.data[0]?.value || null,
 
       domain,
       imagePath,
