@@ -43,7 +43,7 @@ export default function ServiceDescription2({
               dangerouslySetInnerHTML={{ __html: content }}
             />
           </div>
-          <div className="flex flex-wrap justify-center items-center gap-4 lg:gap-6 pt-6">
+          <div className="flex flex-wrap justify-center text-center items-center gap-4 lg:gap-6 pt-6">
             <CallButton phone={contact_info?.phone} />
             <QuoteButton phone={contact_info?.phone} />
           </div>

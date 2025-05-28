@@ -195,7 +195,10 @@ export default function Service({
         service={service}
         data2={service_text2}
       />
+      <div id="quote-form-section">
+
       <Contact contact_info={contact_info} />
+      </div>
 
       <FAQs faqs={faqs} />
 
