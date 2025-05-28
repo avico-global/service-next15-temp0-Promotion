@@ -185,6 +185,7 @@ export default function Service({
           contact_info={contact_info}
           service={service}
           city_name={city_name}
+          state_={state_}
         />
       )}
 
