@@ -2,6 +2,8 @@ import React from "react";
 import Container from "../../common/Container";
 import FullContainer from "../../common/FullContainer";
 import MarkdownIt from "markdown-it";
+import CallButton from "../../CallButton";
+import QuoteButton from "../../QuoteButton";
 
 const capitalizeFirstLetterOfEachWord = (string) => {
   return string
@@ -10,10 +12,11 @@ const capitalizeFirstLetterOfEachWord = (string) => {
     ?.join(" ");
 };
 
-export default function ServiceDescription1({
+export default function ServiceDescription2({
   data,
   service,
   city_name,
+  contact_info,
   state_,
 }) {
   const markdown = new MarkdownIt();
@@ -33,14 +36,18 @@ export default function ServiceDescription1({
   return (
     <FullContainer className="py-6 md:py-8">
       <Container className="">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mx-4 md:mx-0">
           <div className="py-5">
             <div
               className=" mx-auto max-w-full  prose text-primary"
               dangerouslySetInnerHTML={{ __html: content }}
             />
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-4 lg:gap-6 pt-6">
+            <CallButton phone={contact_info?.phone} />
+            <QuoteButton phone={contact_info?.phone} />
+          </div>
         </div>
-
-        
       </Container>
     </FullContainer>
   );
