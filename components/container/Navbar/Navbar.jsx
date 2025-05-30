@@ -140,18 +140,18 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
 
           <div className=" flex items-center justify-end flex-row">
             <div className="flex flex-col gap-1 md:gap-2 justify-center items-center">
-              <div className="">
+              <div className=" text-xs ">
                 <CallButton phone={contact_info?.phone} />
               </div>
               <h2
-                className={`text-primary font-bold text-lg md:text-[25px] font-barlow leading-none`}
+                className={`text-primary font-bold lg:text-lg md:text-[25px] font-barlow leading-none`}
               >
                 Call Us Today
               </h2>
             </div>
 
             <div
-              className="hidden text-white pl-5 cursor-pointer"
+              className="lg:hidden text-white pl-5 cursor-pointer"
               onClick={toggleMenu}
             >
               {isOpen ? (
