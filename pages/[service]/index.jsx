@@ -61,15 +61,15 @@ export default function Service({
   service_description1,
   service_description2,
   city_name,
-  service_gallery_head,
+  service_why,
   form_head,
   features,
+  background,
 }) {
   const router = useRouter();
   const { service } = router.query;
   const breadcrumbs = useBreadcrumbs();
 
-  console.log("SERVICE DESCRIPTION 1", service_description1);
 
   return (
     <div>
@@ -163,10 +163,11 @@ export default function Service({
       <Gallery
         contact_info={contact_info}
         gallery={gallery}
-        imagePath={imagePath}
         service={service}
-        data={service_gallery_head}
+        data={service_why?.value}
         city_name={city_name}
+        file_names={service_why?.file_names}
+        imagePath={imagePath}
       />
 
       {service_description1?.value && (
@@ -235,9 +236,9 @@ export default function Service({
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps({ req, params }) {
   const domain = getDomain(req?.headers?.host);
-  console.log("Current domain:", domain);
+  const { service } = params; // Extract service name from route parameters
 
   const faqs = await callBackendApi({ domain, tag: "faqs" });
   const service_text1 = await callBackendApi({ domain, tag: "service_text1" });
@@ -262,10 +263,15 @@ export async function getServerSideProps({ req }) {
   const favicon = await callBackendApi({ domain, tag: "favicon" });
   const footer = await callBackendApi({ domain, tag: "footer" });
   const locations = await callBackendApi({ domain, tag: "locations" });
-  const service_gallery_head = await callBackendApi({
+  
+  // Updated tag pattern: service-why-furnace-{servicename}
+  const service_why = await callBackendApi({
     domain,
-    tag: "service_gallery_head",
+    tag: `service-why-${service}`,
   });
+
+console.log("Service Image", service_why?.data[0]?.file_names)
+
   const service_banner = await callBackendApi({
     domain,
     tag: "service_banner",
@@ -304,7 +310,7 @@ export async function getServerSideProps({ req }) {
     props: {
       contact_info: contact_info?.data[0]?.value || null,
       gallery_head: gallery_head?.data[0]?.value || null,
-      service_gallery_head: service_gallery_head?.data[0]?.value || null,
+      service_why: service_why?.data[0] || null,
       faqs: faqs?.data[0]?.value || null,
       service_text1: service_text1?.data[0]?.value || null,
       service_text2: service_text2?.data[0]?.value || null,

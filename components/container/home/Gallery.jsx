@@ -6,6 +6,8 @@ import QuoteButton from "@/components/QuoteButton";
 import FullContainer from "@/components/common/FullContainer";
 import Heading from "@/components/common/Heading";
 import MarkdownIt from "markdown-it";
+import Link from "next/link";
+import { Phone } from "lucide-react";
 
 export default function Gallery({
   contact_info,
@@ -14,6 +16,7 @@ export default function Gallery({
   data,
   service,
   city_name,
+  file_names,
 }) {
   const markdown = new MarkdownIt();
   const capitalizeFirstLetterOfEachWord = (string) => {
@@ -35,37 +38,50 @@ export default function Gallery({
     : "";
 
   return (
-    <FullContainer className="pt-10 md:pt-4 pb-0 md:pb-12 ">
-      <Container className="!px-2 md:!px-4">
+    <FullContainer className="pt-10 md:pt-16 pb-10 md:pb-16 ">
+      <Container className="!px-4 md:!px-8">
         {data && (
           <div
-            className="w-full prose prose-h3:!text-center prose-p:!text-center max-w-none text-primary"
+            className="w-full prose prose-h1:!text-center prose-h2:!text-center prose-h3:!text-center prose-p:!text-center max-w-none text-primary prose-h1:!text-4xl md:prose-h1:!text-5xl prose-h1:!font-bold prose-h1:!text-blue-900 prose-p:!text-lg prose-p:!leading-relaxed prose-p:!mb-8"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         )}
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 gap-y-4 md:gap-y-6 md:gap-5 mb-4 md:mb-12 w-full md:px-5">
-          {gallery?.map((image, index) => (
-            <div
-              key={index}
-              className="relative rounded-t-2xl aspect-[4/2.71] overflow-hidden w-full"
-            >
-              <Image
-                title={`Gallery Image ${index + 1}`}
-                src={`${imagePath}/${image.image}`}
-                alt={`Gallery Image ${index + 1}`}
-                height={1000}
-                width={1000}
-                className="object-cover hover:scale-105 h-full w-full transition-transform duration-500"
-              />
-            </div>
-          ))}
-        </div>
+        {file_names && file_names.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-8">
+            {file_names.map((fileName, index) => (
+              <div
+                key={index}
+              className="relative group overflow-hidden rounded-lg "
+              >
+                <div className="aspect-[4/3] relative">
+                  <Image
+                    title={`Gallery Image ${index + 1}`}
+                    src={`${imagePath}/${fileName}`}
+                    alt={`Gallery Image ${index + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover  transition-transform duration-300"
+                  />
+                </div>
+                
+                {/* Call Button Below Image */}
+                <div className="p-4 ">
+                  <div className="flex justify-center">
+                    <Link
+                      href={`tel:${contact_info?.phone}`}
+                      className="flex items-center justify-center gap-2 bg-blue-900 hover:bg-blue-800 text-white py-3 px-6 rounded-full font-bold text-lg transition-colors duration-200 "
+                    >
+                      <Phone className="w-5 h-5" />
+                      {contact_info?.phone || "(408) 762-6429"}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
-        <div className="hidden md:flex w-full justify-center items-center gap-4">
-          <CallButton phone={contact_info?.phone} />
-          <QuoteButton phone={contact_info?.phone} />
-        </div>
       </Container>
     </FullContainer>
   );
