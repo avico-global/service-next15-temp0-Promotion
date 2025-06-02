@@ -121,6 +121,7 @@ export default function Home({
           contact_info={contact_info}
           form_head={form_head}
           features={features?.value}
+          niche={niche}
         />
 
         <FullMonthPromotion why_us={why_us} prices={prices} />
