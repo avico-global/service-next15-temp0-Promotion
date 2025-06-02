@@ -49,40 +49,30 @@ export default function Banner({ image, data, form_head, features, niche }) {
 
       <Container className="py-10 md:py-20 font-barlow relative z-10">
         <div className="w-full grid grid-cols-1 md:grid-cols-banner gap-2 md:gap-[66px] text-white">
-          <div className="relative flex flex-col justify-center">
-            <div className="flex items-center gap-3 pl-3">
-              {" "}
-              <div className="bg-gradient-to-br  from-blue-800 to-sky-300 rounded-full text-5xl md:text-7xl font-bold aspect-square h-28 md:h-32 w-28 md:w-32 flex items-center justify-center">
+          <div className="relative flex flex-col justify-center text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-3 md:pl-0">
+              <div className="bg-gradient-to-br  from-blue-800 to-sky-300 rounded-full text-6xl md:text-8xl font-bold aspect-square h-32 md:h-36 w-32 md:w-36 flex items-center justify-center">
                 <sup className="text-3xl">$</sup>
                 {data?.price || "80"}
               </div>
-              {niche?.toLowerCase()?.replaceAll("-", " ") ===
-                "carpet cleaning" && (
-                <div className="bg-white rounded-full text-sm py-1 px-3 shadow-md text-center uppercase w-fit text-primary flex items-center justify-center font-bold gap-2">
-                  <Truck className="w-4 h-4" strokeWidth={3} />
-                  Free pickup and delivery
-                </div>
-              )}
             </div>
 
             {niche?.toLowerCase()?.replaceAll("-", " ") !==
               "carpet cleaning" && (
-              <p className="text-xl md:text-3xl font-semibold mt-3 text-[#90D4E1] px-4">
+              <p className="text-xl md:text-3xl font-semibold mt-3 text-white">
                 Special Complete Inspection
               </p>
             )}
 
-            <h1 className="font-[900] uppercase text-[28px] mt-3 px-4 md:px-0 md:text-6xl leading-tight text-shadow-lg">
+            <h1 className="font-[900] uppercase text-4xl mt-3 md:text-6xl leading-tight text-shadow-lg">
               {data?.title}
             </h1>
-            <h2 className="text-[28px] md:px-0 md:text-6xl uppercase font-[900] leading-tight text-[#90D4E1] mt-2 px-4">
+            <h2 className="text-3xl md:text-6xl uppercase font-[900] leading-tight text-white mt-2">
               {data?.tagline}
             </h2>
-            <p className="text-[16px] md:text-3xl mb-1 px-4">
-              {data?.description}
-            </p>
+            <p className="text-lg md:text-3xl mb-1">{data?.description}</p>
 
-            <ul className="mb-9 space-y-1 md:space-y-2 px-4">
+            <ul className="mb-9 space-y-1 md:space-y-2 mx-auto md:mx-0">
               {features?.map((feature, idx) => {
                 const IconComponent = iconMap[feature.icon];
                 return (
