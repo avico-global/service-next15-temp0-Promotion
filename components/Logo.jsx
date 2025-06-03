@@ -54,7 +54,7 @@ const Logo = ({ logo, imagePath }) => {
 
   const logoStyle = {
     height: windowWidth >= 768 ? `${dynamicLogoHeight}px` : "auto",
-    width: windowWidth >= 768 ? `${logoWidth}px` : 148,
+    width: windowWidth >= 768 ? "auto" : 148,
     maxWidth: "100%",
   };
 

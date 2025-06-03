@@ -6,7 +6,7 @@ import QuoteButton from "../../QuoteButton";
 import MarkdownIt from "markdown-it";
 
 export default function ServiceText({
-  contact_info,
+  phone,
   data = " ",
   service,
   data2 = " ",
@@ -63,8 +63,8 @@ export default function ServiceText({
               />
             </div>
             <div className="hidden  md:flex flex-wrap w-full justify-start items-center md:justify-center gap-4 lg:gap-7 pt-4">
-              <CallButton phone={contact_info?.phone} />
-              <QuoteButton phone={contact_info?.phone} />
+              <CallButton phone={phone} />
+              <QuoteButton phone={phone} />
             </div>
           </div>
         )}

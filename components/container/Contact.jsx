@@ -24,58 +24,61 @@ export default function Contact() {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     // Name validation
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
     }
-    
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim() || !emailRegex.test(formData.email)) {
       newErrors.email = "Valid email is required";
     }
-    
+
     // Phone validation (updated to match QuoteForm)
-    if (!formData.phone.trim() || !validatePhone(formData.phone.replace(/[-()\s]/g, ''))) {
+    if (
+      !formData.phone.trim() ||
+      !validatePhone(formData.phone.replace(/[-()\s]/g, ""))
+    ) {
       newErrors.phone = "Phone number must be exactly 10 digits";
     }
-    
+
     // Zipcode validation
     const zipRegex = /^\d{5}(-\d{4})?$/;
     if (!formData.zipcode.trim() || !zipRegex.test(formData.zipcode)) {
       newErrors.zipcode = "Valid zipcode is required";
     }
-    
+
     // Message validation
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsSubmitting(true);
 
     try {
       // Split name into first and last name for API compatibility
-      const nameParts = formData.name.trim().split(' ');
-      const firstName = nameParts[0] || '';
-      const lastName = nameParts.slice(1).join(' ') || '';
+      const nameParts = formData.name.trim().split(" ");
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.slice(1).join(" ") || "";
 
       const payload = {
         first_name: firstName,
         last_name: lastName,
         email: formData.email,
-        phone: formData.phone.replace(/[-()\s]/g, ''), // Clean phone number
+        phone: formData.phone.replace(/[-()\s]/g, ""), // Clean phone number
         message: formData.message,
         zipcode: formData.zipcode, // Additional field for contact form
       };
@@ -135,32 +138,40 @@ export default function Contact() {
       ...prev,
       [name]: value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: null
+        [name]: null,
       }));
     }
   };
 
   const FormSuccess = () => (
-    <div className="h-full flex flex-col items-center justify-center text-center py-12" role="alert" aria-live="polite">
+    <div
+      className="h-full flex flex-col items-center justify-center text-center py-12"
+      role="alert"
+      aria-live="polite"
+    >
       <div className="h-24 w-24 bg-green-100 rounded-full flex items-center justify-center mb-8">
         <CheckCircle className="h-12 w-12 text-green-600" />
       </div>
-      <h3 className="text-3xl font-bold text-white mb-4">
-        Thank You!
-      </h3>
+      <h3 className="text-3xl font-bold text-white mb-4">Thank You!</h3>
       <p className="text-white text-xl max-w-md">
-        Your request has been submitted successfully. We'll contact
-        you shortly with your personalized quote.
+        Your request has been submitted successfully. We'll contact you shortly
+        with your personalized quote.
       </p>
     </div>
   );
 
-  const FormField = ({ label, name, type = "text", placeholder, required = true }) => (
+  const FormField = ({
+    label,
+    name,
+    type = "text",
+    placeholder,
+    required = true,
+  }) => (
     <div>
       <label htmlFor={name} className="block text-lg font-bold mb-1">
         {label} {required && <span className="text-red-300">*</span>}
@@ -222,33 +233,37 @@ export default function Contact() {
                   <h3 className="text-[25px] leading-none md:text-4xl md:leading-7 font-bold mb-7 text-white text-center">
                     Ask For A Quote Here
                   </h3>
-                  <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                  <form
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                    noValidate
+                  >
                     <div className="grid md:grid-cols-2 gap-4">
-                      <FormField 
+                      <FormField
                         label="Name"
                         name="name"
                         placeholder="Your full name"
                       />
-                      <FormField 
+                      <FormField
                         label="Email"
                         name="email"
                         type="email"
                         placeholder="your@email.com"
                       />
-                      <FormField 
+                      <FormField
                         label="Phone Number"
                         name="phone"
                         type="tel"
                         placeholder="(123) 456-7890"
                       />
-                      <FormField 
+                      <FormField
                         label="Zip Code"
                         name="zipcode"
                         placeholder="12345"
                       />
                     </div>
-                    
-                    <FormField 
+
+                    <FormField
                       label="How can we help you?"
                       name="message"
                       type="textarea"

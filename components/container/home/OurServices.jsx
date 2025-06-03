@@ -5,7 +5,6 @@ import React from "react";
 const PLACEHOLDER = "/placeholder-service.jpg"; // Place a placeholder image in your public folder
 
 export default function OurServices({ phone, data, imagePath }) {
-  console.log("data", data);
   return (
     <FullContainer>
       <Container>

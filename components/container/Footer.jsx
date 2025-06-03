@@ -10,7 +10,13 @@ import image3 from "../../public/st-images/footer3.png";
 import image4 from "../../public/st-images/footer4.png";
 import image5 from "../../public/st-images/footer5.png";
 
-export default function Footer({ imagePath, data, contact_info, domain }) {
+export default function Footer({
+  imagePath,
+  data,
+  contact_info,
+  domain,
+  phone,
+}) {
   const companies = [image1, image2, image3, image4, image5];
 
   return (
@@ -62,10 +68,10 @@ export default function Footer({ imagePath, data, contact_info, domain }) {
                     </div>
                     <Link
                       title="Call Button"
-                      href={`tel:${contact_info?.phone}`}
+                      href={`tel:${phone}`}
                       className="text-white text-sm md:text-[15px]"
                     >
-                      {contact_info?.phone || "(656) 245-0412"}
+                      {phone || "(656) 245-0412"}
                     </Link>
                   </li>
                   <li className="flex items-center gap-1.5">

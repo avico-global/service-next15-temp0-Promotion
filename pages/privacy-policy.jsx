@@ -28,17 +28,18 @@ export default function PrivacyPolicy({
   policy,
   contact_info,
   city_name,
+  phone,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(
     policy
       ?.replaceAll("##city_name##", city_name)
       ?.replaceAll("##website##", `${domain}`)
-      ?.replaceAll("##phone##", `${contact_info?.phone}`)
-      ?.replaceAll("(805) 628-4877", `${contact_info?.phone}`)
-      ?.replaceAll("(408) 762-6429", `${contact_info?.phone}`)
-      ?.replaceAll("(408) 762-6407", `${contact_info?.phone}`)
-      ?.replaceAll("(408) 762-6323", `${contact_info?.phone}`)
+      ?.replaceAll("##phone##", `${phone}`)
+      ?.replaceAll("(805) 628-4877", `${phone}`)
+      ?.replaceAll("(408) 762-6429", `${phone}`)
+      ?.replaceAll("(408) 762-6407", `${phone}`)
+      ?.replaceAll("(408) 762-6323", `${phone}`)
   );
   const breadcrumbs = useBreadcrumbs();
   const router = useRouter();
@@ -92,7 +93,7 @@ export default function PrivacyPolicy({
       <Navbar
         logo={logo}
         imagePath={imagePath}
-        contact_info={contact_info}
+        phone={phone}
         services={services}
       />
 
@@ -113,6 +114,7 @@ export default function PrivacyPolicy({
         logo={logo}
         imagePath={imagePath}
         contact_info={contact_info}
+        phone={phone}
       />
     </main>
   );
@@ -143,6 +145,28 @@ export async function getServerSideProps({ req }) {
   const contact_info = await callBackendApi({ domain, tag: "contact_info" });
   const city_name = await callBackendApi({ domain, tag: "city_name" });
 
+  let project;
+  if (project_id) {
+    try {
+      const projectInfoResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/get_project_info/${project_id}`
+      );
+
+      if (projectInfoResponse.ok) {
+        const projectInfoData = await projectInfoResponse.json();
+        project = projectInfoData?.data || null;
+        console.log("project (server-side):", project);
+      } else {
+        console.error(
+          "Failed to fetch project info:",
+          projectInfoResponse.status
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching project info:", error);
+    }
+  }
+
   robotsTxt({ domain });
 
   return {
@@ -168,6 +192,7 @@ export async function getServerSideProps({ req }) {
       gtmId: gtmId?.data[0]?.value || null,
       contact_info: contact_info?.data[0]?.value || null,
       city_name: city_name?.data[0]?.value || null,
+      phone: project?.phone || null,
     },
   };
 }

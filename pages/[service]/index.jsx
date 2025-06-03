@@ -65,11 +65,11 @@ export default function Service({
   form_head,
   features,
   background,
+  phone,
 }) {
   const router = useRouter();
   const { service } = router.query;
   const breadcrumbs = useBreadcrumbs();
-
 
   return (
     <div>
@@ -128,18 +128,13 @@ export default function Service({
         />
       </Head>
 
-      <Navbar
-        logo={logo}
-        imagePath={imagePath}
-        contact_info={contact_info}
-        data={services}
-      />
+      <Navbar logo={logo} imagePath={imagePath} phone={phone} data={services} />
 
       <ServiceBanner
         data={service_banner?.value}
         image={`${imagePath}/${service_banner?.file_name}`}
         imagePath={imagePath}
-        contact_info={contact_info}
+        phone={phone}
         form_head={form_head}
         features={features?.value}
       />
@@ -153,7 +148,7 @@ export default function Service({
         <ServiceDescription
           data={service_description?.value}
           image={`${imagePath}/${service_banner?.file_name}`}
-          contact_info={contact_info}
+          phone={phone}
           service={service}
           city_name={city_name}
           state_={state_}
@@ -161,7 +156,7 @@ export default function Service({
       )}
 
       <Gallery
-        contact_info={contact_info}
+        phone={phone}
         gallery={gallery}
         service={service}
         data={service_why?.value}
@@ -173,7 +168,6 @@ export default function Service({
       {service_description1?.value && (
         <ServiceDescription1
           data={service_description1?.value}
-          contact_info={contact_info}
           service={service}
           city_name={city_name}
           state_={state_}
@@ -183,7 +177,7 @@ export default function Service({
       {service_description2?.value && (
         <ServiceDescription2
           data={service_description2?.value}
-          contact_info={contact_info}
+          phone={phone}
           service={service}
           city_name={city_name}
           state_={state_}
@@ -191,14 +185,13 @@ export default function Service({
       )}
 
       <ServiceText
-        contact_info={contact_info}
+        phone={phone}
         data={service_text1}
         service={service}
         data2={service_text2}
       />
       <div id="quote-form-section">
-
-      <Contact contact_info={contact_info} />
+        <Contact />
       </div>
 
       <FAQs faqs={faqs} />
@@ -210,6 +203,7 @@ export default function Service({
         logo={logo}
         imagePath={imagePath}
         contact_info={contact_info}
+        phone={phone}
       />
 
       {/* Fixed Call Button */}
@@ -263,14 +257,14 @@ export async function getServerSideProps({ req, params }) {
   const favicon = await callBackendApi({ domain, tag: "favicon" });
   const footer = await callBackendApi({ domain, tag: "footer" });
   const locations = await callBackendApi({ domain, tag: "locations" });
-  
+
   // Updated tag pattern: service-why-furnace-{servicename}
   const service_why = await callBackendApi({
     domain,
     tag: `service-why-${service}`,
   });
 
-console.log("Service Image", service_why?.data[0]?.file_names)
+  console.log("Service Image", service_why?.data[0]?.file_names);
 
   const service_banner = await callBackendApi({
     domain,
@@ -303,6 +297,28 @@ console.log("Service Image", service_why?.data[0]?.file_names)
     domain,
     tag: "state_",
   });
+
+  let project;
+  if (project_id) {
+    try {
+      const projectInfoResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/get_project_info/${project_id}`
+      );
+
+      if (projectInfoResponse.ok) {
+        const projectInfoData = await projectInfoResponse.json();
+        project = projectInfoData?.data || null;
+        console.log("project (server-side):", project);
+      } else {
+        console.error(
+          "Failed to fetch project info:",
+          projectInfoResponse.status
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching project info:", error);
+    }
+  }
 
   robotsTxt({ domain });
 
@@ -339,6 +355,7 @@ console.log("Service Image", service_why?.data[0]?.file_names)
       service_description2: service_description2?.data[0] || null,
       city_name: city_name?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
+      phone: project?.phone || null,
     },
   };
 }

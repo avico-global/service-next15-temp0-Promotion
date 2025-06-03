@@ -50,6 +50,7 @@ export default function Home({
   slogan_1,
   form_head,
   city_name,
+  phone,
 }) {
   const [niche, setNiche] = useState(null);
   useEffect(() => {
@@ -57,15 +58,26 @@ export default function Home({
       fetch(`/api/get-project-info?id=${project_id}`)
         .then((response) => response.json())
         .then((data) => {
+          console.log("Full API response:", data);
+          console.log("Data object:", data?.data);
+          console.log("Looking for domain_id:", data?.data?.domain_id);
+
+          // Based on your API response, it looks like the niche/industry info might be here:
+          console.log("Industry info:", data?.data?.industry_id);
+          console.log("Industry name:", data?.data?.industry_id?.industry_name);
+
           const niche_name = data?.data?.domain_id?.niche_id?.name;
+          console.log("Extracted niche_name:", niche_name);
+
           setNiche(niche_name);
-          console.log("niche_name", data?.data?.domain_id?.niche_id?.name);
         })
         .catch((error) => {
           console.error("Error fetching project info:", error);
         });
     }
   }, [project_id, niche]);
+
+  console.log("phone", phone);
 
   return (
     <div className="bg-white">
@@ -111,14 +123,14 @@ export default function Home({
         <Navbar
           logo={logo}
           imagePath={imagePath}
-          contact_info={contact_info}
+          phone={phone}
           data={services}
         />
         <Banner
           data={banner?.value}
           image={`${imagePath}/${banner?.file_name}`}
           imagePath={imagePath}
-          contact_info={contact_info}
+          phone={phone}
           form_head={form_head}
           features={features?.value}
           niche={niche}
@@ -131,24 +143,19 @@ export default function Home({
 
         <BeforeAfter project_id={project_id} niche={niche} />
 
-        <OurServices
-          data={services}
-          phone={contact_info?.phone}
-          imagePath={imagePath}
-        />
+        <OurServices data={services} phone={phone} imagePath={imagePath} />
 
         <WhyChoose
           data={features?.value}
           image={`${imagePath}/${features?.file_name}`}
-          contact_info={contact_info}
-          phone={contact_info?.phone}
+          phone={phone}
         />
 
         {/* <Gallery
           data={gallery_head}
           gallery={gallery}
           imagePath={imagePath}
-          contact_info={contact_info}
+          phone={phone}
         /> */}
 
         {/* Slogan 1 */}
@@ -171,13 +178,13 @@ export default function Home({
         />
 
         <ServiceBenefits
-          contact_info={contact_info}
+          phone={phone}
           data={benefits?.value}
           image={`${imagePath}/${benefits?.file_name}`}
         />
 
         <div id="contact-us">
-          <Contact contact_info={contact_info} />
+          <Contact />
         </div>
         <FAQs faqs={faqs} />
         <ServiceCities data={locations} />
@@ -187,6 +194,7 @@ export default function Home({
           logo={logo}
           imagePath={imagePath}
           contact_info={contact_info}
+          phone={phone}
         />
       </div>
 
@@ -195,7 +203,7 @@ export default function Home({
         <div className="w-full bg-gradient-to-b from-green-700 via-lime-600 to-green-600 rounded-md flex flex-col items-center justify-center py-3">
           <Link
             title="Call Button"
-            href={`tel:${contact_info?.phone}`}
+            href={`tel:${phone}`}
             className="flex flex-col text-white items-center justify-center w-full font-barlow"
           >
             <div className="flex items-center mb-1">
@@ -205,7 +213,7 @@ export default function Home({
               </div>
             </div>
             <div className="text-3xl font-semibold">
-              {contact_info?.phone ? contact_info?.phone : "Contact Us"}
+              {phone ? phone : "Contact Us"}
             </div>
           </Link>
         </div>
@@ -244,6 +252,28 @@ export async function getServerSideProps({ req }) {
   const form_head = await callBackendApi({ domain, tag: "form_head" });
   const city_name = await callBackendApi({ domain, tag: "city_name" });
 
+  let project;
+  if (project_id) {
+    try {
+      const projectInfoResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/get_project_info/${project_id}`
+      );
+
+      if (projectInfoResponse.ok) {
+        const projectInfoData = await projectInfoResponse.json();
+        project = projectInfoData?.data || null;
+        console.log("project (server-side):", project);
+      } else {
+        console.error(
+          "Failed to fetch project info:",
+          projectInfoResponse.status
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching project info:", error);
+    }
+  }
+
   robotsTxt({ domain });
 
   // Keep secret variables server-side only
@@ -272,6 +302,7 @@ export async function getServerSideProps({ req }) {
       slogan_1: slogan_1?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
       city_name: city_name?.data[0]?.value || null,
+      phone: project?.phone || null,
     },
   };
 }

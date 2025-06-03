@@ -1,24 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "../../common/Container";
 import Link from "next/link";
 import { Phone, ChevronDown, Menu, X } from "lucide-react";
 import FullContainer from "../../common/FullContainer";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Logo from "@/components/Logo";
 import { sanitizeUrl } from "@/lib/myFun";
 import CallButton from "@/components/CallButton";
 
-export default function Navbar({ logo, imagePath, contact_info, data }) {
+export default function Navbar({ logo, imagePath, phone, data }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showServices, setShowServices] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const router = useRouter();
+  const pathname = router.pathname;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  const router = useRouter();
-  const pathname =
-    typeof window !== "undefined" ? window.location.pathname : "/";
 
   const navLinks = [
     { title: "Locations", link: "locations" },
@@ -50,6 +54,31 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
       }, 500);
     }
   };
+
+  // Don't render anything until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <FullContainer className="shadow-sm w-full sticky top-0 z-20 bg-white py-2 h-[82px] md:h-[112px]">
+        <Container>
+          <div className="flex flex-row justify-between h-full items-center w-full md:pr-8">
+            <div className="h-full flex items-center justify-center">
+              <Logo logo={logo} imagePath={imagePath} />
+            </div>
+            <div className="flex items-center justify-end flex-row">
+              <div className="flex flex-col gap-1 md:gap-2 justify-center items-center">
+                <div className="text-xs">
+                  <CallButton phone={phone} />
+                </div>
+                <h2 className="text-primary font-bold lg:text-lg md:text-[25px] font-barlow leading-none">
+                  Call Us Today
+                </h2>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </FullContainer>
+    );
+  }
 
   return (
     <FullContainer className="shadow-sm w-full sticky top-0 z-20 bg-white py-2 h-[82px] md:h-[112px]">
@@ -96,12 +125,7 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
                 }`}
               >
                 <div
-                  className="flex-grow dropdown-services-container"
-                  style={{
-                    scrollbarWidth: "none",
-                    msOverflowStyle: "none",
-                    "::-webkit-scrollbar": { display: "none" },
-                  }}
+                  className="flex-grow dropdown-services-container scrollbar-hide"
                 >
                   {data?.map((service, index) => {
                     const serviceUrl = sanitizeUrl(service?.title);
@@ -141,7 +165,7 @@ export default function Navbar({ logo, imagePath, contact_info, data }) {
           <div className=" flex items-center justify-end flex-row">
             <div className="flex flex-col gap-1 md:gap-2 justify-center items-center">
               <div className=" text-xs ">
-                <CallButton phone={contact_info?.phone} />
+                <CallButton phone={phone} />
               </div>
               <h2
                 className={`text-primary font-bold lg:text-lg md:text-[25px] font-barlow leading-none`}

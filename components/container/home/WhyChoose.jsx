@@ -16,7 +16,7 @@ import {
 import FullContainer from "@/components/common/FullContainer";
 import Link from "next/link";
 
-export default function WhyChoose({ image, contact_info, phone, data }) {
+export default function WhyChoose({ image, phone, data }) {
   const iconMap = {
     Clock,
     Star,
@@ -57,7 +57,7 @@ export default function WhyChoose({ image, contact_info, phone, data }) {
             </ul>
             <div className="flex flex-col sm:flex-row gap-4 w-full mt-2">
               <a
-                href={`tel:${contact_info?.phone}`}
+                href={`tel:${phone}`}
                 className="flex items-center justify-center sm:justify-start gap-2 px-6 py-3 rounded-full bg-[#1A2956] text-white font-semibold text-lg shadow hover:bg-[#22397a] transition-all"
               >
                 <Phone className="w-5 h-5" />

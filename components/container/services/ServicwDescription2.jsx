@@ -16,7 +16,7 @@ export default function ServiceDescription2({
   data,
   service,
   city_name,
-  contact_info,
+  phone,
   state_,
 }) {
   const markdown = new MarkdownIt();
@@ -44,8 +44,8 @@ export default function ServiceDescription2({
             />
           </div>
           <div className="flex flex-wrap justify-center text-center items-center gap-4 lg:gap-6 pt-6">
-            <CallButton phone={contact_info?.phone} />
-            <QuoteButton phone={contact_info?.phone} />
+            <CallButton phone={phone} />
+            <QuoteButton phone={phone} />
           </div>
         </div>
       </Container>

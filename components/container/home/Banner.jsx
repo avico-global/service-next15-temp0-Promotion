@@ -14,12 +14,9 @@ import {
   Phone,
   FileText,
   MessageSquare,
-  Truck,
 } from "lucide-react";
 
 export default function Banner({ image, data, form_head, features, niche }) {
-  console.log("Form Head", form_head);
-
   const iconMap = {
     Clock,
     Star,

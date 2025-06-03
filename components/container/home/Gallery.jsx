@@ -1,17 +1,13 @@
 import React from "react";
-import Image from "next/image";
-import Container from "../../common/Container";
-import CallButton from "@/components/CallButton";
-import QuoteButton from "@/components/QuoteButton";
-import FullContainer from "@/components/common/FullContainer";
-import Heading from "@/components/common/Heading";
-import MarkdownIt from "markdown-it";
 import Link from "next/link";
+import Image from "next/image";
 import { Phone } from "lucide-react";
+import MarkdownIt from "markdown-it";
+import Container from "../../common/Container";
+import FullContainer from "@/components/common/FullContainer";
 
 export default function Gallery({
-  contact_info,
-  gallery = " ",
+  phone,
   imagePath,
   data,
   service,
@@ -52,7 +48,7 @@ export default function Gallery({
             {file_names.map((fileName, index) => (
               <div
                 key={index}
-              className="relative group overflow-hidden rounded-lg "
+                className="relative group overflow-hidden rounded-lg "
               >
                 <div className="aspect-[4/3] relative">
                   <Image
@@ -64,16 +60,16 @@ export default function Gallery({
                     className="object-cover  transition-transform duration-300"
                   />
                 </div>
-                
+
                 {/* Call Button Below Image */}
                 <div className="p-4 ">
                   <div className="flex justify-center">
                     <Link
-                      href={`tel:${contact_info?.phone}`}
+                      href={`tel:${phone}`}
                       className="flex items-center justify-center gap-2 bg-blue-900 hover:bg-blue-800 text-white py-3 px-6 rounded-full font-bold text-lg transition-colors duration-200 "
                     >
                       <Phone className="w-5 h-5" />
-                      {contact_info?.phone || "(408) 762-6429"}
+                      {phone || "(408) 762-6429"}
                     </Link>
                   </div>
                 </div>
@@ -81,7 +77,6 @@ export default function Gallery({
             ))}
           </div>
         )}
-
       </Container>
     </FullContainer>
   );

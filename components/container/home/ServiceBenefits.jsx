@@ -7,7 +7,7 @@ import CallButton from "@/components/CallButton";
 import Heading from "@/components/common/Heading";
 import Link from "next/link";
 
-export default function Benefits({ contact_info, data, image }) {
+export default function Benefits({ phone, data, image }) {
   const benefits = data?.list || [];
 
   return (
@@ -43,7 +43,7 @@ export default function Benefits({ contact_info, data, image }) {
               </div>
             </div>
             <div className="w-full gap-2 justify-start hidden md:flex  flex-col lg:flex-row items-start lg:items-center lg:gap-4">
-              <CallButton phone={contact_info?.phone} />
+              <CallButton phone={phone} />
               <Link
                 href="#contact-us"
                 className="flex items-center justify-center sm:justify-start gap-2 px-6 py-3 rounded-full bg-[#6B9AED] text-[#1A2956] font-semibold text-lg shadow hover:bg-[#4d7edc] transition-all"

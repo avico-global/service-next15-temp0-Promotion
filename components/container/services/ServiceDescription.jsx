@@ -16,7 +16,7 @@ const capitalizeFirstLetterOfEachWord = (string) => {
 export default function ServiceAbout({
   data,
   image,
-  contact_info,
+  phone,
   service,
   city_name,
   state_,
@@ -45,8 +45,8 @@ export default function ServiceAbout({
               dangerouslySetInnerHTML={{ __html: content }}
             />
             <div className="hidden md:flex flex-wrap w-full justify-start items-center gap-4 lg:gap-7 pt-5">
-              <CallButton phone={contact_info?.phone} />
-              <QuoteButton phone={contact_info?.phone} />
+              <CallButton phone={phone} />
+              <QuoteButton phone={phone} />
             </div>
           </div>
 
