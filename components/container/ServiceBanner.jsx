@@ -54,7 +54,7 @@ export default function ServiceBanner({ image, data, form_head, features }) {
             <div className="flex flex-col md:flex-row items-center gap-3 md:gap-5">
               <div className="bg-gradient-to-br from-[#2d6db2] to-[#44b0df] rounded-full text-7xl md:text-8xl font-bold aspect-square h-32 md:h-36 w-32 md:w-36 flex items-center justify-center">
                 <sup className="text-3xl">$</sup>
-                {data?.price || "80"}
+                {data?.price || "89"}
               </div>
               {service?.toLowerCase()?.replaceAll("-", " ") ===
                 "rug cleaning" && (
