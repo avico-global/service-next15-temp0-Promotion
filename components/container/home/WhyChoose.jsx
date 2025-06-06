@@ -31,7 +31,7 @@ export default function WhyChoose({ image, phone, data }) {
   };
 
   return (
-    <FullContainer className="py-8 md:py-12 bg-white mt-4">
+    <FullContainer id="whychooseus" className="py-8 md:py-12 bg-white mt-4">
       <Container>
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
           {/* Left: Text & Features */}
