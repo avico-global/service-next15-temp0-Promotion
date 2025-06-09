@@ -159,9 +159,9 @@ export default function Home({
         /> */}
 
         {/* Slogan 1 */}
-        <FullContainer className="bg-white pt-10 flex flex-col items-center justify-center">
+        <FullContainer className="bg-white pt-6 md:pt-10 flex flex-col items-center justify-center">
           <Container className="text-center flex flex-col items-center justify-center">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-[#1A2956] mb-4">
+            <h2 className="text-3xl font-extrabold text-[#1A2956] mb-4">
               {slogan_1?.title}
             </h2>
             <p className="text-base md:text-lg text-[#1A2956] mb-4">

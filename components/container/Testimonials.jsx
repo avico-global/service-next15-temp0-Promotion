@@ -208,20 +208,20 @@ const Testimonials = ({ data, logo, imagePath }) => {
       <section className="testimonials-section pt-6 md:pt-6 bg-white">
         <Container className="mx-auto px-4 ">
           <div className="text-center mb-6">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-[#002B5B] mb-2">
+            <h2 className="text-4xl font-extrabold text-[#002B5B] mb-2">
               Our Happy Clients
             </h2>
           </div>
 
-          <div className="flex gap-10">
-            <div className="flex items-center justify-between mb-6 md:mb-8">
-              <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex flex-col md:flex-row gap-10 relative h-[340px]">
+            <div className="flex items-center justify-between mb-1 md:mb-8">
+              <div className="flex items-center gap-4">
                 {logo.value.logoType === "image" && (
-                  <div className="w-[120px] md:w-[160px] h-auto flex flex-col">
+                  <div className="md:w-[160px] h-auto flex flex-col">
                     <Logo logo={logo} imagePath={imagePath} />
                   </div>
                 )}
-                <div className="flex flex-col w-32">
+                <div className="flex flex-col flex-1 md:w-32">
                   <p className="text-gray-600 font-bold text-xl md:text-3xl capitalize">
                     {logo.value.logoText}
                   </p>
@@ -242,7 +242,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
               </div>
             </div>
 
-            <div className="relative h-[250px] md:h-80 w-full flex-1">
+            <div className="relative md:h-80 w-full flex-1">
               {/* Navigation Arrows */}
               <div className="hidden md:flex w-full absolute items-center justify-between z-10 h-full pointer-events-none">
                 <button
@@ -279,7 +279,7 @@ const Testimonials = ({ data, logo, imagePath }) => {
                 </div>
               )} */}
 
-              <div className="testimonial-slider-container overflow-hidden mb-8 absolute h-[280px] md:h-72 top-0 w-full">
+              <div className="testimonial-slider-container overflow-hidden mb-80 md:mb-8 absolute h-[280px] md:h-72 top-0 w-full">
                 <div
                   ref={sliderRef}
                   className={`testimonial-slider ${

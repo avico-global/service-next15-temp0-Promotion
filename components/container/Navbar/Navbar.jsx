@@ -84,9 +84,7 @@ export default function Navbar({ logo, imagePath, phone, data }) {
     <FullContainer className="shadow-sm w-full sticky top-0 z-20 bg-white py-2 h-[82px] md:h-[112px]">
       <Container>
         <div className="flex flex-row justify-between h-full items-center w-full  md:pr-8">
-          <div className="h-full flex items-center justify-center ">
-            <Logo logo={logo} imagePath={imagePath} />
-          </div>
+          <Logo logo={logo} imagePath={imagePath} />
 
           <div className="hidden lg:flex items-center text-[26px] font-barlow justify-center font-semibold gap-4 ">
             <Link
@@ -124,9 +122,7 @@ export default function Navbar({ logo, imagePath, phone, data }) {
                     : "opacity-0 invisible transform -translate-y-2"
                 }`}
               >
-                <div
-                  className="flex-grow dropdown-services-container scrollbar-hide"
-                >
+                <div className="flex-grow dropdown-services-container scrollbar-hide">
                   {data?.map((service, index) => {
                     const serviceUrl = sanitizeUrl(service?.title);
                     return (

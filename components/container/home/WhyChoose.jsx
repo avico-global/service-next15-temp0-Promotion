@@ -36,7 +36,7 @@ export default function WhyChoose({ image, phone, data }) {
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
           {/* Left: Text & Features */}
           <div className="w-full md:w-5/12 flex flex-col items-start justify-center">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-[#1A2956] mb-4">
+            <h2 className="text-4xl font-extrabold text-[#1A2956] mb-4">
               Why Choose Us
             </h2>
             <ul className="mb-6 space-y-3">
