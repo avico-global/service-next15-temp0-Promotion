@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckCircle, Loader, FileText, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -20,6 +20,55 @@ export default function QuoteForm({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [userIP, setUserIP] = useState("");
+  const [formStarted, setFormStarted] = useState(false);
+
+  // Function to get user's IP address
+  const getUserIP = async () => {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json');
+      const data = await response.json();
+      return data.ip;
+    } catch (error) {
+      console.error('Error fetching IP:', error);
+      return '';
+    }
+  };
+
+  // Get user IP on component mount
+  useEffect(() => {
+    getUserIP().then(ip => setUserIP(ip));
+  }, []);
+
+  // Function to handle first form interaction
+  const handleFirstInteraction = () => {
+    if (!formStarted) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "form start",
+        url: window.location.href,
+      });
+
+      setFormStarted(true);
+    }
+  };
+
+  // Function to fire GTM event
+  const fireGTMEvent = (submittedFormData, userIP) => {
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        event: "form submitted",
+        url: window.location.href,
+        formData: {
+          name: `${submittedFormData.firstName} ${submittedFormData.lastName}`,
+          email: submittedFormData.email,
+          phone: submittedFormData.phone,
+          message: submittedFormData.message,
+          userIP: userIP || "",
+        },
+      });
+    }
+  };
 
   // Validate phone number
   const validatePhone = (phoneNumber) => {
@@ -71,6 +120,7 @@ export default function QuoteForm({
         email: formData.email,
         phone: formData.phone,
         message: formData.message,
+        user_ip: userIP,
       };
 
       const response = await fetch("/api/contact", {
@@ -92,6 +142,9 @@ export default function QuoteForm({
       if (result.error) {
         throw new Error(result.error);
       }
+
+      // Fire GTM event for successful form submission
+      fireGTMEvent(formData, userIP);
 
       // Show success toast
       toast.success(
@@ -155,6 +208,7 @@ export default function QuoteForm({
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
+              onFocus={handleFirstInteraction}
               className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600"
               placeholder="First name"
               required
@@ -165,6 +219,7 @@ export default function QuoteForm({
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
+              onFocus={handleFirstInteraction}
               className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600"
               placeholder="Last name"
               required
@@ -177,6 +232,7 @@ export default function QuoteForm({
             name="phone"
             value={formData.phone}
             onChange={handleChange}
+            onFocus={handleFirstInteraction}
             className={`w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
               fieldErrors.phone ? "border-red-500" : "border-gray-200"
             }`}
@@ -195,6 +251,7 @@ export default function QuoteForm({
             name="email"
             value={formData.email}
             onChange={handleChange}
+            onFocus={handleFirstInteraction}
             className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600"
             placeholder="your@email.com"
             required
@@ -205,6 +262,7 @@ export default function QuoteForm({
             name="message"
             value={formData.message}
             onChange={handleChange}
+            onFocus={handleFirstInteraction}
             rows="3"
             className="w-full pl-3 py-2 max-h-[75px] bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600"
             placeholder="Message"
