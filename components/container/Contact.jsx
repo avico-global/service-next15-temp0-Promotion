@@ -15,6 +15,63 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formStarted, setFormStarted] = useState(false);
+
+  // Function to handle first form interaction
+  const handleFirstInteraction = () => {
+    if (!formStarted) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "form start",
+        url: window.location.href,
+      });
+
+      setFormStarted(true);
+    }
+  };
+
+  // Function to fire GTM event
+  const fireGTMEvent = (submittedFormData) => {
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "form submitted",
+        url: window.location.href,
+        formData: {
+          name: submittedFormData.name,
+          email: submittedFormData.email,
+          phone: submittedFormData.phone.replace(/[-()\s]/g, ""), // Clean phone number
+          message: submittedFormData.message,
+          zipcode: submittedFormData.zipcode,
+        },
+      });
+    }
+  };
+
+  // Function to fire Lead Submitted GTM event
+  const fireLeadSubmittedEvent = () => {
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "Lead Submitted",
+        url: window.location.href,
+      });
+    }
+  };
+
+  // Function to close thank you popup and reset form
+  const closeThankYouPopup = () => {
+    // Fire Lead Submitted event when user acknowledges the thank you message
+    fireLeadSubmittedEvent();
+    
+    setFormSubmitted(false);
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      zipcode: "",
+      message: "",
+    });
+    setErrors({});
+  };
 
   // Validate phone number (same as QuoteForm)
   const validatePhone = (phoneNumber) => {
@@ -103,6 +160,9 @@ export default function Contact() {
         throw new Error(result.error);
       }
 
+      // Fire GTM event for successful form submission
+      fireGTMEvent(formData);
+
       // Show success toast
       toast.success(
         "Your request has been submitted successfully! We'll contact you shortly."
@@ -110,19 +170,6 @@ export default function Contact() {
 
       // Set form as submitted
       setFormSubmitted(true);
-
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setFormSubmitted(false);
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          zipcode: "",
-          message: "",
-        });
-        setErrors({});
-      }, 3000);
     } catch (err) {
       console.error("Error submitting form:", err);
       // Show error toast instead of setting inline error
@@ -158,10 +205,16 @@ export default function Contact() {
         <CheckCircle className="h-12 w-12 text-green-600" />
       </div>
       <h3 className="text-3xl font-bold text-white mb-4">Thank You!</h3>
-      <p className="text-white text-xl max-w-md">
+      <p className="text-white text-xl max-w-md mb-6">
         Your request has been submitted successfully. We'll contact you shortly
         with your personalized quote.
       </p>
+      <button
+        onClick={closeThankYouPopup}
+        className="bg-white text-black py-3 px-6 rounded-md font-medium transition-colors duration-200 hover:bg-gray-100"
+      >
+        OK Thanks
+      </button>
     </div>
   );
 
@@ -183,6 +236,7 @@ export default function Contact() {
             name={name}
             value={formData[name]}
             onChange={handleChange}
+            onFocus={handleFirstInteraction}
             rows={4}
             className={`w-full max-h-[100px] pl-4 py-2 border-0 bg-gray-50 rounded-md outline-none text-black ${
               errors[name] ? "border-2 border-red-500" : ""
@@ -199,6 +253,7 @@ export default function Contact() {
             name={name}
             value={formData[name]}
             onChange={handleChange}
+            onFocus={handleFirstInteraction}
             className={`w-full pl-4 py-2 border-0 bg-gray-50 rounded-md outline-none text-black ${
               errors[name] ? "border-2 border-red-500" : ""
             }`}

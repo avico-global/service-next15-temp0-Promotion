@@ -26,18 +26,18 @@ export default function QuoteForm({
   // Function to get user's IP address
   const getUserIP = async () => {
     try {
-      const response = await fetch('https://api.ipify.org?format=json');
+      const response = await fetch("https://api.ipify.org?format=json");
       const data = await response.json();
       return data.ip;
     } catch (error) {
-      console.error('Error fetching IP:', error);
-      return '';
+      console.error("Error fetching IP:", error);
+      return "";
     }
   };
 
   // Get user IP on component mount
   useEffect(() => {
-    getUserIP().then(ip => setUserIP(ip));
+    getUserIP().then((ip) => setUserIP(ip));
   }, []);
 
   // Function to handle first form interaction
@@ -55,7 +55,7 @@ export default function QuoteForm({
 
   // Function to fire GTM event
   const fireGTMEvent = (submittedFormData, userIP) => {
-    if (typeof window !== 'undefined' && window.dataLayer) {
+    if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
         event: "form submitted",
         url: window.location.href,
@@ -68,6 +68,34 @@ export default function QuoteForm({
         },
       });
     }
+  };
+
+  // Function to fire Lead Submitted GTM event
+  const fireLeadSubmittedEvent = () => {
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "Lead Submitted",
+        url: window.location.href,
+      });
+    }
+  };
+
+  // Function to close thank you popup and reset form
+  const closeThankYouPopup = () => {
+    // Fire Lead Submitted event when user acknowledges the thank you message
+    fireLeadSubmittedEvent();
+    
+    setFormSubmitted(false);
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
+    setFieldErrors({
+      phone: "",
+    });
   };
 
   // Validate phone number
@@ -153,18 +181,6 @@ export default function QuoteForm({
 
       // Set form as submitted
       setFormSubmitted(true);
-
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setFormSubmitted(false);
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
-      }, 3000);
     } catch (err) {
       console.error("Error submitting form:", err);
       // Show error toast instead of setting inline error
@@ -194,10 +210,16 @@ export default function QuoteForm({
             <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
           <h3 className="text-xl font-bold text-gray-800 mb-2">Thank You!</h3>
-          <p className="text-gray-600 max-w-md">
+          <p className="text-gray-600 max-w-md mb-6">
             Your request has been submitted successfully. We'll contact you
             shortly with your personalized quote.
           </p>
+          <button
+            onClick={closeThankYouPopup}
+            className="bg-[#6B9FE4] hover:bg-[#5B88C4] text-black py-2 px-6 rounded-md font-medium transition-colors duration-200"
+          >
+            OK Thanks
+          </button>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-3 text-black">
