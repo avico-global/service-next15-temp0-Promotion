@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { first_name, last_name, email, phone, message, user_ip } = req.body;
+    const { first_name, last_name, email, phone, message } = req.body;
 
     // Validate required fields
     if (!email || !first_name) {
@@ -32,7 +32,6 @@ export default async function handler(req, res) {
       email,
       phone,
       message,
-      user_ip,
       domain_name: host,
     };
 

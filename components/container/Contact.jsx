@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Container from "../common/Container";
 import FullContainer from "../common/FullContainer";
 import { CheckCircle, Loader, TextQuote } from "lucide-react";
@@ -16,23 +16,6 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formStarted, setFormStarted] = useState(false);
-  const [userIP, setUserIP] = useState(null);
-
-  // Get user IP on component mount
-  useEffect(() => {
-    const getUserIP = async () => {
-      try {
-        const response = await fetch("https://api.ipify.org?format=json");
-        const data = await response.json();
-        setUserIP(data.ip);
-      } catch (error) {
-        console.error("Error getting user IP:", error);
-        setUserIP("0.0.0.0"); // fallback IP
-      }
-    };
-
-    getUserIP();
-  }, []);
 
   // Function to handle first form interaction
   const handleFirstInteraction = () => {
@@ -154,7 +137,6 @@ export default function Contact() {
         email: formData.email,
         phone: formData.phone.replace(/[-()\s]/g, ""), // Clean phone number
         message: `${formData.message}${formData.zipcode ? ` | Zipcode: ${formData.zipcode}` : ""}`, // Include zipcode in message
-        user_ip: userIP || "0.0.0.0",
       };
 
       console.log("Submitting contact form with payload:", payload);

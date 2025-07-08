@@ -20,25 +20,7 @@ export default function QuoteForm({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [userIP, setUserIP] = useState("");
   const [formStarted, setFormStarted] = useState(false);
-
-  // Function to get user's IP address
-  const getUserIP = async () => {
-    try {
-      const response = await fetch("https://api.ipify.org?format=json");
-      const data = await response.json();
-      return data.ip;
-    } catch (error) {
-      console.error("Error fetching IP:", error);
-      return "";
-    }
-  };
-
-  // Get user IP on component mount
-  useEffect(() => {
-    getUserIP().then((ip) => setUserIP(ip));
-  }, []);
 
   // Function to handle first form interaction
   const handleFirstInteraction = () => {
@@ -54,17 +36,17 @@ export default function QuoteForm({
   };
 
   // Function to fire GTM event
-  const fireGTMEvent = (submittedFormData, userIP) => {
+  const fireGTMEvent = (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
         event: "form submitted",
         url: window.location.href,
         formData: {
-          name: `${submittedFormData.firstName} ${submittedFormData.lastName}`,
+          firstName: submittedFormData.firstName,
+          lastName: submittedFormData.lastName,
           email: submittedFormData.email,
-          phone: submittedFormData.phone,
+          phone: submittedFormData.phone.replace(/[-()\s]/g, ""), // Clean phone number
           message: submittedFormData.message,
-          userIP: userIP || "",
         },
       });
     }
@@ -148,7 +130,6 @@ export default function QuoteForm({
         email: formData.email,
         phone: formData.phone,
         message: formData.message,
-        user_ip: userIP,
       };
 
       console.log("Submitting quote form with payload:", payload);
@@ -178,7 +159,7 @@ export default function QuoteForm({
       }
 
       // Fire GTM event for successful form submission
-      fireGTMEvent(formData, userIP);
+      fireGTMEvent(formData);
 
       // Show success toast
       toast.success(
