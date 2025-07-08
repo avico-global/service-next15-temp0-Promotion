@@ -73,10 +73,33 @@ export default function Contact() {
     setErrors({});
   };
 
-  // Validate phone number (same as QuoteForm)
+  // Validate email with stricter regex
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    return emailRegex.test(email);
+  };
+
+  // Validate phone number
   const validatePhone = (phoneNumber) => {
     const phoneRegex = /^\d{10}$/;
     return phoneRegex.test(phoneNumber);
+  };
+
+  // Validate name (no numbers, min 2 characters)
+  const validateName = (name) => {
+    const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+    return nameRegex.test(name.trim());
+  };
+
+  // Validate zipcode
+  const validateZipcode = (zipcode) => {
+    const zipRegex = /^\d{5}(-\d{4})?$/;
+    return zipRegex.test(zipcode);
+  };
+
+  // Validate message (min 10 characters)
+  const validateMessage = (message) => {
+    return message.trim().length >= 10;
   };
 
   const validateForm = () => {
@@ -85,31 +108,37 @@ export default function Contact() {
     // Name validation
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
+    } else if (!validateName(formData.name)) {
+      newErrors.name = "Name must be 2-50 characters and contain only letters";
     }
 
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim() || !emailRegex.test(formData.email)) {
-      newErrors.email = "Valid email is required";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
     }
 
-    // Phone validation (updated to match QuoteForm)
-    if (
-      !formData.phone.trim() ||
-      !validatePhone(formData.phone.replace(/[-()\s]/g, ""))
-    ) {
+    // Phone validation
+    const cleanPhone = formData.phone.replace(/[-()\s]/g, "");
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!validatePhone(cleanPhone)) {
       newErrors.phone = "Phone number must be exactly 10 digits";
     }
 
     // Zipcode validation
-    const zipRegex = /^\d{5}(-\d{4})?$/;
-    if (!formData.zipcode.trim() || !zipRegex.test(formData.zipcode)) {
-      newErrors.zipcode = "Valid zipcode is required";
+    if (!formData.zipcode.trim()) {
+      newErrors.zipcode = "Zipcode is required";
+    } else if (!validateZipcode(formData.zipcode)) {
+      newErrors.zipcode = "Please enter a valid zipcode (12345 or 12345-6789)";
     }
 
     // Message validation
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
+    } else if (!validateMessage(formData.message)) {
+      newErrors.message = "Message must be at least 10 characters long";
     }
 
     setErrors(newErrors);
@@ -162,6 +191,23 @@ export default function Contact() {
       }
 
       if (result.success === false) {
+        // Handle server-side validation errors
+        if (result.errors && Array.isArray(result.errors)) {
+          const serverErrors = {};
+          result.errors.forEach(error => {
+            if (error.includes("First name") || error.includes("name")) {
+              serverErrors.name = error;
+            } else if (error.includes("Email") || error.includes("email")) {
+              serverErrors.email = error;
+            } else if (error.includes("Phone") || error.includes("phone")) {
+              serverErrors.phone = error;
+            } else if (error.includes("Message") || error.includes("message")) {
+              serverErrors.message = error;
+            }
+          });
+          setErrors(serverErrors);
+          throw new Error("Please fix the validation errors above");
+        }
         throw new Error(result.message || "Form submission failed");
       }
 
@@ -186,17 +232,62 @@ export default function Contact() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // Handle phone number formatting
+    let formattedValue = value;
+    if (name === "phone") {
+      // Remove all non-digits
+      const digits = value.replace(/\D/g, "");
+      // Format as (XXX) XXX-XXXX
+      if (digits.length <= 3) {
+        formattedValue = digits;
+      } else if (digits.length <= 6) {
+        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+      } else {
+        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+      }
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: formattedValue,
     }));
 
-    // Clear error when user starts typing
+    // Real-time validation
     if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: null,
-      }));
+      const newErrors = { ...errors };
+      
+      // Validate the specific field that changed
+      switch (name) {
+        case "name":
+          if (formattedValue.trim() && validateName(formattedValue)) {
+            delete newErrors.name;
+          }
+          break;
+        case "email":
+          if (formattedValue.trim() && validateEmail(formattedValue)) {
+            delete newErrors.email;
+          }
+          break;
+        case "phone":
+          const cleanPhone = formattedValue.replace(/[-()\s]/g, "");
+          if (cleanPhone && validatePhone(cleanPhone)) {
+            delete newErrors.phone;
+          }
+          break;
+        case "zipcode":
+          if (formattedValue.trim() && validateZipcode(formattedValue)) {
+            delete newErrors.zipcode;
+          }
+          break;
+        case "message":
+          if (formattedValue.trim() && validateMessage(formattedValue)) {
+            delete newErrors.message;
+          }
+          break;
+      }
+      
+      setErrors(newErrors);
     }
   };
 

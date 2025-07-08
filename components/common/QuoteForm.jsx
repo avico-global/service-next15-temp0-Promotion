@@ -16,7 +16,11 @@ export default function QuoteForm({
   });
 
   const [fieldErrors, setFieldErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
     phone: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -33,6 +37,73 @@ export default function QuoteForm({
 
       setFormStarted(true);
     }
+  };
+
+  // Validate email with stricter regex
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    return emailRegex.test(email);
+  };
+
+  // Validate phone number
+  const validatePhone = (phoneNumber) => {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phoneNumber);
+  };
+
+  // Validate name (no numbers, min 2 characters)
+  const validateName = (name) => {
+    const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+    return nameRegex.test(name.trim());
+  };
+
+  // Validate message (min 10 characters)
+  const validateMessage = (message) => {
+    return message.trim().length >= 10;
+  };
+
+  // Comprehensive form validation
+  const validateForm = () => {
+    const newErrors = {};
+
+    // First name validation
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    } else if (!validateName(formData.firstName)) {
+      newErrors.firstName = "First name must be 2-50 characters and contain only letters";
+    }
+
+    // Last name validation
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    } else if (!validateName(formData.lastName)) {
+      newErrors.lastName = "Last name must be 2-50 characters and contain only letters";
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    // Phone validation
+    const cleanPhone = formData.phone.replace(/[-()\s]/g, "");
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!validatePhone(cleanPhone)) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (!validateMessage(formData.message)) {
+      newErrors.message = "Message must be at least 10 characters long";
+    }
+
+    setFieldErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   // Function to fire GTM event
@@ -76,48 +147,76 @@ export default function QuoteForm({
       message: "",
     });
     setFieldErrors({
+      firstName: "",
+      lastName: "",
+      email: "",
       phone: "",
+      message: "",
     });
-  };
-
-  // Validate phone number
-  const validatePhone = (phoneNumber) => {
-    const phoneRegex = /^\d{10}$/;
-    return phoneRegex.test(phoneNumber);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // Handle phone number formatting
+    let formattedValue = value;
+    if (name === "phone") {
+      // Remove all non-digits
+      const digits = value.replace(/\D/g, "");
+      // Format as (XXX) XXX-XXXX
+      if (digits.length <= 3) {
+        formattedValue = digits;
+      } else if (digits.length <= 6) {
+        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+      } else {
+        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+      }
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: formattedValue,
     }));
 
-    // Validate phone field as user types
-    if (name === "phone") {
-      if (value.length > 0 && !validatePhone(value)) {
-        setFieldErrors((prev) => ({
-          ...prev,
-          phone: "Phone number must be exactly 10 digits",
-        }));
-      } else {
-        setFieldErrors((prev) => ({
-          ...prev,
-          phone: "",
-        }));
+    // Real-time validation
+    if (fieldErrors[name]) {
+      const newErrors = { ...fieldErrors };
+      
+      // Validate the specific field that changed
+      switch (name) {
+        case "firstName":
+        case "lastName":
+          if (formattedValue.trim() && validateName(formattedValue)) {
+            delete newErrors[name];
+          }
+          break;
+        case "email":
+          if (formattedValue.trim() && validateEmail(formattedValue)) {
+            delete newErrors.email;
+          }
+          break;
+        case "phone":
+          const cleanPhone = formattedValue.replace(/[-()\s]/g, "");
+          if (cleanPhone && validatePhone(cleanPhone)) {
+            delete newErrors.phone;
+          }
+          break;
+        case "message":
+          if (formattedValue.trim() && validateMessage(formattedValue)) {
+            delete newErrors.message;
+          }
+          break;
       }
+      
+      setFieldErrors(newErrors);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate phone before submission
-    if (!validatePhone(formData.phone)) {
-      setFieldErrors((prev) => ({
-        ...prev,
-        phone: "Phone number must be exactly 10 digits",
-      }));
+    // Comprehensive form validation
+    if (!validateForm()) {
       return;
     }
 
@@ -155,6 +254,25 @@ export default function QuoteForm({
       }
 
       if (result.success === false) {
+        // Handle server-side validation errors
+        if (result.errors && Array.isArray(result.errors)) {
+          const serverErrors = {};
+          result.errors.forEach(error => {
+            if (error.includes("First name")) {
+              serverErrors.firstName = error;
+            } else if (error.includes("Last name")) {
+              serverErrors.lastName = error;
+            } else if (error.includes("Email") || error.includes("email")) {
+              serverErrors.email = error;
+            } else if (error.includes("Phone") || error.includes("phone")) {
+              serverErrors.phone = error;
+            } else if (error.includes("Message") || error.includes("message")) {
+              serverErrors.message = error;
+            }
+          });
+          setFieldErrors(prev => ({ ...prev, ...serverErrors }));
+          throw new Error("Please fix the validation errors above");
+        }
         throw new Error(result.message || "Form submission failed");
       }
 
@@ -211,28 +329,46 @@ export default function QuoteForm({
       ) : (
         <form onSubmit={handleSubmit} className="space-y-3 text-black">
           <div className="grid grid-cols-2 gap-[10px]">
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              onFocus={handleFirstInteraction}
-              className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600"
-              placeholder="First name"
-              required
-            />
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              onFocus={handleFirstInteraction}
-              className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600"
-              placeholder="Last name"
-              required
-            />
+            <div>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                onFocus={handleFirstInteraction}
+                className={`w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
+                  fieldErrors.firstName ? "border-red-500" : "border-gray-200"
+                }`}
+                placeholder="First name"
+                required
+              />
+              {fieldErrors.firstName && (
+                <div className="text-red-500 text-sm font-medium mt-1">
+                  {fieldErrors.firstName}
+                </div>
+              )}
+            </div>
+            <div>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                onFocus={handleFirstInteraction}
+                className={`w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
+                  fieldErrors.lastName ? "border-red-500" : "border-gray-200"
+                }`}
+                placeholder="Last name"
+                required
+              />
+              {fieldErrors.lastName && (
+                <div className="text-red-500 text-sm font-medium mt-1">
+                  {fieldErrors.lastName}
+                </div>
+              )}
+            </div>
           </div>
 
           <input
@@ -261,10 +397,17 @@ export default function QuoteForm({
             value={formData.email}
             onChange={handleChange}
             onFocus={handleFirstInteraction}
-            className="w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600"
+            className={`w-full pl-3 py-2 bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
+              fieldErrors.email ? "border-red-500" : "border-gray-200"
+            }`}
             placeholder="your@email.com"
             required
           />
+          {fieldErrors.email && (
+            <div className="text-red-500 text-sm font-medium">
+              {fieldErrors.email}
+            </div>
+          )}
 
           <textarea
             id="message"
@@ -273,10 +416,17 @@ export default function QuoteForm({
             onChange={handleChange}
             onFocus={handleFirstInteraction}
             rows="3"
-            className="w-full pl-3 py-2 max-h-[75px] bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600"
+            className={`w-full pl-3 py-2 max-h-[75px] bg-white border border-gray-200 rounded-md outline-none placeholder:text-gray-600 ${
+              fieldErrors.message ? "border-red-500" : "border-gray-200"
+            }`}
             placeholder="Message"
             required
           ></textarea>
+          {fieldErrors.message && (
+            <div className="text-red-500 text-sm font-medium">
+              {fieldErrors.message}
+            </div>
+          )}
 
           <button
             type="submit"
