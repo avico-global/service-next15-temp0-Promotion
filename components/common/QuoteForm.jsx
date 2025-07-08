@@ -84,7 +84,7 @@ export default function QuoteForm({
   const closeThankYouPopup = () => {
     // Fire Lead Submitted event when user acknowledges the thank you message
     fireLeadSubmittedEvent();
-
+    
     setFormSubmitted(false);
     setFormData({
       firstName: "",
@@ -151,16 +151,13 @@ export default function QuoteForm({
         user_ip: userIP,
       };
 
-      const response = await fetch(
-        "https://api.logicalcrm.com/web_api/web/web_query",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
       if (!response.ok) {
         throw new Error(
