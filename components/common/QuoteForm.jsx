@@ -151,6 +151,8 @@ export default function QuoteForm({
         user_ip: userIP,
       };
 
+      console.log("Submitting quote form with payload:", payload);
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -159,16 +161,20 @@ export default function QuoteForm({
         body: JSON.stringify(payload),
       });
 
+      console.log("Response status:", response.status);
+      console.log("Response headers:", Object.fromEntries(response.headers.entries()));
+
+      const result = await response.json();
+      console.log("Response data:", result);
+
       if (!response.ok) {
         throw new Error(
-          `HTTP error! Please Contact support status: ${response.status}`
+          result.message || `HTTP error! status: ${response.status}`
         );
       }
 
-      const result = await response.json();
-
-      if (result.error) {
-        throw new Error(result.error);
+      if (result.success === false) {
+        throw new Error(result.message || "Form submission failed");
       }
 
       // Fire GTM event for successful form submission
@@ -176,7 +182,7 @@ export default function QuoteForm({
 
       // Show success toast
       toast.success(
-        "Your request has been submitted successfully! We'll contact you shortly."
+        result.message || "Your request has been submitted successfully! We'll contact you shortly."
       );
 
       // Set form as submitted

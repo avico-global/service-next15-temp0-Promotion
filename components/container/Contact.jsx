@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "../common/Container";
 import FullContainer from "../common/FullContainer";
 import { CheckCircle, Loader, TextQuote } from "lucide-react";
@@ -16,6 +16,23 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formStarted, setFormStarted] = useState(false);
+  const [userIP, setUserIP] = useState(null);
+
+  // Get user IP on component mount
+  useEffect(() => {
+    const getUserIP = async () => {
+      try {
+        const response = await fetch("https://api.ipify.org?format=json");
+        const data = await response.json();
+        setUserIP(data.ip);
+      } catch (error) {
+        console.error("Error getting user IP:", error);
+        setUserIP("0.0.0.0"); // fallback IP
+      }
+    };
+
+    getUserIP();
+  }, []);
 
   // Function to handle first form interaction
   const handleFirstInteraction = () => {
@@ -136,9 +153,11 @@ export default function Contact() {
         last_name: lastName,
         email: formData.email,
         phone: formData.phone.replace(/[-()\s]/g, ""), // Clean phone number
-        message: formData.message,
-        zipcode: formData.zipcode, // Additional field for contact form
+        message: `${formData.message}${formData.zipcode ? ` | Zipcode: ${formData.zipcode}` : ""}`, // Include zipcode in message
+        user_ip: userIP || "0.0.0.0",
       };
+
+      console.log("Submitting contact form with payload:", payload);
 
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -148,16 +167,20 @@ export default function Contact() {
         body: JSON.stringify(payload),
       });
 
+      console.log("Response status:", response.status);
+      console.log("Response headers:", Object.fromEntries(response.headers.entries()));
+
+      const result = await response.json();
+      console.log("Response data:", result);
+
       if (!response.ok) {
         throw new Error(
-          `HTTP error! Please Contact support status: ${response.status}`
+          result.message || `HTTP error! status: ${response.status}`
         );
       }
 
-      const result = await response.json();
-
-      if (result.error) {
-        throw new Error(result.error);
+      if (result.success === false) {
+        throw new Error(result.message || "Form submission failed");
       }
 
       // Fire GTM event for successful form submission
@@ -165,7 +188,7 @@ export default function Contact() {
 
       // Show success toast
       toast.success(
-        "Your request has been submitted successfully! We'll contact you shortly."
+        result.message || "Your request has been submitted successfully! We'll contact you shortly."
       );
 
       // Set form as submitted
