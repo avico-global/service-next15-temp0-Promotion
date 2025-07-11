@@ -51,6 +51,7 @@ export default function Home({
   form_head,
   city_name,
   phone,
+  gtm_id, // <-- add gtm_id prop
 }) {
   const [niche, setNiche] = useState(null);
   useEffect(() => {
@@ -117,7 +118,32 @@ export default function Home({
           sizes="16x16"
           href={`${imagePath}/${favicon}`}
         />
+
+        {/* <!-- Google Tag Manager --> */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','${gtm_id}');
+              `,
+          }}
+        />
+        {/* <!-- End Google Tag Manager --> */}
       </Head>
+
+      {/* Google Tag Manager (noscript) */}
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${gtm_id}`}
+          height="0"
+          width="10"
+          style={{ display: "none", visibility: "hidden" }}
+        ></iframe>
+      </noscript>
+      {/* End Google Tag Manager (noscript) */}
 
       <div>
         <Navbar
@@ -253,6 +279,7 @@ export async function getServerSideProps({ req }) {
   const city_name = await callBackendApi({ domain, tag: "city_name" });
 
   let project;
+  let gtm_id = null;
   if (project_id) {
     try {
       const projectInfoResponse = await fetch(
@@ -262,6 +289,8 @@ export async function getServerSideProps({ req }) {
       if (projectInfoResponse.ok) {
         const projectInfoData = await projectInfoResponse.json();
         project = projectInfoData?.data || null;
+        gtm_id = project?.additional_config?.gtm_id;
+        console.log("GTM_Id come or not", gtm_id);
         console.log("project (server-side):", project);
       } else {
         console.error(
@@ -303,6 +332,7 @@ export async function getServerSideProps({ req }) {
       form_head: form_head?.data[0]?.value || null,
       city_name: city_name?.data[0]?.value || null,
       phone: project?.phone || null,
+      gtm_id, // <-- pass gtm_id as prop
     },
   };
 }
