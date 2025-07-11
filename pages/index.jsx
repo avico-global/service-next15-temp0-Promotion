@@ -10,7 +10,7 @@ import About from "../components/container/home/About";
 import Footer from "../components/container/Footer";
 import Contact from "../components/container/Contact";
 import ServiceBenefits from "../components/container/home/ServiceBenefits";
-import { useEffect, useState } from "react";
+
 // import Gallery from "@/components/container/home/Gallery";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
@@ -52,32 +52,8 @@ export default function Home({
   city_name,
   phone,
   gtm_id, // <-- add gtm_id prop
+  niche, // <-- add niche prop
 }) {
-  const [niche, setNiche] = useState(null);
-  useEffect(() => {
-    if (project_id) {
-      fetch(`/api/get-project-info?id=${project_id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Full API response:", data);
-          console.log("Data object:", data?.data);
-          console.log("Looking for domain_id:", data?.data?.domain_id);
-
-          // Based on your API response, it looks like the niche/industry info might be here:
-          console.log("Industry info:", data?.data?.industry_id);
-          console.log("Industry name:", data?.data?.industry_id?.industry_name);
-
-          const niche_name = data?.data?.domain_id?.niche_id?.name;
-          console.log("Extracted niche_name:", niche_name);
-
-          setNiche(niche_name);
-        })
-        .catch((error) => {
-          console.error("Error fetching project info:", error);
-        });
-    }
-  }, [project_id, niche]);
-
   console.log("phone", phone);
 
   return (
@@ -279,7 +255,6 @@ export async function getServerSideProps({ req }) {
   const city_name = await callBackendApi({ domain, tag: "city_name" });
 
   let project;
-  let gtm_id = null;
   if (project_id) {
     try {
       const projectInfoResponse = await fetch(
@@ -289,9 +264,6 @@ export async function getServerSideProps({ req }) {
       if (projectInfoResponse.ok) {
         const projectInfoData = await projectInfoResponse.json();
         project = projectInfoData?.data || null;
-        gtm_id = project?.additional_config?.gtm_id;
-        console.log("GTM_Id come or not", gtm_id);
-        console.log("project (server-side):", project);
       } else {
         console.error(
           "Failed to fetch project info:",
@@ -332,7 +304,8 @@ export async function getServerSideProps({ req }) {
       form_head: form_head?.data[0]?.value || null,
       city_name: city_name?.data[0]?.value || null,
       phone: project?.phone || null,
-      gtm_id, // <-- pass gtm_id as prop
+      gtm_id: project?.additional_config?.gtm_id, // <-- pass gtm_id as prop
+      niche: project?.domain_id?.niche_id?.name, // <-- pass niche as prop
     },
   };
 }
