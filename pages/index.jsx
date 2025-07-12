@@ -54,8 +54,6 @@ export default function Home({
   gtm_id, // <-- add gtm_id prop
   niche, // <-- add niche prop
 }) {
-  console.log("phone", phone);
-
   return (
     <div className="bg-white">
       <Head>
@@ -109,7 +107,7 @@ export default function Home({
         />
         {/* <!-- End Google Tag Manager --> */}
       </Head>
-
+      {gtm_id && gtm_id}
       {/* Google Tag Manager (noscript) */}
       <noscript>
         <iframe
