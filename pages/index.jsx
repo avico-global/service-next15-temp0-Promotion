@@ -50,10 +50,14 @@ export default function Home({
   slogan_1,
   form_head,
   city_name,
-  phone,
-  gtm_id, // <-- add gtm_id prop
-  niche, // <-- add niche prop
+  project,
 }) {
+  const phone = project?.phone || null;
+  const gtm_id = project?.additional_config?.gtm_id || null;
+  const niche = project?.domain_id?.niche_id?.name || null;
+
+  console.log("project", project);
+
   return (
     <div className="bg-white">
       <Head>
@@ -301,9 +305,7 @@ export async function getServerSideProps({ req }) {
       slogan_1: slogan_1?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
       city_name: city_name?.data[0]?.value || null,
-      phone: project?.phone || null,
-      gtm_id: project?.additional_config?.gtm_id, // <-- pass gtm_id as prop
-      niche: project?.domain_id?.niche_id?.name, // <-- pass niche as prop
+      project,
     },
   };
 }
