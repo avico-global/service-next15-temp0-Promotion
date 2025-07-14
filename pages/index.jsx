@@ -111,7 +111,7 @@ export default function Home({
         />
         {/* <!-- End Google Tag Manager --> */}
       </Head>
-      {gtm_id && gtm_id}
+      {/* {gtm_id && gtm_id} */}
       {/* Google Tag Manager (noscript) */}
       <noscript>
         <iframe
