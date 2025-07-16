@@ -296,7 +296,7 @@ export async function getServerSideProps({ req, params }) {
     tag: "state_",
   });
 
-  let project;
+  let project = null; // Initialize to null to avoid undefined serialization errors
   if (project_id) {
     try {
       const projectInfoResponse = await fetch(
@@ -311,9 +311,11 @@ export async function getServerSideProps({ req, params }) {
           "Failed to fetch project info:",
           projectInfoResponse.status
         );
+        project = null;
       }
     } catch (error) {
       console.error("Error fetching project info:", error);
+      project = null;
     }
   }
 

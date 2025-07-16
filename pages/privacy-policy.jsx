@@ -145,7 +145,7 @@ export async function getServerSideProps({ req }) {
   const contact_info = await callBackendApi({ domain, tag: "contact_info" });
   const city_name = await callBackendApi({ domain, tag: "city_name" });
 
-  let project;
+  let project = null; // Initialize to null to avoid undefined serialization errors
   if (project_id) {
     try {
       const projectInfoResponse = await fetch(
@@ -160,9 +160,11 @@ export async function getServerSideProps({ req }) {
           "Failed to fetch project info:",
           projectInfoResponse.status
         );
+        project = null;
       }
     } catch (error) {
       console.error("Error fetching project info:", error);
+      project = null;
     }
   }
 
