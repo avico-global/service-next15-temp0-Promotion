@@ -2,7 +2,8 @@ import axios from "axios";
 
 // Server-side validation functions
 const validateEmail = (email) => {
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   return emailRegex.test(email);
 };
 
@@ -22,10 +23,10 @@ const validateMessage = (message) => {
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ 
+    return res.status(405).json({
       success: false,
       message: "Method not allowed",
-      method: req.method 
+      method: req.method,
     });
   }
 
@@ -39,7 +40,9 @@ export default async function handler(req, res) {
     if (!first_name?.trim()) {
       validationErrors.push("First name is required");
     } else if (!validateName(first_name)) {
-      validationErrors.push("First name must contain only letters and be 1-50 characters");
+      validationErrors.push(
+        "First name must contain only letters and be 1-50 characters"
+      );
     }
 
     if (!email?.trim()) {
@@ -65,7 +68,9 @@ export default async function handler(req, res) {
 
     // Optional last_name validation (if provided)
     if (last_name && !validateName(last_name)) {
-      validationErrors.push("Last name must contain only letters and be 1-50 characters");
+      validationErrors.push(
+        "Last name must contain only letters and be 1-50 characters"
+      );
     }
 
     // Return validation errors if any
@@ -74,13 +79,14 @@ export default async function handler(req, res) {
         success: false,
         message: "Validation failed",
         errors: validationErrors,
-        receivedData: { 
-          first_name: first_name?.substring(0, 50), // Truncate for security 
+        receivedData: {
+          first_name: first_name?.substring(0, 50), // Truncate for security
           last_name: last_name?.substring(0, 50),
           email: email?.substring(0, 100),
           phone: phone?.replace(/[-()\s]/g, "").substring(0, 15),
-          message: message?.substring(0, 100) + (message?.length > 100 ? "..." : "")
-        }
+          message:
+            message?.substring(0, 100) + (message?.length > 100 ? "..." : ""),
+        },
       });
     }
 
@@ -105,11 +111,6 @@ export default async function handler(req, res) {
       domain_name: host,
     };
 
-    console.log("Making request to external API:", {
-      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/contact_us`,
-      data: requestData
-    });
-
     const config = {
       method: "post",
       url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/contact_us`,
@@ -118,14 +119,12 @@ export default async function handler(req, res) {
     };
 
     const response = await axios.request(config);
-    
-    console.log("External API response:", response.status, response.data);
-    
+
     res.status(200).json({
       success: true,
       message: "Contact form submitted successfully",
       data: response.data,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
     console.error("Contact form error:", {
@@ -133,27 +132,28 @@ export default async function handler(req, res) {
       status: error.response?.status,
       statusText: error.response?.statusText,
       data: error.response?.data,
-      url: error.config?.url
+      url: error.config?.url,
     });
 
     // Return detailed error information
     const errorResponse = {
       success: false,
-      message: error.response?.data?.message || error.message || "An error occurred",
+      message:
+        error.response?.data?.message || error.message || "An error occurred",
       errorDetails: {
         status: error.response?.status,
         statusText: error.response?.statusText,
         url: error.config?.url,
-        timeout: error.code === 'ECONNABORTED' ? true : false
+        timeout: error.code === "ECONNABORTED" ? true : false,
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     // If it's a network error or external API error, include more details
     if (error.response) {
       errorResponse.externalApiError = {
         status: error.response.status,
-        data: error.response.data
+        data: error.response.data,
       };
     }
 

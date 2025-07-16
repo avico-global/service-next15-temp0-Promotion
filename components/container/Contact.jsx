@@ -61,7 +61,7 @@ export default function Contact() {
   const closeThankYouPopup = () => {
     // Fire Lead Submitted event when user acknowledges the thank you message
     fireLeadSubmittedEvent();
-    
+
     setFormSubmitted(false);
     setFormData({
       name: "",
@@ -75,7 +75,8 @@ export default function Contact() {
 
   // Validate email with stricter regex
   const validateEmail = (email) => {
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     return emailRegex.test(email);
   };
 
@@ -165,10 +166,10 @@ export default function Contact() {
         last_name: lastName,
         email: formData.email,
         phone: formData.phone.replace(/[-()\s]/g, ""), // Clean phone number
-        message: `${formData.message}${formData.zipcode ? ` | Zipcode: ${formData.zipcode}` : ""}`, // Include zipcode in message
+        message: `${formData.message}${
+          formData.zipcode ? ` | Zipcode: ${formData.zipcode}` : ""
+        }`, // Include zipcode in message
       };
-
-      console.log("Submitting contact form with payload:", payload);
 
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -178,11 +179,7 @@ export default function Contact() {
         body: JSON.stringify(payload),
       });
 
-      console.log("Response status:", response.status);
-      console.log("Response headers:", Object.fromEntries(response.headers.entries()));
-
       const result = await response.json();
-      console.log("Response data:", result);
 
       if (!response.ok) {
         throw new Error(
@@ -194,7 +191,7 @@ export default function Contact() {
         // Handle server-side validation errors
         if (result.errors && Array.isArray(result.errors)) {
           const serverErrors = {};
-          result.errors.forEach(error => {
+          result.errors.forEach((error) => {
             if (error.includes("First name") || error.includes("name")) {
               serverErrors.name = error;
             } else if (error.includes("Email") || error.includes("email")) {
@@ -216,7 +213,8 @@ export default function Contact() {
 
       // Show success toast
       toast.success(
-        result.message || "Your request has been submitted successfully! We'll contact you shortly."
+        result.message ||
+          "Your request has been submitted successfully! We'll contact you shortly."
       );
 
       // Set form as submitted
@@ -232,7 +230,7 @@ export default function Contact() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Handle phone number formatting
     let formattedValue = value;
     if (name === "phone") {
@@ -244,7 +242,10 @@ export default function Contact() {
       } else if (digits.length <= 6) {
         formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
       } else {
-        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(
+          3,
+          6
+        )}-${digits.slice(6, 10)}`;
       }
     }
 
@@ -256,7 +257,7 @@ export default function Contact() {
     // Real-time validation
     if (errors[name]) {
       const newErrors = { ...errors };
-      
+
       // Validate the specific field that changed
       switch (name) {
         case "name":
@@ -286,7 +287,7 @@ export default function Contact() {
           }
           break;
       }
-      
+
       setErrors(newErrors);
     }
   };

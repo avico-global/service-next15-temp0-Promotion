@@ -6,8 +6,6 @@ import { project_id } from "@/lib/myFun";
 import arrow from "../public/st-images/arrowhead.jpg";
 
 export default function BeforeAfter({ project_id, niche }) {
-  console.log("project_id in before after", project_id);
-
   const chimeny = [
     {
       before: "/st-images/beforeafter/chimeny/before1.webp",

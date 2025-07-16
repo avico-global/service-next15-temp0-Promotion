@@ -156,7 +156,6 @@ export async function getServerSideProps({ req }) {
       if (projectInfoResponse.ok) {
         const projectInfoData = await projectInfoResponse.json();
         project = projectInfoData?.data || null;
-        console.log("project (server-side):", project);
       } else {
         console.error(
           "Failed to fetch project info:",

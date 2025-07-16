@@ -264,8 +264,6 @@ export async function getServerSideProps({ req, params }) {
     tag: `service-why-${service}`,
   });
 
-  console.log("Service Image", service_why?.data[0]?.file_names);
-
   const service_banner = await callBackendApi({
     domain,
     tag: "service_banner",
@@ -308,7 +306,6 @@ export async function getServerSideProps({ req, params }) {
       if (projectInfoResponse.ok) {
         const projectInfoData = await projectInfoResponse.json();
         project = projectInfoData?.data || null;
-        console.log("project (server-side):", project);
       } else {
         console.error(
           "Failed to fetch project info:",

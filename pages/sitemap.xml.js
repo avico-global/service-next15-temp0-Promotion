@@ -73,12 +73,10 @@ export async function getServerSideProps({ req, res }) {
   try {
     // Get the domain from the request headers
     const domain = getDomain(req?.headers?.host);
-    console.log("Generating sitemap for domain:", domain);
 
     // Get services data directly from API
     const services = await callBackendApi({ domain, tag: "services" });
     const servicesList = services?.data?.[0]?.value || [];
-    console.log(`Found ${servicesList.length} services for sitemap`);
 
     // Format current date for lastmod
     const currentDate = new Date().toISOString();
@@ -116,8 +114,6 @@ export async function getServerSideProps({ req, res }) {
         }
       });
     }
-
-    console.log(`Generated ${urls.length} URLs for sitemap of ${domain}`);
 
     // Check if we should return HTML based on the Accept header
     // Browsers typically accept HTML, crawlers looking for XML sitemap don't

@@ -41,7 +41,8 @@ export default function QuoteForm({
 
   // Validate email with stricter regex
   const validateEmail = (email) => {
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     return emailRegex.test(email);
   };
 
@@ -70,14 +71,16 @@ export default function QuoteForm({
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First name is required";
     } else if (!validateName(formData.firstName)) {
-      newErrors.firstName = "First name must be 2-50 characters and contain only letters";
+      newErrors.firstName =
+        "First name must be 2-50 characters and contain only letters";
     }
 
     // Last name validation
     if (!formData.lastName.trim()) {
       newErrors.lastName = "Last name is required";
     } else if (!validateName(formData.lastName)) {
-      newErrors.lastName = "Last name must be 2-50 characters and contain only letters";
+      newErrors.lastName =
+        "Last name must be 2-50 characters and contain only letters";
     }
 
     // Email validation
@@ -137,7 +140,7 @@ export default function QuoteForm({
   const closeThankYouPopup = () => {
     // Fire Lead Submitted event when user acknowledges the thank you message
     fireLeadSubmittedEvent();
-    
+
     setFormSubmitted(false);
     setFormData({
       firstName: "",
@@ -157,7 +160,7 @@ export default function QuoteForm({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Handle phone number formatting
     let formattedValue = value;
     if (name === "phone") {
@@ -169,7 +172,10 @@ export default function QuoteForm({
       } else if (digits.length <= 6) {
         formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
       } else {
-        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(
+          3,
+          6
+        )}-${digits.slice(6, 10)}`;
       }
     }
 
@@ -181,7 +187,7 @@ export default function QuoteForm({
     // Real-time validation
     if (fieldErrors[name]) {
       const newErrors = { ...fieldErrors };
-      
+
       // Validate the specific field that changed
       switch (name) {
         case "firstName":
@@ -207,7 +213,7 @@ export default function QuoteForm({
           }
           break;
       }
-      
+
       setFieldErrors(newErrors);
     }
   };
@@ -231,8 +237,6 @@ export default function QuoteForm({
         message: formData.message,
       };
 
-      console.log("Submitting quote form with payload:", payload);
-
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -241,11 +245,7 @@ export default function QuoteForm({
         body: JSON.stringify(payload),
       });
 
-      console.log("Response status:", response.status);
-      console.log("Response headers:", Object.fromEntries(response.headers.entries()));
-
       const result = await response.json();
-      console.log("Response data:", result);
 
       if (!response.ok) {
         throw new Error(
@@ -257,7 +257,7 @@ export default function QuoteForm({
         // Handle server-side validation errors
         if (result.errors && Array.isArray(result.errors)) {
           const serverErrors = {};
-          result.errors.forEach(error => {
+          result.errors.forEach((error) => {
             if (error.includes("First name")) {
               serverErrors.firstName = error;
             } else if (error.includes("Last name")) {
@@ -270,7 +270,7 @@ export default function QuoteForm({
               serverErrors.message = error;
             }
           });
-          setFieldErrors(prev => ({ ...prev, ...serverErrors }));
+          setFieldErrors((prev) => ({ ...prev, ...serverErrors }));
           throw new Error("Please fix the validation errors above");
         }
         throw new Error(result.message || "Form submission failed");
@@ -281,7 +281,8 @@ export default function QuoteForm({
 
       // Show success toast
       toast.success(
-        result.message || "Your request has been submitted successfully! We'll contact you shortly."
+        result.message ||
+          "Your request has been submitted successfully! We'll contact you shortly."
       );
 
       // Set form as submitted
