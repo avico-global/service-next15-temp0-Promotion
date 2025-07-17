@@ -56,6 +56,8 @@ export default function Home({
   const gtm_id = project?.additional_config?.gtm_id || null;
   const niche = project?.domain_id?.niche_id?.name || null;
 
+  console.log("Form Head", form_head);
+
   return (
     <div className="bg-white">
       <Head>
