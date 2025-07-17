@@ -304,10 +304,10 @@ export default function QuoteForm({
       </div>
 
       <h3 className="text-3xl md:text-4xl leading-7 md:leading-[30px] font-bold text-center mb-2 text-primary">
-        {form_head?.title || "10% Off Total Price for Online Booking"}
+        {form_head?.title}
       </h3>
       <h4 className="text-lg pt-3 font-bold text-center mb-6 text-[#11121A]">
-        {form_head?.sub_title || "Request a Quote"}
+        {form_head?.sub_title}
       </h4>
 
       {formSubmitted ? (
