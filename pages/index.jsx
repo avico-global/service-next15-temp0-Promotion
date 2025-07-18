@@ -53,6 +53,7 @@ export default function Home({
   project,
 }) {
   const phone = project?.phone || null;
+  console.log("🚀 ~ phone:", phone)
   const gtm_id = project?.additional_config?.gtm_id || null;
   const niche = project?.domain_id?.niche_id?.name || null;
 
