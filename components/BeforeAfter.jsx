@@ -110,18 +110,45 @@ export default function BeforeAfter({ project_id, niche }) {
       after_alt: "after",
     },
   ];
+  const roofing = [
+    {
+      before: "/st-images/beforeafter/roofing/before1.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/roofing/after1.jpeg",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/roofing/before2.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/roofing/after2.jpeg",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/roofing/before3.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/roofing/after3.jpeg",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/roofing/before4.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/roofing/after4.jpeg",
+      after_alt: "after",
+    },
+  ];
 
   let selectedImage = carpet;
   if (niche === "Chimney Cleaning") selectedImage = chimeny;
   else if (niche === "Air Conditioning") selectedImage = airduct;
   else if (niche === "Dryervent Cleaning") selectedImage = dryervent;
   else if (niche === "Carpet Cleaning") selectedImage = carpet;
+  else if (niche === "Roofing") selectedImage = roofing;
 
   return (
     <FullContainer>
       <Container className="pb-16 pt-6 ">
         <h2 className="text-4xl text-center pb-6 font-extrabold text-[#002B5B] mb-2">
-          Before And After Results
+          Before And After Results {niche}
         </h2>
         <div className="hidden md:grid grid-cols-2 md:grid-cols-4 gap-5">
           {selectedImage.map((item, index) => (
