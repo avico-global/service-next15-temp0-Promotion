@@ -137,12 +137,41 @@ export default function BeforeAfter({ project_id, niche }) {
     },
   ];
 
+  const slidingDoor = [
+    {
+      before: "/st-images/beforeafter/slidingDoor/before1.png",
+      before_alt: "before",
+      after: "/st-images/beforeafter/slidingDoor/after1.png",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/slidingDoor/before2.png",
+      before_alt: "before",
+      after: "/st-images/beforeafter/slidingDoor/after2.png",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/slidingDoor/before3.png",
+      before_alt: "before",
+      after: "/st-images/beforeafter/slidingDoor/after3.png",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/slidingDoor/before4.png",
+      before_alt: "before",
+      after: "/st-images/beforeafter/slidingDoor/after4.png",
+      after_alt: "after",
+    },
+  ];
+
   let selectedImage = carpet;
   if (niche === "Chimney Cleaning") selectedImage = chimeny;
   else if (niche === "Air Conditioning") selectedImage = airduct;
   else if (niche === "Dryervent Cleaning") selectedImage = dryervent;
   else if (niche === "Carpet Cleaning") selectedImage = carpet;
   else if (niche === "Roofing") selectedImage = roofing;
+  else if (niche === "Sliding Door") selectedImage = slidingDoor;
+
 
   return (
     <FullContainer>
