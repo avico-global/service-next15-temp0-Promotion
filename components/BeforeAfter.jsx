@@ -164,6 +164,37 @@ export default function BeforeAfter({ project_id, niche }) {
     },
   ];
 
+  const waterDamage=[
+
+     {
+      before: "/st-images/beforeafter/waterDamage/before1.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/waterDamage/after1.jpeg",
+      after_alt: "after",
+    },
+     {
+      before: "/st-images/beforeafter/waterDamage/before2.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/waterDamage/after2.jpeg",
+      after_alt: "after",
+    },
+     {
+      before: "/st-images/beforeafter/waterDamage/before3.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/waterDamage/after3.jpeg",
+      after_alt: "after",
+    },
+
+    {
+      before: "/st-images/beforeafter/waterDamage/before4.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/waterDamage/after4.jpeg",
+      after_alt: "after",
+    },
+
+
+  ]
+
   let selectedImage = carpet;
   if (niche === "Chimney Cleaning") selectedImage = chimeny;
   else if (niche === "Air Conditioning") selectedImage = airduct;
@@ -171,6 +202,8 @@ export default function BeforeAfter({ project_id, niche }) {
   else if (niche === "Carpet Cleaning") selectedImage = carpet;
   else if (niche === "Roofing") selectedImage = roofing;
   else if (niche === "Sliding Door") selectedImage = slidingDoor;
+  else if (niche === "water damage") selectedImage = waterDamage;
+
 
 
   return (
