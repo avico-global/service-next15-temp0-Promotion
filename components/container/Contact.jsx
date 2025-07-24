@@ -34,7 +34,7 @@ export default function Contact() {
   const fireGTMEvent = (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
-        event: "form submitted",
+        event: "form_submit",
         url: window.location.href,
         formData: {
           name: submittedFormData.name,

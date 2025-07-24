@@ -113,7 +113,7 @@ export default function QuoteForm({
   const fireGTMEvent = (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
-        event: "form submitted",
+        event: "form_submit",
         url: window.location.href,
         formData: {
           firstName: submittedFormData.firstName,
