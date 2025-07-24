@@ -130,7 +130,7 @@ export default function QuoteForm({
   const fireLeadSubmittedEvent = () => {
     if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
-        event: "Lead Submitted",
+        event: "leadSubmitted",
         url: window.location.href,
       });
     }
