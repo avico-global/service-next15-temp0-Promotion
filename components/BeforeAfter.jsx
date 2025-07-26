@@ -164,21 +164,20 @@ export default function BeforeAfter({ project_id, niche }) {
     },
   ];
 
-  const waterDamage=[
-
-     {
+  const waterDamage = [
+    {
       before: "/st-images/beforeafter/waterDamage/before1.jpeg",
       before_alt: "before",
       after: "/st-images/beforeafter/waterDamage/after1.jpeg",
       after_alt: "after",
     },
-     {
+    {
       before: "/st-images/beforeafter/waterDamage/before2.jpeg",
       before_alt: "before",
       after: "/st-images/beforeafter/waterDamage/after2.jpeg",
       after_alt: "after",
     },
-     {
+    {
       before: "/st-images/beforeafter/waterDamage/before3.jpeg",
       before_alt: "before",
       after: "/st-images/beforeafter/waterDamage/after3.jpeg",
@@ -191,9 +190,35 @@ export default function BeforeAfter({ project_id, niche }) {
       after: "/st-images/beforeafter/waterDamage/after4.jpeg",
       after_alt: "after",
     },
+  ];
 
+  const construction = [
+    {
+      before: "/st-images/beforeafter/construction/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/construction/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/construction/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/construction/after2.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/construction/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/construction/after3.webp",
+      after_alt: "after",
+    },
 
-  ]
+    {
+      before: "/st-images/beforeafter/construction/before4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/construction/after4.webp",
+      after_alt: "after",
+    },
+  ];
 
   let selectedImage = carpet;
   if (niche === "Chimney Cleaning") selectedImage = chimeny;
@@ -203,8 +228,7 @@ export default function BeforeAfter({ project_id, niche }) {
   else if (niche === "Roofing") selectedImage = roofing;
   else if (niche === "Sliding Door") selectedImage = slidingDoor;
   else if (niche === "water damage") selectedImage = waterDamage;
-
-
+  else if (niche === "Construction") selectedImage = construction;
 
   return (
     <FullContainer>
