@@ -139,27 +139,27 @@ export default function BeforeAfter({ project_id, niche }) {
 
   const slidingDoor = [
     {
-      before: "/st-images/beforeafter/slidingDoor/before1.png",
+      before: "/st-images/beforeafter/slidingDoor/beforee1.jpeg",
       before_alt: "before",
-      after: "/st-images/beforeafter/slidingDoor/after1.png",
+      after: "/st-images/beforeafter/slidingDoor/afterr1.jpeg",
       after_alt: "after",
     },
     {
-      before: "/st-images/beforeafter/slidingDoor/before2.png",
+      before: "/st-images/beforeafter/slidingDoor/beforee2.jpeg",
       before_alt: "before",
-      after: "/st-images/beforeafter/slidingDoor/after2.png",
+      after: "/st-images/beforeafter/slidingDoor/afterr2.jpeg",
       after_alt: "after",
     },
     {
-      before: "/st-images/beforeafter/slidingDoor/before3.png",
+      before: "/st-images/beforeafter/slidingDoor/beforee3.jpeg",
       before_alt: "before",
-      after: "/st-images/beforeafter/slidingDoor/after3.png",
+      after: "/st-images/beforeafter/slidingDoor/afterr3.jpeg",
       after_alt: "after",
     },
     {
-      before: "/st-images/beforeafter/slidingDoor/before4.png",
+      before: "/st-images/beforeafter/slidingDoor/beforee4.jpeg",
       before_alt: "before",
-      after: "/st-images/beforeafter/slidingDoor/after4.png",
+      after: "/st-images/beforeafter/slidingDoor/afterr4.jpeg",
       after_alt: "after",
     },
   ];
