@@ -1,8 +1,154 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, memo } from "react";
 import Container from "../common/Container";
 import FullContainer from "../common/FullContainer";
 import { CheckCircle, Loader, TextQuote } from "lucide-react";
 import toast from "react-hot-toast";
+
+// Individual input components to prevent recreation issues
+const NameInput = memo(({ value, onChange, error }) => (
+  <div>
+    <label htmlFor="name" className="block text-lg font-bold mb-1">
+      Name <span className="text-red-300">*</span>
+    </label>
+    <div className="relative">
+      <input
+        id="name"
+        type="text"
+        name="name"
+        value={value}
+        onChange={onChange}
+        className={`w-full pl-4 py-2 border-0 bg-gray-50 rounded-md outline-none text-black ${
+          error ? "border-2 border-red-500" : ""
+        }`}
+        placeholder="Your full name"
+        required
+        aria-invalid={!!error}
+        aria-describedby={error ? "name-error" : undefined}
+      />
+      {error && (
+        <p id="name-error" className="text-red-300 text-sm mt-1">
+          {error}
+        </p>
+      )}
+    </div>
+  </div>
+));
+
+const EmailInput = memo(({ value, onChange, error }) => (
+  <div>
+    <label htmlFor="email" className="block text-lg font-bold mb-1">
+      Email <span className="text-red-300">*</span>
+    </label>
+    <div className="relative">
+      <input
+        id="email"
+        type="email"
+        name="email"
+        value={value}
+        onChange={onChange}
+        className={`w-full pl-4 py-2 border-0 bg-gray-50 rounded-md outline-none text-black ${
+          error ? "border-2 border-red-500" : ""
+        }`}
+        placeholder="your@email.com"
+        required
+        aria-invalid={!!error}
+        aria-describedby={error ? "email-error" : undefined}
+      />
+      {error && (
+        <p id="email-error" className="text-red-300 text-sm mt-1">
+          {error}
+        </p>
+      )}
+    </div>
+  </div>
+));
+
+const PhoneInput = memo(({ value, onChange, error }) => (
+  <div>
+    <label htmlFor="phone" className="block text-lg font-bold mb-1">
+      Phone Number <span className="text-red-300">*</span>
+    </label>
+    <div className="relative">
+      <input
+        id="phone"
+        type="tel"
+        name="phone"
+        value={value}
+        onChange={onChange}
+        className={`w-full pl-4 py-2 border-0 bg-gray-50 rounded-md outline-none text-black ${
+          error ? "border-2 border-red-500" : ""
+        }`}
+        placeholder="(123) 456-7890"
+        required
+        aria-invalid={!!error}
+        aria-describedby={error ? "phone-error" : undefined}
+      />
+      {error && (
+        <p id="phone-error" className="text-red-300 text-sm mt-1">
+          {error}
+        </p>
+      )}
+    </div>
+  </div>
+));
+
+const ZipcodeInput = memo(({ value, onChange, error }) => (
+  <div>
+    <label htmlFor="zipcode" className="block text-lg font-bold mb-1">
+      Zip Code <span className="text-red-300">*</span>
+    </label>
+    <div className="relative">
+      <input
+        id="zipcode"
+        type="text"
+        name="zipcode"
+        value={value}
+        onChange={onChange}
+        className={`w-full pl-4 py-2 border-0 bg-gray-50 rounded-md outline-none text-black ${
+          error ? "border-2 border-red-500" : ""
+        }`}
+        placeholder="12345"
+        required
+        aria-invalid={!!error}
+        aria-describedby={error ? "zipcode-error" : undefined}
+      />
+      {error && (
+        <p id="zipcode-error" className="text-red-300 text-sm mt-1">
+          {error}
+        </p>
+      )}
+    </div>
+  </div>
+));
+
+const MessageInput = memo(({ value, onChange, error }) => (
+  <div>
+    <label htmlFor="message" className="block text-lg font-bold mb-1">
+      How can we help you? <span className="text-red-300">*</span>
+    </label>
+    <div className="relative">
+      <textarea
+        id="message"
+        name="message"
+        value={value}
+        onChange={onChange}
+        rows={4}
+        className={`w-full max-h-[100px] pl-4 py-2 border-0 bg-gray-50 rounded-md outline-none text-black ${
+          error ? "border-2 border-red-500" : ""
+        }`}
+        placeholder="Tell us about your project or request"
+        required
+        aria-invalid={!!error}
+        aria-describedby={error ? "message-error" : undefined}
+      />
+      {error && (
+        <p id="message-error" className="text-red-300 text-sm mt-1">
+          {error}
+        </p>
+      )}
+    </div>
+  </div>
+));
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -228,69 +374,48 @@ export default function Contact() {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
 
-    // Handle phone number formatting
-    let formattedValue = value;
-    if (name === "phone") {
-      // Remove all non-digits
-      const digits = value.replace(/\D/g, "");
-      // Format as (XXX) XXX-XXXX
-      if (digits.length <= 3) {
-        formattedValue = digits;
-      } else if (digits.length <= 6) {
-        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
-      } else {
-        formattedValue = `(${digits.slice(0, 3)}) ${digits.slice(
-          3,
-          6
-        )}-${digits.slice(6, 10)}`;
-      }
-    }
-
+    // Simple state update without formatting for now
     setFormData((prev) => ({
       ...prev,
-      [name]: formattedValue,
+      [name]: value,
     }));
 
-    // Real-time validation
-    if (errors[name]) {
-      const newErrors = { ...errors };
-
-      // Validate the specific field that changed
+    // Only clear errors if they exist and the field is now valid
+    setErrors((prevErrors) => {
+      if (!prevErrors[name]) return prevErrors;
+      
+      let isValid = false;
       switch (name) {
         case "name":
-          if (formattedValue.trim() && validateName(formattedValue)) {
-            delete newErrors.name;
-          }
+          isValid = value.trim() && validateName(value);
           break;
         case "email":
-          if (formattedValue.trim() && validateEmail(formattedValue)) {
-            delete newErrors.email;
-          }
+          isValid = value.trim() && validateEmail(value);
           break;
         case "phone":
-          const cleanPhone = formattedValue.replace(/[-()\s]/g, "");
-          if (cleanPhone && validatePhone(cleanPhone)) {
-            delete newErrors.phone;
-          }
+          const cleanPhone = value.replace(/[-()\s]/g, "");
+          isValid = cleanPhone && validatePhone(cleanPhone);
           break;
         case "zipcode":
-          if (formattedValue.trim() && validateZipcode(formattedValue)) {
-            delete newErrors.zipcode;
-          }
+          isValid = value.trim() && validateZipcode(value);
           break;
         case "message":
-          if (formattedValue.trim() && validateMessage(formattedValue)) {
-            delete newErrors.message;
-          }
+          isValid = value.trim() && validateMessage(value);
           break;
       }
 
-      setErrors(newErrors);
-    }
-  };
+      if (isValid) {
+        const newErrors = { ...prevErrors };
+        delete newErrors[name];
+        return newErrors;
+      }
+      
+      return prevErrors;
+    });
+  }, []);
 
   const FormSuccess = () => (
     <div
@@ -315,59 +440,7 @@ export default function Contact() {
     </div>
   );
 
-  const FormField = ({
-    label,
-    name,
-    type = "text",
-    placeholder,
-    required = true,
-  }) => (
-    <div>
-      <label htmlFor={name} className="block text-lg font-bold mb-1">
-        {label} {required && <span className="text-red-300">*</span>}
-      </label>
-      <div className="relative">
-        {type === "textarea" ? (
-          <textarea
-            id={name}
-            name={name}
-            value={formData[name]}
-            onChange={handleChange}
-            onFocus={handleFirstInteraction}
-            rows={4}
-            className={`w-full max-h-[100px] pl-4 py-2 border-0 bg-gray-50 rounded-md outline-none text-black ${
-              errors[name] ? "border-2 border-red-500" : ""
-            }`}
-            placeholder={placeholder}
-            required={required}
-            aria-invalid={!!errors[name]}
-            aria-describedby={errors[name] ? `${name}-error` : undefined}
-          />
-        ) : (
-          <input
-            id={name}
-            type={type}
-            name={name}
-            value={formData[name]}
-            onChange={handleChange}
-            onFocus={handleFirstInteraction}
-            className={`w-full pl-4 py-2 border-0 bg-gray-50 rounded-md outline-none text-black ${
-              errors[name] ? "border-2 border-red-500" : ""
-            }`}
-            placeholder={placeholder}
-            required={required}
-            aria-invalid={!!errors[name]}
-            aria-describedby={errors[name] ? `${name}-error` : undefined}
-          />
-        )}
-        {errors[name] && (
-          <p id={`${name}-error`} className="text-red-300 text-sm mt-1">
-            {errors[name]}
-          </p>
-        )}
-      </div>
-    </div>
-  );
+
 
   return (
     <FullContainer id="contact-us" className="pb-4 relative">
@@ -391,35 +464,32 @@ export default function Contact() {
                     noValidate
                   >
                     <div className="grid md:grid-cols-2 gap-4">
-                      <FormField
-                        label="Name"
-                        name="name"
-                        placeholder="Your full name"
+                      <NameInput
+                        value={formData.name}
+                        onChange={handleChange}
+                        error={errors.name}
                       />
-                      <FormField
-                        label="Email"
-                        name="email"
-                        type="email"
-                        placeholder="your@email.com"
+                      <EmailInput
+                        value={formData.email}
+                        onChange={handleChange}
+                        error={errors.email}
                       />
-                      <FormField
-                        label="Phone Number"
-                        name="phone"
-                        type="tel"
-                        placeholder="(123) 456-7890"
+                      <PhoneInput
+                        value={formData.phone}
+                        onChange={handleChange}
+                        error={errors.phone}
                       />
-                      <FormField
-                        label="Zip Code"
-                        name="zipcode"
-                        placeholder="12345"
+                      <ZipcodeInput
+                        value={formData.zipcode}
+                        onChange={handleChange}
+                        error={errors.zipcode}
                       />
                     </div>
 
-                    <FormField
-                      label="How can we help you?"
-                      name="message"
-                      type="textarea"
-                      placeholder="Tell us about your project or request"
+                    <MessageInput
+                      value={formData.message}
+                      onChange={handleChange}
+                      error={errors.message}
                     />
 
                     <div className="flex flex-col text-center justify-center items-center mt-6">
