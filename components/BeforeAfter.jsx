@@ -220,6 +220,7 @@ export default function BeforeAfter({ project_id, niche }) {
     },
   ];
 
+
   let selectedImage = carpet;
   if (niche === "Chimney Cleaning") selectedImage = chimeny;
   else if (niche === "Air Conditioning") selectedImage = airduct;
@@ -230,6 +231,7 @@ export default function BeforeAfter({ project_id, niche }) {
   else if (niche === "water damage") selectedImage = waterDamage;
   else if (niche === "Construction") selectedImage = construction;
 
+  
   return (
     <FullContainer>
       <Container className="pb-16 pt-6 ">
