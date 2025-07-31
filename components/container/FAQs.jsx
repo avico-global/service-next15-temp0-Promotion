@@ -5,7 +5,7 @@ import { Plus, Minus } from "lucide-react";
 import FullContainer from "../common/FullContainer";
 import Heading from "../common/Heading";
 
-export default function Faqs({ faqs = [] }) {
+export default function Faqs({ faqs = [], city_name }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const toggleFAQ = (index) => {
@@ -61,7 +61,9 @@ export default function Faqs({ faqs = [] }) {
                       </svg>
                     )}
                   </span>
-                  <span className="font-thin">{faq.question}</span>
+                  <span className="font-thin">
+                    {faq.question?.replaceAll("##city_name##", city_name)}
+                  </span>
                 </button>
 
                 {/* Answer panel with smooth transition */}
@@ -73,7 +75,9 @@ export default function Faqs({ faqs = [] }) {
                   }`}
                 >
                   <div className="bg-white p-4 border border-gray-200 border-t-0 rounded-b">
-                    <p className="text-gray-900 text-start">{faq.answer}</p>
+                    <p className="text-gray-900 text-start">
+                      {faq.answer?.replaceAll("##city_name##", city_name)}
+                    </p>
                   </div>
                 </div>
               </div>

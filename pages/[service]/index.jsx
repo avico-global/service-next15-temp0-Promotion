@@ -194,7 +194,7 @@ export default function Service({
         <Contact />
       </div>
 
-      <FAQs faqs={faqs} />
+      <FAQs faqs={faqs} city_name={city_name} />
 
       <ServiceCities data={locations} />
       <Footer
