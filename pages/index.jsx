@@ -57,7 +57,10 @@ export default function Home({
   const gtm_id = project?.additional_config?.gtm_id || null;
   const niche = project?.domain_id?.niche_id?.name || null;
 
-  console.log("Form Head", form_head);
+  console.log("locations", locations);
+  console.log("testimonials", testimonials);
+  console.log("city_name", city_name);
+  console.log("faqs", faqs);
 
   return (
     <div className="bg-white">
@@ -236,8 +239,6 @@ export async function getServerSideProps({ req }) {
   const project_id = logo?.data[0]?.project_id || null;
   const imagePath = await getImagePath(project_id, domain);
 
-  // Removed GTM variables since they're now handled via API
-
   const banner = await callBackendApi({ domain, tag: "banner" });
   const services = await callBackendApi({ domain, tag: "services" });
   const features = await callBackendApi({ domain, tag: "features" });
@@ -301,11 +302,11 @@ export async function getServerSideProps({ req }) {
       gallery: ensureArray(gallery?.data[0]?.value),
       about: about?.data[0] || null,
       benefits: benefits?.data[0] || null,
-      testimonials: ensureArray(testimonials?.data[0]?.value),
+      testimonials: testimonials?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
       footer: footer?.data[0] || null,
-      locations: ensureArray(locations?.data[0]?.value),
+      locations: locations?.data[0]?.value || {},
       why_us: ensureArray(why_us?.data[0]?.value),
       prices: prices?.data[0]?.value || null,
       slogan_1: slogan_1?.data[0]?.value || null,

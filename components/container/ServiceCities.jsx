@@ -10,10 +10,7 @@ export default function ServiceCities({ data }) {
   const cities = data?.list || [];
 
   return (
-    <FullContainer
-      className="pt-6 overflow-hidden"
-      id="locations"
-    >
+    <FullContainer className="pt-6 overflow-hidden" id="locations">
       {/* Background Map */}
 
       <Container className="relative pb-14 pr-4">
@@ -32,11 +29,18 @@ export default function ServiceCities({ data }) {
           <Heading text="Service Cities" className="pb-6 pt-12" />
 
           <div className="grid md:px-2 z-30 grid-cols-3 gap-y-[6px] gap-x-3  md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6  ">
-            {cities.map((city, index) => (
+            {cities?.map((city, index) => (
               <div key={index} className="flex items-center">
-               <div className="w-[14px] h-[14px] md:w-[20px] md:h-[20px] mr-[10px]">
-                <Image title="Location Image" src={location_image} alt={city} width={500} height={500} className="w-full h-full" /> 
-               </div>
+                <div className="w-[14px] h-[14px] md:w-[20px] md:h-[20px] mr-[10px]">
+                  <Image
+                    title="Location Image"
+                    src={location_image}
+                    alt={city}
+                    width={500}
+                    height={500}
+                    className="w-full h-full"
+                  />
+                </div>
                 <div className="text-primary text-[13.5px] md:text-[19.5px] font-barlow font-[500] leading-tight md:leading-none transition-colors cursor-pointer">
                   {city}
                 </div>

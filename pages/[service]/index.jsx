@@ -39,22 +39,17 @@ const capitalizeFirstLetterOfEachWord = (string) => {
 export default function Service({
   contact_info,
   logo,
-  banner,
   services,
   imagePath,
-  benefits,
   gallery,
   footer,
-  about,
   meta,
   domain,
   favicon,
   locations,
   service_banner,
-  gallery_head,
   state_,
   faqs,
-  gtmId,
   service_text1,
   service_text2,
   service_description,
@@ -64,7 +59,6 @@ export default function Service({
   service_why,
   form_head,
   features,
-  background,
   phone,
 }) {
   const router = useRouter();
@@ -252,7 +246,6 @@ export async function getServerSideProps({ req, params }) {
   const gallery = await callBackendApi({ domain, tag: "gallery" });
   const about = await callBackendApi({ domain, tag: "about" });
   const benefits = await callBackendApi({ domain, tag: "benefits" });
-  const testimonials = await callBackendApi({ domain, tag: "testimonials" });
   const meta = await callBackendApi({ domain, tag: "meta_service" });
   const favicon = await callBackendApi({ domain, tag: "favicon" });
   const footer = await callBackendApi({ domain, tag: "footer" });
@@ -349,11 +342,10 @@ export async function getServerSideProps({ req, params }) {
       gallery: ensureArray(gallery?.data[0]?.value),
       about: about?.data[0] || null,
       benefits: benefits?.data[0] || null,
-      testimonials: ensureArray(testimonials?.data[0]?.value),
       meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
       footer: footer?.data[0] || null,
-      locations: ensureArray(locations?.data[0]?.value),
+      locations: locations?.data[0]?.value || {},
       service_description: service_description?.data[0] || null,
       service_description1: service_description1?.data[0] || null,
       service_description2: service_description2?.data[0] || null,
