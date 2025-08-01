@@ -2,7 +2,7 @@ import Head from "next/head";
 import Banner from "../components/container/home/Banner";
 import Navbar from "../components/container/Navbar/Navbar";
 import WhyChoose from "../components/container/home/WhyChoose";
-import { useInView } from "react-intersection-observer";
+
 import ServiceCities from "../components/container/ServiceCities";
 import FAQs from "../components/container/FAQs";
 import Testimonials from "../components/container/Testimonials";
@@ -53,14 +53,8 @@ export default function Home({
   project,
 }) {
   const phone = project?.phone || null;
-  console.log("🚀 ~ phone:", phone);
   const gtm_id = project?.additional_config?.gtm_id || null;
   const niche = project?.domain_id?.niche_id?.name || null;
-
-  console.log("locations", locations);
-  console.log("testimonials", testimonials);
-  console.log("city_name", city_name);
-  console.log("faqs", faqs);
 
   return (
     <div className="bg-white">
@@ -233,16 +227,13 @@ export default function Home({
 export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
   const faqs = await callBackendApi({ domain, tag: "faqs" });
-  const gallery_head = await callBackendApi({ domain, tag: "gallery_head" });
   const contact_info = await callBackendApi({ domain, tag: "contact_info" });
   const logo = await callBackendApi({ domain, tag: "logo" });
   const project_id = logo?.data[0]?.project_id || null;
   const imagePath = await getImagePath(project_id, domain);
-
   const banner = await callBackendApi({ domain, tag: "banner" });
   const services = await callBackendApi({ domain, tag: "services" });
   const features = await callBackendApi({ domain, tag: "features" });
-  const gallery = await callBackendApi({ domain, tag: "gallery" });
   const about = await callBackendApi({ domain, tag: "about" });
   const benefits = await callBackendApi({ domain, tag: "benefits" });
   const testimonials = await callBackendApi({ domain, tag: "testimonials" });
@@ -281,11 +272,6 @@ export async function getServerSideProps({ req }) {
 
   robotsTxt({ domain });
 
-  // Helper function to ensure array data
-  const ensureArray = (data) => {
-    return Array.isArray(data) ? data : [];
-  };
-
   // Keep secret variables server-side only
   return {
     props: {
@@ -293,13 +279,13 @@ export async function getServerSideProps({ req }) {
       domain,
       imagePath,
       project_id,
-      gallery_head: gallery_head?.data[0]?.value || null,
       faqs: faqs?.data[0]?.value || null,
       logo: logo?.data[0] || null,
       banner: banner?.data[0] || null,
-      services: ensureArray(services?.data[0]?.value),
+      services: Array.isArray(services?.data[0]?.value)
+        ? services?.data[0]?.value
+        : [],
       features: features?.data[0] || null,
-      gallery: ensureArray(gallery?.data[0]?.value),
       about: about?.data[0] || null,
       benefits: benefits?.data[0] || null,
       testimonials: testimonials?.data[0]?.value || null,
@@ -307,7 +293,9 @@ export async function getServerSideProps({ req }) {
       favicon: favicon?.data[0]?.file_name || null,
       footer: footer?.data[0] || null,
       locations: locations?.data[0]?.value || {},
-      why_us: ensureArray(why_us?.data[0]?.value),
+      why_us: Array.isArray(why_us?.data[0]?.value)
+        ? why_us?.data[0]?.value
+        : [],
       prices: prices?.data[0]?.value || null,
       slogan_1: slogan_1?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,

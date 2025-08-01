@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Navbar from "../components/container/Navbar/Navbar";
 import Footer from "../components/container/Footer";
 import Container from "../components/common/Container";
@@ -90,12 +90,7 @@ export default function PrivacyPolicy({
         />
       </Head>
 
-      <Navbar
-        logo={logo}
-        imagePath={imagePath}
-        phone={phone}
-        services={services}
-      />
+      <Navbar logo={logo} imagePath={imagePath} phone={phone} data={services} />
 
       <FullContainer>
         <Container>
@@ -125,22 +120,11 @@ export async function getServerSideProps({ req }) {
   const logo = await callBackendApi({ domain, tag: "logo" });
   const project_id = logo?.data[0]?.project_id || null;
   const imagePath = await getImagePath(project_id, domain);
-  const gtmId = await callBackendApi({ domain, tag: "gtmId" });
-  const gtm_head = await callBackendApi({ domain, tag: "gtm_head" });
-  const gtm_body = await callBackendApi({ domain, tag: "gtm_body" });
-
-  const banner = await callBackendApi({ domain, tag: "banner" });
-  const phone = await callBackendApi({ domain, tag: "phone" });
-  const services = await callBackendApi({ domain, tag: "services_list" });
-  const features = await callBackendApi({ domain, tag: "features" });
-  const gallery = await callBackendApi({ domain, tag: "gallery" });
-  const about = await callBackendApi({ domain, tag: "about" });
-  const benefits = await callBackendApi({ domain, tag: "benefits" });
-  const testimonials = await callBackendApi({ domain, tag: "testimonials" });
+  const services = await callBackendApi({ domain, tag: "services" });
   const meta = await callBackendApi({ domain, tag: "meta_privacy" });
   const favicon = await callBackendApi({ domain, tag: "favicon" });
   const footer = await callBackendApi({ domain, tag: "footer" });
-  const locations = await callBackendApi({ domain, tag: "locations" });
+
   const policy = await callBackendApi({ domain, tag: "policy" });
   const contact_info = await callBackendApi({ domain, tag: "contact_info" });
   const city_name = await callBackendApi({ domain, tag: "city_name" });
@@ -174,23 +158,14 @@ export async function getServerSideProps({ req }) {
     props: {
       domain,
       imagePath,
-      gtm_head: gtm_head?.data[0]?.value || null,
-      gtm_body: gtm_body?.data[0]?.value || null,
       logo: logo?.data[0] || null,
-      banner: banner?.data[0] || null,
-      phone: phone?.data[0]?.value || null,
-      services: services?.data[0]?.value || [],
-      features: features?.data[0] || [],
-      gallery: gallery?.data[0]?.value || [],
-      about: about?.data[0] || null,
-      benefits: benefits?.data[0] || [],
-      testimonials: testimonials?.data[0]?.value || [],
+      services: Array.isArray(services?.data[0]?.value)
+        ? services?.data[0]?.value
+        : [],
       meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
       footer: footer?.data[0] || null,
-      locations: locations?.data[0]?.value || [],
       policy: policy?.data[0]?.value || null,
-      gtmId: gtmId?.data[0]?.value || null,
       contact_info: contact_info?.data[0]?.value || null,
       city_name: city_name?.data[0]?.value || null,
       phone: project?.phone || null,

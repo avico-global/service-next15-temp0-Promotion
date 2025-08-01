@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Container from "./common/Container";
 import Image from "next/image";
 import FullContainer from "./common/FullContainer";
-import { project_id } from "@/lib/myFun";
+
 import arrow from "../public/st-images/arrowhead.jpg";
 
 export default function BeforeAfter({ project_id, niche }) {

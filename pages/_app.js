@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import { Barlow } from "next/font/google";
-import { useEffect, useState } from "react";
+
 import { Toaster } from "react-hot-toast";
 
 const barlow = Barlow({

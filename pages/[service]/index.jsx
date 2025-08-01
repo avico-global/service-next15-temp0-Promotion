@@ -22,8 +22,8 @@ import useBreadcrumbs from "@/lib/useBreadcrumbs";
 import FullContainer from "@/components/common/FullContainer";
 import Container from "@/components/common/Container";
 import Link from "next/link";
-import { Phone, TextQuote } from "lucide-react";
-import { ScrollLink } from "react-scroll";
+import { Phone } from "lucide-react";
+
 import ServiceDescription from "@/components/container/services/ServiceDescription";
 import ServiceDescription1 from "@/components/container/services/ServicwDescription1";
 import ServiceDescription2 from "@/components/container/services/ServicwDescription2";
@@ -205,7 +205,7 @@ export default function Service({
         <div className="w-full bg-gradient-to-b from-green-700 via-lime-600 to-green-600 rounded-md flex flex-col items-center justify-center py-3">
           <Link
             title="Call Button"
-            href={`tel:${contact_info?.phone}`}
+            href={`tel:${phone}`}
             className="flex flex-col text-white items-center justify-center w-full font-barlow"
           >
             <div className="flex items-center mb-1">
@@ -215,7 +215,7 @@ export default function Service({
               </div>
             </div>
             <div className="text-3xl font-semibold">
-              {contact_info?.phone ? contact_info?.phone : "Contact Us"}
+              {phone ? phone : "Contact Us"}
             </div>
           </Link>
         </div>
@@ -231,21 +231,13 @@ export async function getServerSideProps({ req, params }) {
   const faqs = await callBackendApi({ domain, tag: "faqs" });
   const service_text1 = await callBackendApi({ domain, tag: "service_text1" });
   const service_text2 = await callBackendApi({ domain, tag: "service_text2" });
-  const gallery_head = await callBackendApi({ domain, tag: "gallery_head" });
   const contact_info = await callBackendApi({ domain, tag: "contact_info" });
   const logo = await callBackendApi({ domain, tag: "logo" });
   const project_id = logo?.data[0]?.project_id || null;
   const imagePath = await getImagePath(project_id, domain);
-  const gtmId = await callBackendApi({ domain, tag: "gtmId" });
-  const gtm_head = await callBackendApi({ domain, tag: "gtm_head" });
-  const gtm_body = await callBackendApi({ domain, tag: "gtm_body" });
-
-  const banner = await callBackendApi({ domain, tag: "banner" });
   const services = await callBackendApi({ domain, tag: "services" });
   const features = await callBackendApi({ domain, tag: "features" });
   const gallery = await callBackendApi({ domain, tag: "gallery" });
-  const about = await callBackendApi({ domain, tag: "about" });
-  const benefits = await callBackendApi({ domain, tag: "benefits" });
   const meta = await callBackendApi({ domain, tag: "meta_service" });
   const favicon = await callBackendApi({ domain, tag: "favicon" });
   const footer = await callBackendApi({ domain, tag: "footer" });
@@ -314,34 +306,23 @@ export async function getServerSideProps({ req, params }) {
 
   robotsTxt({ domain });
 
-  // Helper function to ensure array data
-  const ensureArray = (data) => {
-    return Array.isArray(data) ? data : [];
-  };
+
 
   return {
     props: {
       contact_info: contact_info?.data[0]?.value || null,
-      gallery_head: gallery_head?.data[0]?.value || null,
       service_why: service_why?.data[0] || null,
       faqs: faqs?.data[0]?.value || null,
       service_text1: service_text1?.data[0]?.value || null,
       service_text2: service_text2?.data[0]?.value || null,
       service_banner: service_banner?.data[0] || null,
-      gtmId: gtmId?.data[0]?.value || null,
-      gtm_head: gtm_head?.data[0]?.value || null,
-      gtm_body: gtm_body?.data[0]?.value || null,
       state_: state_?.data[0]?.value || null,
-
       domain,
       imagePath,
       logo: logo?.data[0] || null,
-      banner: banner?.data[0] || null,
-      services: ensureArray(services?.data[0]?.value),
+      services: Array.isArray(services?.data[0]?.value) ? services?.data[0]?.value : [],
       features: features?.data[0] || null,
-      gallery: ensureArray(gallery?.data[0]?.value),
-      about: about?.data[0] || null,
-      benefits: benefits?.data[0] || null,
+      gallery: Array.isArray(gallery?.data[0]?.value) ? gallery?.data[0]?.value : [],
       meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
       footer: footer?.data[0] || null,
