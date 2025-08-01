@@ -18,7 +18,7 @@ export default function Faqs({ faqs = [], city_name }) {
         <div className="text-center ">
           <Heading text="FAQs" className="pb-6" />
           <div className="mx-auto font-barlow text-[16px]">
-            {faqs?.map((faq, index) => (
+            {(Array.isArray(faqs) ? faqs : [])?.map((faq, index) => (
               <div key={index} className="mb-2">
                 <button
                   className={`w-full text-left py-3.5 px-4  bg-primary text-white rounded-lg flex items-center focus:outline-none ${

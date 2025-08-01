@@ -123,7 +123,7 @@ export default function Navbar({ logo, imagePath, phone, data }) {
                 }`}
               >
                 <div className="flex-grow dropdown-services-container scrollbar-hide">
-                  {data?.map((service, index) => {
+                  {(Array.isArray(data) ? data : [])?.map((service, index) => {
                     const serviceUrl = sanitizeUrl(service?.title);
                     return (
                       <Link
@@ -225,7 +225,7 @@ export default function Navbar({ logo, imagePath, phone, data }) {
 
             {showServices && (
               <div className=" mt-2 flex flex-col max-h-[300px] overflow-y-auto gap-2">
-                {data?.map((service, index) => {
+                {(Array.isArray(data) ? data : [])?.map((service, index) => {
                   const serviceUrl = sanitizeUrl(service?.title);
                   return (
                     <Link

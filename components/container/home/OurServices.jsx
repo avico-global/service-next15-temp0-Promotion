@@ -12,7 +12,7 @@ export default function OurServices({ phone, data, imagePath }) {
           Services Provided
         </h2>
         <div className="grid grid-cols-2 md:gap-8 gap-4">
-          {data?.map((service) => (
+          {(Array.isArray(data) ? data : [])?.map((service) => (
             <div
               key={service.id}
               className="bg-white border border-blue-900 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200 flex flex-col"

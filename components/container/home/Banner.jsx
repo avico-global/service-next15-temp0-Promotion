@@ -70,7 +70,7 @@ export default function Banner({ image, data, form_head, features, niche }) {
             <p className="text-lg md:text-3xl mb-1">{data?.description}</p>
 
             <ul className="mb-9 space-y-1 md:space-y-2 mx-auto md:mx-0">
-              {features?.map((feature, idx) => {
+              {(Array.isArray(features) ? features : [])?.map((feature, idx) => {
                 const IconComponent = iconMap[feature.icon];
                 return (
                   <li

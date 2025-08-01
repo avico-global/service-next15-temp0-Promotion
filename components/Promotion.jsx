@@ -106,7 +106,7 @@ const PromotionCard = ({
       )}
 
       <div className="space-y-3 flex-1">
-        {features?.map((feature, index) => (
+        {(Array.isArray(features) ? features : [])?.map((feature, index) => (
           <div
             key={index}
             className={`flex items-start gap-2 text-sm font-medium ${

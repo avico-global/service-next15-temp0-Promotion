@@ -280,6 +280,11 @@ export async function getServerSideProps({ req }) {
 
   robotsTxt({ domain });
 
+  // Helper function to ensure array data
+  const ensureArray = (data) => {
+    return Array.isArray(data) ? data : [];
+  };
+
   // Keep secret variables server-side only
   return {
     props: {
@@ -291,18 +296,18 @@ export async function getServerSideProps({ req }) {
       faqs: faqs?.data[0]?.value || null,
       logo: logo?.data[0] || null,
       banner: banner?.data[0] || null,
-      services: services?.data[0]?.value || [],
-      features: features?.data[0] || [],
-      gallery: gallery?.data[0]?.value || [],
+      services: ensureArray(services?.data[0]?.value),
+      features: features?.data[0] || null,
+      gallery: ensureArray(gallery?.data[0]?.value),
       about: about?.data[0] || null,
-      benefits: benefits?.data[0] || [],
-      testimonials: testimonials?.data[0]?.value || [],
+      benefits: benefits?.data[0] || null,
+      testimonials: ensureArray(testimonials?.data[0]?.value),
       meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
       footer: footer?.data[0] || null,
-      locations: locations?.data[0]?.value || [],
-      why_us: why_us?.data[0]?.value || [],
-      prices: prices?.data[0]?.value || [],
+      locations: ensureArray(locations?.data[0]?.value),
+      why_us: ensureArray(why_us?.data[0]?.value),
+      prices: prices?.data[0]?.value || null,
       slogan_1: slogan_1?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
       city_name: city_name?.data[0]?.value || null,

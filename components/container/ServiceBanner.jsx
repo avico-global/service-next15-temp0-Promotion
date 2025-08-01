@@ -88,7 +88,7 @@ export default function ServiceBanner({ image, data, form_head, features }) {
               </h2>
 
               <ul className="mb-9 space-y-1 md:space-y-2 md:mx-0 mx-auto text-left">
-                {features?.map((feature, idx) => {
+                {(Array.isArray(features) ? features : [])?.map((feature, idx) => {
                   const IconComponent = iconMap[feature.icon];
                   return (
                     <li
