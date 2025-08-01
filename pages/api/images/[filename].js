@@ -14,6 +14,7 @@ export default async function handler(req, res) {
   );
 
   try {
+    console.log("🚀 ~ handler ~ fullPath:", fullPath)
     // Check if the file exists
     if (fs.existsSync(fullPath)) {
       const file = fs.readFileSync(fullPath);
