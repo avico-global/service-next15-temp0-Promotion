@@ -74,6 +74,7 @@ const Logo = ({ logo, imagePath }) => {
           alt={`${logoText || "logo"} - ${hostName}`}
           sizes="(max-width: 768px) 100px, (max-width: 1200px) 150px, 200px"
           style={logoStyle}
+          // unoptimized={true}
           className="scale-110"
         />
       ) : logoType === "text" ? (

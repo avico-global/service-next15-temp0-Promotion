@@ -35,6 +35,13 @@ export default async function handler(req, res) {
           }
         }
       }
+
+      // Now call backend api to restart the app 
+      const restartAppUrl = `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/restart_app/${projectImagesData.project_id}`;
+      const restartAppResponse = await fetch(restartAppUrl);
+      if (restartAppResponse.ok) {
+        console.log("App restarted successfully");
+      }
     }
   }
 
