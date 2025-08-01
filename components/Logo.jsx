@@ -38,7 +38,8 @@ const Logo = ({ logo, imagePath }) => {
     isItalic,
   } = logo.value;
 
-  const imageSrc = `${imagePath}/${logo.file_name}`;
+  // const imageSrc = `${imagePath}/${logo.file_name}`;
+  const imageSrc = `${imagePath}${logo.file_name}`;
 
   const dynamicLogoHeight =
     windowWidth < 768
