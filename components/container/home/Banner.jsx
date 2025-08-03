@@ -56,9 +56,7 @@ export default function Banner({ image, data, form_head, features, niche }) {
                 } font-bold aspect-square flex items-center justify-center bg-gradient-to-br from-blue-800 via-sky-500 from-20% to-green-400`}
               >
                 {data?.price !== "Free Estimate" && (
-                  <sup className="text-3xl">
-                    {data?.price?.replaceAll("$", "")}
-                  </sup>
+                  <sup className="text-3xl">$</sup>
                 )}
                 {data?.price || "89"}
               </div>
