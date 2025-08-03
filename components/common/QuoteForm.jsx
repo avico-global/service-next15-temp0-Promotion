@@ -306,8 +306,14 @@ export default function QuoteForm({
               : "text-2xl text-center drop-shadow-lg uppercase font-poppins h-20 w-32 md:h-20 md:w-44 rounded-full"
           } font-bold aspect-square flex items-center justify-center bg-gradient-to-br from-blue-800 via-sky-500 from-20% to-green-400 absolute -top-10 -left-5 md:-left-14`}
         >
-          {data?.price !== "Free Estimate" && <sup className="text-2xl">$</sup>}
-          {data?.price || "89"}
+          {data?.price !== "Free Estimate" && <sup className="text-3xl">$</sup>}
+          {data?.price !== "Free Estimate" ? (
+            data?.price || "89"
+          ) : (
+            <span className="flex items-center gap-2 relative">
+              Free <br /> Estimate
+            </span>
+          )}
         </div>
       </div>
 

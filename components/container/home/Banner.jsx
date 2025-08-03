@@ -58,7 +58,14 @@ export default function Banner({ image, data, form_head, features, niche }) {
                 {data?.price !== "Free Estimate" && (
                   <sup className="text-3xl">$</sup>
                 )}
-                {data?.price || "89"}
+                {data?.price !== "Free Estimate" ? (
+                  data?.price || "89"
+                ) : (
+                  <span className="flex items-center gap-2 relative">
+                    <Star className="w-3 h-3 text-white/50 absolute top-0 left-0" />{" "}
+                    Free <br /> Estimate
+                  </span>
+                )}
               </div>
             </div>
 
