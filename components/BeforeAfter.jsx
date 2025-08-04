@@ -220,6 +220,33 @@ export default function BeforeAfter({ project_id, niche }) {
     },
   ];
 
+  const kitchen = [
+    {
+      before: "/st-images/beforeafter/kitchen/kb1.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/kitchen/ka1.jpeg",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/kitchen/kb2.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/kitchen/ka2.jpeg",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/kitchen/kb3.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/kitchen/ka3.jpeg",
+      after_alt: "after",
+    },
+
+    {
+      before: "/st-images/beforeafter/kitchen/kb4.jpeg",
+      before_alt: "before",
+      after: "/st-images/beforeafter/kitchen/ka4.jpeg",
+      after_alt: "after",
+    },
+  ];
 
   let selectedImage = carpet;
   if (niche === "Chimney Cleaning") selectedImage = chimeny;
@@ -230,8 +257,8 @@ export default function BeforeAfter({ project_id, niche }) {
   else if (niche === "Sliding Door") selectedImage = slidingDoor;
   else if (niche === "water damage") selectedImage = waterDamage;
   else if (niche === "Construction") selectedImage = construction;
+  else if (niche === "Kitchen") selectedImage = kitchen;
 
-  
   return (
     <FullContainer>
       <Container className="pb-16 pt-6 ">
