@@ -157,7 +157,7 @@ export default function BeforeAfter({ project_id, niche }) {
       after_alt: "after",
     },
     {
-      before: "/st-images/beforeafter/slidingDoor/beforee4.jpeg",
+      before: "/st-images/beforeafter/slidingDoor/beforee4.png",
       before_alt: "before",
       after: "/st-images/beforeafter/slidingDoor/afterr4.jpeg",
       after_alt: "after",
