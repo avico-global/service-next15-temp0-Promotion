@@ -22,6 +22,7 @@ import {
   getDomain,
   getImagePath,
   robotsTxt,
+  getProjectInfo,
 } from "@/lib/myFun";
 
 import FullMonthPromotion from "@/components/Promotion";
@@ -55,6 +56,8 @@ export default function Home({
   const phone = project?.phone || null;
   const gtm_id = project?.additional_config?.gtm_id || null;
   const niche = project?.domain_id?.niche_id?.name || null;
+
+  console.log("gtm_id", gtm_id);
 
   return (
     <div className="bg-white">
@@ -247,28 +250,8 @@ export async function getServerSideProps({ req }) {
   const form_head = await callBackendApi({ domain, tag: "form_head" });
   const city_name = await callBackendApi({ domain, tag: "city_name" });
 
-  let project = null; // Initialize to null to avoid undefined serialization errors
-  if (project_id) {
-    try {
-      const projectInfoResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/get_project_info/${project_id}`
-      );
-
-      if (projectInfoResponse.ok) {
-        const projectInfoData = await projectInfoResponse.json();
-        project = projectInfoData?.data || null;
-      } else {
-        console.error(
-          "Failed to fetch project info:",
-          projectInfoResponse.status
-        );
-        project = null;
-      }
-    } catch (error) {
-      console.error("Error fetching project info:", error);
-      project = null;
-    }
-  }
+  // Get project info using the same caching pattern as other API calls
+  const project = await getProjectInfo({ project_id, domain });
 
   robotsTxt({ domain });
 
