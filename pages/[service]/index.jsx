@@ -11,6 +11,7 @@ import {
   getDomain,
   getImagePath,
   robotsTxt,
+  getProjectInfo,
 } from "@/lib/myFun";
 
 import ServiceBanner from "@/components/container/ServiceBanner";
@@ -60,7 +61,9 @@ export default function Service({
   form_head,
   features,
   phone,
+  project,
 }) {
+  const gtm_id = project?.additional_config?.gtm_id || null;
   const router = useRouter();
   const { service } = router.query;
   const breadcrumbs = useBreadcrumbs();
@@ -120,7 +123,31 @@ export default function Service({
           sizes="16x16"
           href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
+
+        {/* <!-- Google Tag Manager --> */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','${gtm_id}');
+              `,
+          }}
+        />
+        {/* <!-- End Google Tag Manager --> */}
       </Head>
+      {/* Google Tag Manager (noscript) */}
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${gtm_id}`}
+          height="0"
+          width="10"
+          style={{ display: "none", visibility: "hidden" }}
+        ></iframe>
+      </noscript>
+      {/* End Google Tag Manager (noscript) */}
 
       <Navbar logo={logo} imagePath={imagePath} phone={phone} data={services} />
 
@@ -281,28 +308,8 @@ export async function getServerSideProps({ req, params }) {
     tag: "state_",
   });
 
-  let project = null; // Initialize to null to avoid undefined serialization errors
-  if (project_id) {
-    try {
-      const projectInfoResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/get_project_info/${project_id}`
-      );
-
-      if (projectInfoResponse.ok) {
-        const projectInfoData = await projectInfoResponse.json();
-        project = projectInfoData?.data || null;
-      } else {
-        console.error(
-          "Failed to fetch project info:",
-          projectInfoResponse.status
-        );
-        project = null;
-      }
-    } catch (error) {
-      console.error("Error fetching project info:", error);
-      project = null;
-    }
-  }
+  // Get project info using the same caching pattern as other API calls
+  const project = await getProjectInfo({ project_id, domain });
 
   robotsTxt({ domain });
 
@@ -333,6 +340,7 @@ export async function getServerSideProps({ req, params }) {
       city_name: city_name?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
       phone: project?.phone || null,
+      project,
     },
   };
 }
