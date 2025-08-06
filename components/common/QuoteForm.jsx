@@ -112,26 +112,39 @@ export default function QuoteForm({
   // Function to fire GTM event
   const fireGTMEvent = (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
+      // Create hash format from form data
+      const formDataHash = btoa(JSON.stringify({
+        firstName: submittedFormData.firstName,
+        lastName: submittedFormData.lastName,
+        email: submittedFormData.email,
+        phone: submittedFormData.phone.replace(/[-()\s]/g, ""), // Clean phone number
+        message: submittedFormData.message,
+      }));
+      
       window.dataLayer.push({
         event: "form_submit",
         url: window.location.href,
-        formData: {
-          firstName: submittedFormData.firstName,
-          lastName: submittedFormData.lastName,
-          email: submittedFormData.email,
-          phone: submittedFormData.phone.replace(/[-()\s]/g, ""), // Clean phone number
-          message: submittedFormData.message,
-        },
+        formData: formDataHash,
       });
     }
   };
 
   // Function to fire Lead Submitted GTM event
-  const fireLeadSubmittedEvent = () => {
+  const fireLeadSubmittedEvent = (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
+      // Create hash format from form data
+      const formDataHash = btoa(JSON.stringify({
+        firstName: submittedFormData.firstName,
+        lastName: submittedFormData.lastName,
+        email: submittedFormData.email,
+        phone: submittedFormData.phone.replace(/[-()\s]/g, ""), // Clean phone number
+        message: submittedFormData.message,
+      }));
+      
       window.dataLayer.push({
         event: "leadSubmitted",
         url: window.location.href,
+        formData: formDataHash,
       });
     }
   };
@@ -260,7 +273,7 @@ export default function QuoteForm({
       fireGTMEvent(formData);
       
       // Fire Lead Submitted event immediately after form submission
-      fireLeadSubmittedEvent();
+      fireLeadSubmittedEvent(formData);
 
       // Show success toast
       toast.success(
