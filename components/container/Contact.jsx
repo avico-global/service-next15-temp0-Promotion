@@ -203,21 +203,7 @@ export default function Contact() {
     }
   };
 
-  // Function to close thank you popup and reset form
-  const closeThankYouPopup = () => {
-    // Fire Lead Submitted event when user acknowledges the thank you message
-    fireLeadSubmittedEvent();
 
-    setFormSubmitted(false);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      zipcode: "",
-      message: "",
-    });
-    setErrors({});
-  };
 
   // Validate email with stricter regex
   const validateEmail = (email) => {
@@ -356,6 +342,9 @@ export default function Contact() {
 
       // Fire GTM event for successful form submission
       fireGTMEvent(formData);
+      
+      // Fire Lead Submitted event immediately after form submission
+      fireLeadSubmittedEvent();
 
       // Show success toast
       toast.success(
@@ -365,6 +354,19 @@ export default function Contact() {
 
       // Set form as submitted
       setFormSubmitted(true);
+      
+      // Auto-reset form after 3 seconds
+      setTimeout(() => {
+        setFormSubmitted(false);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          zipcode: "",
+          message: "",
+        });
+        setErrors({});
+      }, 3000);
     } catch (err) {
       console.error("Error submitting form:", err);
       // Show error toast instead of setting inline error
@@ -427,16 +429,10 @@ export default function Contact() {
         <CheckCircle className="h-12 w-12 text-green-600" />
       </div>
       <h3 className="text-3xl font-bold text-white mb-4">Thank You!</h3>
-      <p className="text-white text-xl max-w-md mb-6">
+      <p className="text-white text-xl max-w-md">
         Your request has been submitted successfully. We'll contact you shortly
         with your personalized quote.
       </p>
-      <button
-        onClick={closeThankYouPopup}
-        className="bg-white text-black py-3 px-6 rounded-md font-medium transition-colors duration-200 hover:bg-gray-100"
-      >
-        OK Thanks
-      </button>
     </div>
   );
 

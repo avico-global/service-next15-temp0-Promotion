@@ -136,27 +136,7 @@ export default function QuoteForm({
     }
   };
 
-  // Function to close thank you popup and reset form
-  const closeThankYouPopup = () => {
-    // Fire Lead Submitted event when user acknowledges the thank you message
-    fireLeadSubmittedEvent();
 
-    setFormSubmitted(false);
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      message: "",
-    });
-    setFieldErrors({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      message: "",
-    });
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -278,6 +258,9 @@ export default function QuoteForm({
 
       // Fire GTM event for successful form submission
       fireGTMEvent(formData);
+      
+      // Fire Lead Submitted event immediately after form submission
+      fireLeadSubmittedEvent();
 
       // Show success toast
       toast.success(
@@ -287,6 +270,25 @@ export default function QuoteForm({
 
       // Set form as submitted
       setFormSubmitted(true);
+      
+      // Auto-reset form after 3 seconds
+      setTimeout(() => {
+        setFormSubmitted(false);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+        setFieldErrors({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      }, 3000);
     } catch (err) {
       console.error("Error submitting form:", err);
       // Show error toast instead of setting inline error
@@ -334,16 +336,10 @@ export default function QuoteForm({
             <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
           <h3 className="text-xl font-bold text-gray-800 mb-2">Thank You!</h3>
-          <p className="text-gray-600 max-w-md mb-6">
+          <p className="text-gray-600 max-w-md">
             Your request has been submitted successfully. We'll contact you
             shortly with your personalized quote.
           </p>
-          <button
-            onClick={closeThankYouPopup}
-            className="bg-[#6B9FE4] hover:bg-[#5B88C4] text-black py-2 px-6 rounded-md font-medium transition-colors duration-200"
-          >
-            OK Thanks
-          </button>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-3 text-black">
