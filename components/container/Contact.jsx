@@ -176,42 +176,52 @@ export default function Contact() {
     }
   };
 
+  // Function to hash a string using SHA-256
+  const hashValue = async (value) => {
+    if (typeof window !== "undefined" && window.crypto && window.crypto.subtle) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(value);
+      const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    return value; // Fallback if crypto is not available
+  };
+
   // Function to fire GTM event
-  const fireGTMEvent = (submittedFormData) => {
+  const fireGTMEvent = async (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
-      // Create hash format from form data
-      const formDataHash = btoa(JSON.stringify({
-        name: submittedFormData.name,
-        email: submittedFormData.email,
-        phone: submittedFormData.phone.replace(/[-()\s]/g, ""), // Clean phone number
-        message: submittedFormData.message,
-        zipcode: submittedFormData.zipcode,
-      }));
+      const hashedData = {
+        name: await hashValue(submittedFormData.name),
+        email: await hashValue(submittedFormData.email),
+        phone: await hashValue(submittedFormData.phone.replace(/[-()\s]/g, "")), // Clean phone number before hashing
+        message: await hashValue(submittedFormData.message),
+        zipcode: await hashValue(submittedFormData.zipcode),
+      };
       
       window.dataLayer.push({
         event: "form_submit",
         url: window.location.href,
-        formData: formDataHash,
+        formData: hashedData,
       });
     }
   };
 
   // Function to fire Lead Submitted GTM event
-  const fireLeadSubmittedEvent = (submittedFormData) => {
+  const fireLeadSubmittedEvent = async (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
-      // Create hash format from form data
-      const formDataHash = btoa(JSON.stringify({
-        name: submittedFormData.name,
-        email: submittedFormData.email,
-        phone: submittedFormData.phone.replace(/[-()\s]/g, ""), // Clean phone number
-        message: submittedFormData.message,
-        zipcode: submittedFormData.zipcode,
-      }));
+      const hashedData = {
+        name: await hashValue(submittedFormData.name),
+        email: await hashValue(submittedFormData.email),
+        phone: await hashValue(submittedFormData.phone.replace(/[-()\s]/g, "")), // Clean phone number before hashing
+        message: await hashValue(submittedFormData.message),
+        zipcode: await hashValue(submittedFormData.zipcode),
+      };
       
       window.dataLayer.push({
         event: "leadSubmitted",
         url: window.location.href,
-        formData: formDataHash,
+        formData: hashedData,
       });
     }
   };
@@ -354,10 +364,10 @@ export default function Contact() {
       }
 
       // Fire GTM event for successful form submission
-      fireGTMEvent(formData);
+      await fireGTMEvent(formData);
       
       // Fire Lead Submitted event immediately after form submission
-      fireLeadSubmittedEvent(formData);
+      await fireLeadSubmittedEvent(formData);
 
       // Show success toast
       toast.success(
