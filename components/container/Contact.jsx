@@ -191,18 +191,25 @@ export default function Contact() {
   // Function to fire GTM event
   const fireGTMEvent = async (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
-      const hashedData = {
-        name: await hashValue(submittedFormData.name),
-        email: await hashValue(submittedFormData.email),
-        phone: await hashValue(submittedFormData.phone.replace(/[-()\s]/g, "")), // Clean phone number before hashing
-        message: await hashValue(submittedFormData.message),
-        zipcode: await hashValue(submittedFormData.zipcode),
+      const cleanPhone = submittedFormData.phone.replace(/[-()\s]/g, "");
+      
+      const formDataWithHashes = {
+        name: submittedFormData.name,
+        email: submittedFormData.email,
+        phone: cleanPhone,
+        message: submittedFormData.message,
+        zipcode: submittedFormData.zipcode,
+        hash_name: await hashValue(submittedFormData.name),
+        hash_email: await hashValue(submittedFormData.email),
+        hash_phone: await hashValue(cleanPhone),
+        hash_message: await hashValue(submittedFormData.message),
+        hash_zipcode: await hashValue(submittedFormData.zipcode),
       };
       
       window.dataLayer.push({
         event: "form_submit",
         url: window.location.href,
-        formData: hashedData,
+        formData: formDataWithHashes,
       });
     }
   };
@@ -210,18 +217,25 @@ export default function Contact() {
   // Function to fire Lead Submitted GTM event
   const fireLeadSubmittedEvent = async (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
-      const hashedData = {
-        name: await hashValue(submittedFormData.name),
-        email: await hashValue(submittedFormData.email),
-        phone: await hashValue(submittedFormData.phone.replace(/[-()\s]/g, "")), // Clean phone number before hashing
-        message: await hashValue(submittedFormData.message),
-        zipcode: await hashValue(submittedFormData.zipcode),
+      const cleanPhone = submittedFormData.phone.replace(/[-()\s]/g, "");
+      
+      const formDataWithHashes = {
+        name: submittedFormData.name,
+        email: submittedFormData.email,
+        phone: cleanPhone,
+        message: submittedFormData.message,
+        zipcode: submittedFormData.zipcode,
+        hash_name: await hashValue(submittedFormData.name),
+        hash_email: await hashValue(submittedFormData.email),
+        hash_phone: await hashValue(cleanPhone),
+        hash_message: await hashValue(submittedFormData.message),
+        hash_zipcode: await hashValue(submittedFormData.zipcode),
       };
       
       window.dataLayer.push({
         event: "leadSubmitted",
         url: window.location.href,
-        formData: hashedData,
+        formData: formDataWithHashes,
       });
     }
   };
