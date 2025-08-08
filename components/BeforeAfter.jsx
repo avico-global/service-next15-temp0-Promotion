@@ -247,6 +247,33 @@ export default function BeforeAfter({ project_id, niche }) {
       after_alt: "after",
     },
   ];
+  const hardScaping = [
+    {
+      before: "/st-images/beforeafter/hardScaping/jb1.webp",
+      before_alt: "before",
+      after: "/st-image/beforeafter/hardScaping/ja1.webp",
+      after_alt: "after",
+    },
+
+    {
+      before: "/st-images/beforeafter/hardScaping/jb2.webp",
+      before_alt: "before",
+      after: "/st-image/beforeafter/hardScaping/ja2.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/hardScaping/jb3.webp",
+      before_alt: "before",
+      after: "st-image/beforeafter/hardScaping/ja3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/hardScaping/jb4.webp",
+      before_alt: "before",
+      after: "st-image/beforeafter/hardScaping/ja4.webp",
+      after_alt: "after",
+    },
+  ];
 
   let selectedImage = carpet;
   if (niche === "Chimney Cleaning") selectedImage = chimeny;
@@ -258,6 +285,7 @@ export default function BeforeAfter({ project_id, niche }) {
   else if (niche === "water damage") selectedImage = waterDamage;
   else if (niche === "Construction") selectedImage = construction;
   else if (niche === "Kitchen") selectedImage = kitchen;
+  else if (niche === "Hard Scaping") selectedImage = hardScaping;
 
   return (
     <FullContainer>
