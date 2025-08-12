@@ -251,28 +251,58 @@ export default function BeforeAfter({ project_id, niche }) {
     {
       before: "/st-images/beforeafter/hardScaping/jb1.webp",
       before_alt: "before",
-      after: "/st-image/beforeafter/hardScaping/ja1.webp",
+      after: "/st-images/beforeafter/hardScaping/ja1.webp",
       after_alt: "after",
     },
 
     {
       before: "/st-images/beforeafter/hardScaping/jb2.webp",
       before_alt: "before",
-      after: "/st-image/beforeafter/hardScaping/ja2.webp",
+      after: "/st-images/beforeafter/hardScaping/ja2.webp",
       after_alt: "after",
     },
     {
       before: "/st-images/beforeafter/hardScaping/jb3.webp",
       before_alt: "before",
-      after: "st-image/beforeafter/hardScaping/ja3.webp",
+      after: "/st-images/beforeafter/hardScaping/ja3.webp",
       after_alt: "after",
     },
     {
       before: "/st-images/beforeafter/hardScaping/jb4.webp",
       before_alt: "before",
-      after: "st-image/beforeafter/hardScaping/ja4.webp",
+      after: "/st-images/beforeafter/hardScaping/ja4.webp",
       after_alt: "after",
     },
+    
+  ];
+  const locksmith = [
+    {
+      before: "/st-images/beforeafter/locksmith/1before.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/locksmith/2after.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/locksmith/2before.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/locksmith/2.2after.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/locksmith/3before.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/locksmith/3after.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/locksmith/4before.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/locksmith/4after.webp",
+      after_alt: "after",
+    },
+
+
+
   ];
 
   let selectedImage = carpet;
@@ -285,7 +315,10 @@ export default function BeforeAfter({ project_id, niche }) {
   else if (niche === "water damage") selectedImage = waterDamage;
   else if (niche === "Construction") selectedImage = construction;
   else if (niche === "Kitchen") selectedImage = kitchen;
-  else if (niche === "Hard Scaping") selectedImage = hardScaping;
+  else if (niche === "Hardscaping") selectedImage = hardScaping;
+  else if (niche === "Locksmith") selectedImage = locksmith;
+
+ 
 
   return (
     <FullContainer>
@@ -394,7 +427,7 @@ function BeforeAfterSlider({ beforeImage, afterImage, beforeAlt, afterAlt }) {
           After
         </div>
       </div>
-
+ 
       {/* After Image (Masked, always 100% size, only part revealed) */}
       <div
         className="absolute inset-0 overflow-hidden"
@@ -416,7 +449,7 @@ function BeforeAfterSlider({ beforeImage, afterImage, beforeAlt, afterAlt }) {
           </div>
         </div>
       </div>
-
+     
       {/* Slider Control */}
       <div
         ref={sliderRef}
