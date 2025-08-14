@@ -326,6 +326,36 @@ export default function BeforeAfter({ project_id, niche }) {
         after: "/st-images/beforeafter/landscaping/after4.webp",
         after_alt: "after",
       },
+
+  ];
+  const Bathroom = [
+    {
+      before: "/st-images/beforeafter/bathroom/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/bathroom/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/bathroom/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/bathroom/after2.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/bathroom/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/bathroom/after3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/bathroom/before4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/bathroom/after4.webp",
+      after_alt: "after",
+    },
+    
+    
+    
       
       
 
@@ -346,6 +376,7 @@ export default function BeforeAfter({ project_id, niche }) {
   else if (niche === "Hardscaping") selectedImage = hardScaping;
   else if (niche === "Locksmith") selectedImage = locksmith;
   else if (niche === "Landscaping") selectedImage = Landscaping;
+  else if (niche==="Bathroom") selectedImage = Bathroom;
 
  
 
