@@ -56,8 +56,10 @@ const PromotionCard = ({
       {price && (
         <div className=" text-center">
           <div className="flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold">
-             <span className="text-5xl font-extrabold">{price}</span>
+            <span className="text-5xl font-extrabold">
+              {" "}
+              {price !== "Free Estimate" && "$"}
+              {price}
             </span>
           </div>
           {serviceTitle && (
