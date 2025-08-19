@@ -56,8 +56,10 @@ const PromotionCard = ({
       {price && (
         <div className=" text-center">
           <div className="flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold">
-              Now <span className="text-5xl font-extrabold">${price}</span>
+            <span className="text-5xl font-extrabold">
+              {" "}
+              {price !== "Free Estimate" && "$"}
+              {price}
             </span>
           </div>
           {serviceTitle && (
@@ -67,7 +69,6 @@ const PromotionCard = ({
           )}
           {originalPrice && (
             <div className="mt-2 text-lg font-semibold">
-              <span>ORIGINAL PRICE </span>
               <span className="relative inline-block align-middle">
                 <span
                   className={`${

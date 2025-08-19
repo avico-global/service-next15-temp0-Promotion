@@ -17,7 +17,7 @@ export default function ServiceCities({ data }) {
         <div className="absolute inset-0 z-0">
           <Image
             title="Service Cities Map"
-            src="https://tampa-chimney.com/wp-content/uploads/2025/02/172991-map-usa-png-download-free1-1.webp"
+            src="/st-images/maap.webp"
             alt="Service Cities"
             className="w-full h-full object-cover object-center opacity-10"
             fill

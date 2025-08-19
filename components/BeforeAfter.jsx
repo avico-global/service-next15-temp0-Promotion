@@ -251,26 +251,240 @@ export default function BeforeAfter({ project_id, niche }) {
     {
       before: "/st-images/beforeafter/hardScaping/jb1.webp",
       before_alt: "before",
-      after: "/st-image/beforeafter/hardScaping/ja1.webp",
+      after: "/st-images/beforeafter/hardScaping/ja1.webp",
       after_alt: "after",
     },
 
     {
       before: "/st-images/beforeafter/hardScaping/jb2.webp",
       before_alt: "before",
-      after: "/st-image/beforeafter/hardScaping/ja2.webp",
+      after: "/st-images/beforeafter/hardScaping/ja2.webp",
       after_alt: "after",
     },
     {
       before: "/st-images/beforeafter/hardScaping/jb3.webp",
       before_alt: "before",
-      after: "st-image/beforeafter/hardScaping/ja3.webp",
+      after: "/st-images/beforeafter/hardScaping/ja3.webp",
       after_alt: "after",
     },
     {
       before: "/st-images/beforeafter/hardScaping/jb4.webp",
       before_alt: "before",
-      after: "st-image/beforeafter/hardScaping/ja4.webp",
+      after: "/st-images/beforeafter/hardScaping/ja4.webp",
+      after_alt: "after",
+    },
+    
+  ];
+  const locksmith = [
+    {
+      before: "/st-images/beforeafter/locksmith/1before.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/locksmith/2after.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/locksmith/2before.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/locksmith/2.2after.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/locksmith/3before.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/locksmith/3after.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/locksmith/4before.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/locksmith/4after.webp",
+      after_alt: "after",
+    },
+  ];
+    const Landscaping = [
+      {
+        before: "/st-images/beforeafter/landscaping/before1.webp",
+        before_alt: "before",
+        after: "/st-images/beforeafter/landscaping/after1.webp",
+        after_alt: "after",
+      },
+      {
+        before: "/st-images/beforeafter/landscaping/before2.webp",
+        before_alt: "before",
+        after: "/st-images/beforeafter/landscaping/after2.webp",
+        after_alt: "after",
+      },
+      {
+        before: "/st-images/beforeafter/landscaping/before3.webp",
+        before_alt: "before",
+        after: "/st-images/beforeafter/landscaping/after3.webp",
+        after_alt: "after",
+      },
+      {
+        before: "/st-images/beforeafter/landscaping/before4.webp",
+        before_alt: "before",
+        after: "/st-images/beforeafter/landscaping/after4.webp",
+        after_alt: "after",
+      },
+
+  ];
+  const Bathroom = [
+    {
+      before: "/st-images/beforeafter/bathroom/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/bathroom/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/bathroom/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/bathroom/after2.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/bathroom/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/bathroom/after3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/bathroom/before4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/bathroom/after4.webp",
+      after_alt: "after",
+    },
+  ];
+ 
+  const GarageDoorRepair = [
+    {
+      before: "/st-images/beforeafter/garageDoor/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/garageDoor/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/garageDoor/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/garageDoor/after2.webp",
+      after_alt: "after",
+    },
+    
+    {
+      before: "/st-images/beforeafter/garageDoor/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/garageDoor/after3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/garageDoor/before4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/garageDoor/after4.webp",
+      after_alt: "after",
+    },
+  ]
+  const fireDamage = [
+    {
+      before: "/st-images/beforeafter/fireDamage/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/fireDamage/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/fireDamage/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/fireDamage/after2.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/fireDamage/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/fireDamage/after3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/fireDamage/before4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/fireDamage/after4.webp",
+      after_alt: "after",
+    },
+  ]
+  const moldRemoval = [
+    {
+      before: "/st-images/beforeafter/mold/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/mold/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/mold/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/mold/after2.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/mold/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/mold/after3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/mold/after4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/mold/before4.webp",
+      after_alt: "after",
+    },
+  ]
+  const painting = [
+    {
+      before: "/st-images/beforeafter/painting/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/painting/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/painting/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/painting/after2.webp",
+      after_alt: "after",
+    },
+    
+    {
+      before: "/st-images/beforeafter/painting/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/painting/after3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/painting/before4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/painting/after4.webp",
+      after_alt: "after",
+    },
+  ]
+  const Moving = [
+    {
+      before: "/st-images/beforeafter/moving/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/moving/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/moving/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/moving/after2.webp",
+      after_alt: "after",
+    },
+    
+    {
+      before: "/st-images/beforeafter/moving/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/moving/after3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/moving/before4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/moving/after4.webp",
       after_alt: "after",
     },
   ];
@@ -285,7 +499,16 @@ export default function BeforeAfter({ project_id, niche }) {
   else if (niche === "water damage") selectedImage = waterDamage;
   else if (niche === "Construction") selectedImage = construction;
   else if (niche === "Kitchen") selectedImage = kitchen;
-  else if (niche === "Hard Scaping") selectedImage = hardScaping;
+  else if (niche === "Hardscaping") selectedImage = hardScaping;
+  else if (niche === "Locksmith") selectedImage = locksmith;
+  else if (niche === "Landscaping") selectedImage = Landscaping;
+  else if (niche==="Bathroom") selectedImage = Bathroom;
+  else if (niche==="Garage Door Repair") selectedImage = GarageDoorRepair;
+  else if (niche==="Fire Damage") selectedImage = fireDamage;
+  else if (niche==="Mold Removal") selectedImage = moldRemoval;
+  else if (niche==="Painting") selectedImage = painting;
+  else if (niche==="Moving") selectedImage = Moving;
+
 
   return (
     <FullContainer>
@@ -394,7 +617,7 @@ function BeforeAfterSlider({ beforeImage, afterImage, beforeAlt, afterAlt }) {
           After
         </div>
       </div>
-
+ 
       {/* After Image (Masked, always 100% size, only part revealed) */}
       <div
         className="absolute inset-0 overflow-hidden"
@@ -416,7 +639,7 @@ function BeforeAfterSlider({ beforeImage, afterImage, beforeAlt, afterAlt }) {
           </div>
         </div>
       </div>
-
+     
       {/* Slider Control */}
       <div
         ref={sliderRef}
