@@ -302,11 +302,13 @@ export default function QuoteForm({
         <div
           className={`${
             data?.price !== "Free Estimate"
-              ? "text-4xl md:text-6xl h-32 md:h-28 w-32 md:w-28 rounded-full"
+              ? "text-4xl md:text-6xl h-20 md:h-28 w-20 md:w-28 rounded-full"
               : "text-2xl text-center drop-shadow-lg uppercase font-poppins h-20 w-32 md:h-20 md:w-44 rounded-full"
           } font-bold aspect-square flex items-center justify-center bg-gradient-to-br from-blue-800 via-sky-500 from-20% to-green-400 absolute -top-10 -left-5 md:-left-14`}
         >
-          {data?.price !== "Free Estimate" && <sup className="text-3xl">$</sup>}
+          {data?.price !== "Free Estimate" && (
+            <sup className="text-xl md:text-3xl">$</sup>
+          )}
           {data?.price !== "Free Estimate" ? (
             data?.price || "89"
           ) : (
