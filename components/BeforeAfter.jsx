@@ -384,21 +384,21 @@ export default function BeforeAfter({ project_id, niche }) {
   ]
   const fireDamage = [
     {
-      before: "/st-images/beforeafter/fireDamage/before1.webp",
+      before: "/st-images/beforeafter/fireDamage/before1.jpg",
       before_alt: "before",
-      after: "/st-images/beforeafter/fireDamage/after1.webp",
+      after: "/st-images/beforeafter/fireDamage/after1.jpg",
       after_alt: "after",
     },
     {
-      before: "/st-images/beforeafter/fireDamage/before2.webp",
+      before: "/st-images/beforeafter/fireDamage/before2.jpg",
       before_alt: "before",
-      after: "/st-images/beforeafter/fireDamage/after2.webp",
+      after: "/st-images/beforeafter/fireDamage/after2.jpg",
       after_alt: "after",
     },
     {
-      before: "/st-images/beforeafter/fireDamage/before3.webp",
+      before: "/st-images/beforeafter/fireDamage/before3.jpg",
       before_alt: "before",
-      after: "/st-images/beforeafter/fireDamage/after3.webp",
+      after: "/st-images/beforeafter/fireDamage/after3.jpg",
       after_alt: "after",
     },
     {
@@ -428,9 +428,9 @@ export default function BeforeAfter({ project_id, niche }) {
       after_alt: "after",
     },
     {
-      before: "/st-images/beforeafter/mold/after4.webp",
+      before: "/st-images/beforeafter/mold/before4.webp",
       before_alt: "before",
-      after: "/st-images/beforeafter/mold/before4.webp",
+      after: "/st-images/beforeafter/mold/after4.jpg",
       after_alt: "after",
     },
   ]
