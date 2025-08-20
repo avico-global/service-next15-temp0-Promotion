@@ -430,7 +430,7 @@ export default function BeforeAfter({ project_id, niche }) {
     {
       before: "/st-images/beforeafter/mold/before4.webp",
       before_alt: "before",
-      after: "/st-images/beforeafter/mold/after4.jpg",
+      after: "/st-images/beforeafter/mold/after4.webp",
       after_alt: "after",
     },
   ]
