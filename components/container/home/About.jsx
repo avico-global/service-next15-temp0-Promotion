@@ -17,6 +17,8 @@ export default function About({ image, data, city_name }) {
               width={1500}
               height={1500}
               className="w-full h-[580px] sm:h-[400px] md:h-[310px] object-cover"
+              loading="lazy"
+              sizes="100vw"
             />
             {/* Dark overlay for better text visibility */}
             <div className="absolute inset-0 bg-gray-950/60"></div>

@@ -30,8 +30,8 @@ export default function Banner({ image, data, form_head, features, niche }) {
   };
 
   return (
-    <FullContainer className="relative bg-white overflow-hidden md:!h-[790px] lg:!h-auto">
-      <div className="absolute inset-0 h-[600px] md:min-h-[790px] overflow-hidden">
+    <FullContainer className="relative bg-white overflow-hidden h-[600px] md:h-[790px]">
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
         <Image
           src={image}
           title={data?.imageTitle || data?.title || "Banner"}
@@ -40,6 +40,10 @@ export default function Banner({ image, data, form_head, features, niche }) {
           fill
           sizes="100vw"
           className="object-cover object-center"
+          fetchPriority="high"
+          quality={85}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGxEiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
         />
         <div className="absolute inset-0 bg-gray-950/70"></div>
       </div>

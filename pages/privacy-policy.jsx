@@ -8,6 +8,8 @@ import Head from "next/head";
 
 import {
   callBackendApi,
+  callBackendApiAll,
+  extractTagData,
   getDomain,
   getImagePath,
   robotsTxt,
@@ -117,17 +119,22 @@ export default function PrivacyPolicy({
 
 export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
-  const logo = await callBackendApi({ domain, tag: "logo" });
+  
+  // Ultra-fast: Fetch ALL data in a single API call
+  const bulkData = await callBackendApiAll({ domain });
+  
+  // Extract individual tags from the bulk response
+  const logo = extractTagData(bulkData, "logo");
+  const services = extractTagData(bulkData, "services");
+  const meta = extractTagData(bulkData, "meta_privacy");
+  const favicon = extractTagData(bulkData, "favicon");
+  const footer = extractTagData(bulkData, "footer");
+  const policy = extractTagData(bulkData, "policy");
+  const contact_info = extractTagData(bulkData, "contact_info");
+  const city_name = extractTagData(bulkData, "city_name");
+
   const project_id = logo?.data[0]?.project_id || null;
   const imagePath = await getImagePath(project_id, domain);
-  const services = await callBackendApi({ domain, tag: "services" });
-  const meta = await callBackendApi({ domain, tag: "meta_privacy" });
-  const favicon = await callBackendApi({ domain, tag: "favicon" });
-  const footer = await callBackendApi({ domain, tag: "footer" });
-
-  const policy = await callBackendApi({ domain, tag: "policy" });
-  const contact_info = await callBackendApi({ domain, tag: "contact_info" });
-  const city_name = await callBackendApi({ domain, tag: "city_name" });
 
   let project = null; // Initialize to null to avoid undefined serialization errors
   if (project_id) {

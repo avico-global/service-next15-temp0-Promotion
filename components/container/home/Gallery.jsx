@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Phone } from "lucide-react";
@@ -14,24 +14,29 @@ export default function Gallery({
   city_name,
   file_names,
 }) {
-  const markdown = new MarkdownIt();
-  const capitalizeFirstLetterOfEachWord = (string) => {
-    return string
-      ?.split(" ")
-      ?.map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
-      ?.join(" ");
-  };
+  // Memoize expensive operations
+  const markdown = useMemo(() => new MarkdownIt(), []);
+  
+  const capitalizeFirstLetterOfEachWord = useMemo(() => {
+    return (string) => {
+      return string
+        ?.split(" ")
+        ?.map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
+        ?.join(" ");
+    };
+  }, []);
 
-  const content = data
-    ? markdown.render(
-        data
-          ?.replaceAll(
-            "##service##",
-            capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " "))
-          )
-          ?.replaceAll("##city_name##", city_name)
-      )
-    : "";
+  const content = useMemo(() => {
+    if (!data) return "";
+    return markdown.render(
+      data
+        ?.replaceAll(
+          "##service##",
+          capitalizeFirstLetterOfEachWord(service?.replaceAll("-", " "))
+        )
+        ?.replaceAll("##city_name##", city_name)
+    );
+  }, [data, service, city_name, markdown, capitalizeFirstLetterOfEachWord]);
 
   return (
     <FullContainer className="pt-10 md:pt-16 pb-10 md:pb-16 ">
@@ -57,7 +62,8 @@ export default function Gallery({
                     alt={`Gallery Image ${index + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover  transition-transform duration-300"
+                    className="object-cover transition-transform duration-300"
+                    loading="lazy"
                   />
                 </div>
 

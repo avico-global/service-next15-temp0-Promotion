@@ -81,7 +81,8 @@ export default function WhyChoose({ image, phone, data }) {
                 fill
                 className="object-cover"
                 style={{ position: "absolute" }}
-                priority
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 58vw"
               />
             </div>
           </div>

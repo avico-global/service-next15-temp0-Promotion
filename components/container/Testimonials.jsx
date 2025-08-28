@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Container from "../common/Container";
 import Heading from "../common/Heading";
 import Logo from "@/components/Logo";
@@ -18,22 +18,25 @@ const Testimonials = ({ data, logo, imagePath }) => {
   const autoSlideRef = useRef(null);
   const animationRef = useRef(null);
 
-  // Generate random avatars for testimonials
-  const getRandomAvatar = (seed) => {
-    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
-  };
+  // Use memoized avatars to prevent regeneration on every render
+  const testimonialsWithAvatars = useMemo(() => {
+    const getRandomAvatar = (seed) => {
+      return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
+    };
 
-  // Add random avatars to testimonials if they don't have one
-  const testimonialsWithAvatars = testimonials.map((testimonial, index) => ({
-    ...testimonial,
-    avatar:
-      testimonial.avatar ||
-      getRandomAvatar(testimonial.name || `user-${index}`),
-  }));
+    return testimonials.map((testimonial, index) => ({
+      ...testimonial,
+      avatar:
+        testimonial.avatar ||
+        getRandomAvatar(testimonial.name || `user-${index}`),
+    }));
+  }, [testimonials]);
 
-  // Default avatar using DiceBear
-  const defaultAvatar =
-    "https://api.dicebear.com/7.x/avataaars/svg?seed=default";
+  // Default avatar using DiceBear (memoized)
+  const defaultAvatar = useMemo(() => 
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=default",
+    []
+  );
 
   // Check screen size
   useEffect(() => {
@@ -96,21 +99,20 @@ const Testimonials = ({ data, logo, imagePath }) => {
     };
   }, [isDragging, testimonials.length, isMobile, isTablet]);
 
-  // Animation for smooth movement
-  const animation = () => {
-    if (sliderRef.current) {
-      setSliderPosition();
-      if (isDragging) {
-        animationRef.current = requestAnimationFrame(animation);
-      }
+  // ⚡ Optimized animation for smooth movement - using transform directly
+  const animation = useCallback(() => {
+    if (sliderRef.current && isDragging) {
+      sliderRef.current.style.transform = `translateX(${currentTranslate}%)`;
+      animationRef.current = requestAnimationFrame(animation);
     }
-  };
+  }, [isDragging, currentTranslate]);
 
-  const setSliderPosition = () => {
+  // ⚡ Memoized position setter to prevent forced reflows
+  const setSliderPosition = useCallback(() => {
     if (sliderRef.current) {
       sliderRef.current.style.transform = `translateX(${currentTranslate}%)`;
     }
-  };
+  }, [currentTranslate]);
 
   // Manual drag handlers
   const handleDragStart = (e) => {
@@ -311,9 +313,9 @@ const Testimonials = ({ data, logo, imagePath }) => {
                               />
                             </div>
                             <div className="flex-1">
-                              <h4 className="text-gray-800 font-semibold text-sm md:text-base">
+                              <h3 className="text-gray-800 font-semibold text-sm md:text-base">
                                 {testimonial.name}
-                              </h4>
+                              </h3>
                               {/* Star Rating */}
                               <div className="flex gap-0.5 mb-2">
                                 {[1, 2, 3, 4, 5].map((star) => (

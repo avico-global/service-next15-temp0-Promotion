@@ -165,41 +165,53 @@ export default function Contact() {
 
   // Function to handle first form interaction
   const handleFirstInteraction = () => {
-    if (!formStarted) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "form start",
-        url: window.location.href,
-      });
-
-      setFormStarted(true);
+    if (!formStarted && typeof window !== "undefined") {
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "form start",
+          url: window.location.href,
+        });
+        setFormStarted(true);
+      } catch (error) {
+        console.warn("GTM form start event failed:", error);
+        setFormStarted(true); // Still mark as started to prevent retries
+      }
     }
   };
 
   // Function to fire GTM event
   const fireGTMEvent = (submittedFormData) => {
     if (typeof window !== "undefined" && window.dataLayer) {
-      window.dataLayer.push({
-        event: "form_submit",
-        url: window.location.href,
-        formData: {
-          name: submittedFormData.name,
-          email: submittedFormData.email,
-          phone: submittedFormData.phone.replace(/[-()\s]/g, ""), // Clean phone number
-          message: submittedFormData.message,
-          zipcode: submittedFormData.zipcode,
-        },
-      });
+      try {
+        window.dataLayer.push({
+          event: "form_submit",
+          url: window.location.href,
+          formData: {
+            name: submittedFormData.name,
+            email: submittedFormData.email,
+            phone: submittedFormData.phone.replace(/[-()\s]/g, ""), // Clean phone number
+            message: submittedFormData.message,
+            zipcode: submittedFormData.zipcode,
+          },
+        });
+      } catch (error) {
+        console.warn("GTM form submit event failed:", error);
+      }
     }
   };
 
   // Function to fire Lead Submitted GTM event
   const fireLeadSubmittedEvent = () => {
     if (typeof window !== "undefined" && window.dataLayer) {
-      window.dataLayer.push({
-        event: "leadSubmitted",
-        url: window.location.href,
-      });
+      try {
+        window.dataLayer.push({
+          event: "leadSubmitted",
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.warn("GTM lead submitted event failed:", error);
+      }
     }
   };
 
@@ -426,7 +438,7 @@ export default function Contact() {
       <div className="h-24 w-24 bg-green-100 rounded-full flex items-center justify-center mb-8">
         <CheckCircle className="h-12 w-12 text-green-600" />
       </div>
-      <h3 className="text-3xl font-bold text-white mb-4">Thank You!</h3>
+      <h4 className="text-3xl font-bold text-white mb-4">Thank You!</h4>
       <p className="text-white text-xl max-w-md mb-6">
         Your request has been submitted successfully. We'll contact you shortly
         with your personalized quote.
@@ -452,9 +464,9 @@ export default function Contact() {
                 <FormSuccess />
               ) : (
                 <>
-                  <h4 className="text-3xl leading-none md:text-4xl md:leading-7 font-bold mb-4 text-white text-center">
+                  <h2 className="text-3xl leading-none md:text-4xl md:leading-7 font-bold mb-4 text-white text-center">
                     10% Off Total Price for Online Booking
-                  </h4>
+                  </h2>
                   <h3 className="text-[25px] leading-none md:text-4xl md:leading-7 font-bold mb-7 text-white text-center">
                     Ask For A Quote Here
                   </h3>

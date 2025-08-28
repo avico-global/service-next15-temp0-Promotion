@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -6,23 +6,22 @@ const Logo = ({ logo, imagePath }) => {
   const [hostName, setHostName] = useState("");
   const [windowWidth, setWindowWidth] = useState(1200);
 
+  // Memoize the resize handler to prevent unnecessary re-renders
+  const handleResize = useCallback(() => {
+    setWindowWidth(window.innerWidth);
+  }, []);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       setHostName(window.location.hostname);
-
-      const handleResize = () => {
-        setWindowWidth(window.innerWidth);
-      };
-
       handleResize();
 
       window.addEventListener("resize", handleResize);
-
       return () => {
         window.removeEventListener("resize", handleResize);
       };
     }
-  }, []);
+  }, []); // Remove handleResize dependency to prevent infinite loops
 
   if (!logo || !logo.value) {
     return null;
@@ -38,26 +37,28 @@ const Logo = ({ logo, imagePath }) => {
     isItalic,
   } = logo.value;
 
-  const imageSrc = `${imagePath}/${logo.file_name}`;
-  // const imageSrc = `${imagePath}${logo.file_name}`;
+  // Memoize expensive calculations
+  const imageSrc = useMemo(() => `${imagePath}/${logo.file_name}`, [imagePath, logo.file_name]);
 
-  const dynamicLogoHeight =
-    windowWidth < 768
+  const dynamicLogoHeight = useMemo(() => {
+    return windowWidth < 768
       ? 30
       : windowWidth < 1200
       ? Math.floor(logoHeight / 2)
       : logoHeight;
+  }, [windowWidth, logoHeight]);
 
-  const dynamicLogoWidth =
-    windowWidth >= 1200
+  const dynamicLogoWidth = useMemo(() => {
+    return windowWidth >= 1200
       ? logoWidth
       : Math.floor((logoWidth / logoHeight) * dynamicLogoHeight);
+  }, [windowWidth, logoWidth, logoHeight, dynamicLogoHeight]);
 
-  const logoStyle = {
+  const logoStyle = useMemo(() => ({
     height: windowWidth >= 768 ? `${dynamicLogoHeight}px` : "auto",
     width: windowWidth >= 768 ? "auto" : 148,
     maxWidth: "100%",
-  };
+  }), [windowWidth, dynamicLogoHeight]);
 
   return (
     <Link

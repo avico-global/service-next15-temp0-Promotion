@@ -44,6 +44,7 @@ export default function ServiceBanner({ image, data, form_head, features }) {
           fill
           sizes="100vw"
           className="object-cover object-center"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gray-950/70"></div>
       </div>

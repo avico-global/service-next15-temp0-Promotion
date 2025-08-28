@@ -1,21 +1,17 @@
-import FAQs from "../../components/container/FAQs";
-import Contact from "../../components/container/Contact";
+import dynamic from "next/dynamic";
 import Navbar from "../../components/container/Navbar/Navbar";
-import ServiceCities from "../../components/container/ServiceCities";
-import Footer from "../../components/container/Footer";
-import ServiceBenefits from "../../components/container/home/ServiceBenefits";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
+import ServiceBanner from "@/components/container/ServiceBanner";
 
 import {
   callBackendApi,
+  callBackendApiAll,
+  extractTagData,
   getDomain,
   getImagePath,
   robotsTxt,
 } from "@/lib/myFun";
 
-import ServiceBanner from "@/components/container/ServiceBanner";
-import Gallery from "@/components/container/home/Gallery";
-import About from "@/components/container/home/About";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
@@ -24,10 +20,16 @@ import Container from "@/components/common/Container";
 import Link from "next/link";
 import { Phone } from "lucide-react";
 
-import ServiceDescription from "@/components/container/services/ServiceDescription";
-import ServiceDescription1 from "@/components/container/services/ServicwDescription1";
-import ServiceDescription2 from "@/components/container/services/ServicwDescription2";
-import ServiceText from "@/components/container/services/ServiceText";
+// Dynamic imports for components below the fold
+const FAQs = dynamic(() => import("../../components/container/FAQs"));
+const Contact = dynamic(() => import("../../components/container/Contact"));
+const ServiceCities = dynamic(() => import("../../components/container/ServiceCities"));
+const Footer = dynamic(() => import("../../components/container/Footer"));
+const Gallery = dynamic(() => import("../../components/container/home/Gallery"));
+const ServiceDescription = dynamic(() => import("../../components/container/services/ServiceDescription"));
+const ServiceDescription1 = dynamic(() => import("../../components/container/services/ServicwDescription1"));
+const ServiceDescription2 = dynamic(() => import("../../components/container/services/ServicwDescription2"));
+const ServiceText = dynamic(() => import("../../components/container/services/ServiceText"));
 
 const capitalizeFirstLetterOfEachWord = (string) => {
   return string
@@ -228,58 +230,33 @@ export async function getServerSideProps({ req, params }) {
   const domain = getDomain(req?.headers?.host);
   const { service } = params; // Extract service name from route parameters
 
-  const faqs = await callBackendApi({ domain, tag: "faqs" });
-  const service_text1 = await callBackendApi({ domain, tag: "service_text1" });
-  const service_text2 = await callBackendApi({ domain, tag: "service_text2" });
-  const contact_info = await callBackendApi({ domain, tag: "contact_info" });
-  const logo = await callBackendApi({ domain, tag: "logo" });
+  // Ultra-fast: Fetch ALL data in a single API call
+  const bulkData = await callBackendApiAll({ domain });
+  
+  // Extract individual tags from the bulk response
+  const faqs = extractTagData(bulkData, "faqs");
+  const service_text1 = extractTagData(bulkData, "service_text1");
+  const service_text2 = extractTagData(bulkData, "service_text2");
+  const contact_info = extractTagData(bulkData, "contact_info");
+  const logo = extractTagData(bulkData, "logo");
+  const services = extractTagData(bulkData, "services");
+  const features = extractTagData(bulkData, "features");
+  const gallery = extractTagData(bulkData, "gallery");
+  const meta = extractTagData(bulkData, "meta_service");
+  const favicon = extractTagData(bulkData, "favicon");
+  const footer = extractTagData(bulkData, "footer");
+  const locations = extractTagData(bulkData, "locations");
+  const service_why = extractTagData(bulkData, `service-why-${service}`);
+  const service_banner = extractTagData(bulkData, "service_banner");
+  const service_description = extractTagData(bulkData, "service_description");
+  const service_description1 = extractTagData(bulkData, "service_description1");
+  const service_description2 = extractTagData(bulkData, "service_description2");
+  const city_name = extractTagData(bulkData, "city_name");
+  const form_head = extractTagData(bulkData, "form_head");
+  const state_ = extractTagData(bulkData, "state_");
+
   const project_id = logo?.data[0]?.project_id || null;
   const imagePath = await getImagePath(project_id, domain);
-  const services = await callBackendApi({ domain, tag: "services" });
-  const features = await callBackendApi({ domain, tag: "features" });
-  const gallery = await callBackendApi({ domain, tag: "gallery" });
-  const meta = await callBackendApi({ domain, tag: "meta_service" });
-  const favicon = await callBackendApi({ domain, tag: "favicon" });
-  const footer = await callBackendApi({ domain, tag: "footer" });
-  const locations = await callBackendApi({ domain, tag: "locations" });
-
-  // Updated tag pattern: service-why-furnace-{servicename}
-  const service_why = await callBackendApi({
-    domain,
-    tag: `service-why-${service}`,
-  });
-
-  const service_banner = await callBackendApi({
-    domain,
-    tag: "service_banner",
-  });
-  const service_description = await callBackendApi({
-    domain,
-    tag: "service_description",
-  });
-
-  const service_description1 = await callBackendApi({
-    domain,
-    tag: "service_description1",
-  });
-
-  const service_description2 = await callBackendApi({
-    domain,
-    tag: "service_description2",
-  });
-
-  const city_name = await callBackendApi({
-    domain,
-    tag: "city_name",
-  });
-  const form_head = await callBackendApi({
-    domain,
-    tag: "form_head",
-  });
-  const state_ = await callBackendApi({
-    domain,
-    tag: "state_",
-  });
 
   let project = null; // Initialize to null to avoid undefined serialization errors
   if (project_id) {

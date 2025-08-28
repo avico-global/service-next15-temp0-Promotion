@@ -21,6 +21,8 @@ export default function Benefits({ phone, data, image }) {
               alt="Service Background"
               fill
               className="object-cover"
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
           <div className=" px-4 md:px-10 py-8 flex flex-col  gap-4 rounded-2xl shadow-[0_0_5px_rgba(0,0,0,0.5)] bg-white z-10 my-7">
