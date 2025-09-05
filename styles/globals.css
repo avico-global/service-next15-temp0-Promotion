@@ -2,45 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide scrollbars utility class */
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Safari and Chrome */
+/* Critical CSS - Above the fold styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
-.prose strong {
-  color: #01306e;
-  font-weight: 700;
-  width: 100%;
+/* Performance optimizations */
+@layer components {
+  /* Hide scrollbars utility class */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Optimized prose styles */
+  .prose {
+    --prose-primary: #01306e;
+  }
+  
+  .prose strong {
+    color: var(--prose-primary);
+    font-weight: 700;
+    width: 100%;
+  }
+  
+  .prose h2 {
+    color: var(--prose-primary);
+    font-weight: 700;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  .prose h3 {
+    color: var(--prose-primary);
+    font-weight: 700;
+    width: 100%;
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  .prose p {
+    color: var(--prose-primary);
+    font-weight: 400;
+    width: 100%;
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    font-family: "Barlow", sans-serif;
+    margin-bottom: 0.9rem;
+    margin-top: 0;
+    line-height: 1.5;
+  }
 }
-.prose h2 {
-  color: #01306e;
-  font-weight: 700;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 32px;
-  font-family: "Montserrat", sans-serif;
-}
-.prose h3 {
-  color: #01306e;
-  font-weight: 700;
-  width: 100%;
-  font-size: 24px;
-  font-family: "Montserrat", sans-serif;
-}
-.prose p {
-  color: #01306e;
-  font-weight: 400;
-  width: 100%;
-  font-size: 18px;
-  font-family: "barlow", sans-serif;
-  margin-bottom: 14.4px;
-  margin-top: 0px;
-  line-height: 1.5;
+
+/* Layout shift prevention */
+@layer utilities {
+  .contain-layout {
+    contain: layout;
+  }
+  
+  .contain-paint {
+    contain: paint;
+  }
+  
+  .will-change-transform {
+    will-change: transform;
+  }
 }
 

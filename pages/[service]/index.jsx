@@ -19,17 +19,36 @@ import FullContainer from "@/components/common/FullContainer";
 import Container from "@/components/common/Container";
 import Link from "next/link";
 import { Phone } from "lucide-react";
+import CallButton from "@/components/CallButton";
 
-// Dynamic imports for components below the fold
-const FAQs = dynamic(() => import("../../components/container/FAQs"));
-const Contact = dynamic(() => import("../../components/container/Contact"));
-const ServiceCities = dynamic(() => import("../../components/container/ServiceCities"));
-const Footer = dynamic(() => import("../../components/container/Footer"));
-const Gallery = dynamic(() => import("../../components/container/home/Gallery"));
-const ServiceDescription = dynamic(() => import("../../components/container/services/ServiceDescription"));
-const ServiceDescription1 = dynamic(() => import("../../components/container/services/ServicwDescription1"));
-const ServiceDescription2 = dynamic(() => import("../../components/container/services/ServicwDescription2"));
-const ServiceText = dynamic(() => import("../../components/container/services/ServiceText"));
+// Dynamic imports for components below the fold with loading optimization
+const FAQs = dynamic(() => import("../../components/container/FAQs"), {
+  loading: () => <div className="h-96 bg-gray-50 animate-pulse" />
+});
+const Contact = dynamic(() => import("../../components/container/Contact"), {
+  loading: () => <div className="h-96 bg-gray-50 animate-pulse" />
+});
+const ServiceCities = dynamic(() => import("../../components/container/ServiceCities"), {
+  loading: () => <div className="h-64 bg-gray-50 animate-pulse" />
+});
+const Footer = dynamic(() => import("../../components/container/Footer"), {
+  loading: () => <div className="h-64 bg-gray-50 animate-pulse" />
+});
+const Gallery = dynamic(() => import("../../components/container/home/Gallery"), {
+  loading: () => <div className="h-96 bg-gray-50 animate-pulse" />
+});
+const ServiceDescription = dynamic(() => import("../../components/container/services/ServiceDescription"), {
+  loading: () => <div className="h-64 bg-gray-50 animate-pulse" />
+});
+const ServiceDescription1 = dynamic(() => import("../../components/container/services/ServicwDescription1"), {
+  loading: () => <div className="h-64 bg-gray-50 animate-pulse" />
+});
+const ServiceDescription2 = dynamic(() => import("../../components/container/services/ServicwDescription2"), {
+  loading: () => <div className="h-64 bg-gray-50 animate-pulse" />
+});
+const ServiceText = dynamic(() => import("../../components/container/services/ServiceText"), {
+  loading: () => <div className="h-64 bg-gray-50 animate-pulse" />
+});
 
 const capitalizeFirstLetterOfEachWord = (string) => {
   return string
@@ -203,25 +222,7 @@ export default function Service({
       />
 
       {/* Fixed Call Button */}
-      <div className="grid md:hidden fixed bottom-0 left-0 right-0 z-50 p-2 bg-white">
-        <div className="w-full bg-gradient-to-b from-green-700 via-lime-600 to-green-600 rounded-md flex flex-col items-center justify-center py-3">
-          <Link
-            title="Call Button"
-            href={`tel:${phone}`}
-            className="flex flex-col text-white items-center justify-center w-full font-barlow"
-          >
-            <div className="flex items-center mb-1">
-              <Phone className="w-8 h-8 mr-3" />
-              <div className="uppercase text-4xl font-extrabold">
-                CALL US NOW
-              </div>
-            </div>
-            <div className="text-3xl font-semibold">
-              {phone ? phone : "Contact Us"}
-            </div>
-          </Link>
-        </div>
-      </div>
+      <CallButton phone={phone} />
     </div>
   );
 }
@@ -254,11 +255,13 @@ export async function getServerSideProps({ req, params }) {
   const city_name = extractTagData(bulkData, "city_name");
   const form_head = extractTagData(bulkData, "form_head");
   const state_ = extractTagData(bulkData, "state_");
+  const phone_data = extractTagData(bulkData, "phone");
 
   const project_id = logo?.data[0]?.project_id || null;
   const imagePath = await getImagePath(project_id, domain);
 
-  let project = null; // Initialize to null to avoid undefined serialization errors
+  // Fetch project data for GTM ID, niche, and phone
+  let project = null;
   if (project_id) {
     try {
       const projectInfoResponse = await fetch(
@@ -309,7 +312,15 @@ export async function getServerSideProps({ req, params }) {
       service_description2: service_description2?.data[0] || null,
       city_name: city_name?.data[0]?.value || null,
       form_head: form_head?.data[0]?.value || null,
-      phone: project?.phone || null,
+      phone: project?.phone ||
+             phone_data?.data?.[0]?.value ||
+             contact_info?.data[0]?.value?.phone || 
+             contact_info?.data[0]?.value?.phone_number || 
+             contact_info?.data[0]?.value?.contact_number ||
+             contact_info?.data[0]?.value?.mobile ||
+             contact_info?.data[0]?.value?.telephone ||
+             contact_info?.data[0]?.value?.tel ||
+             null,
     },
   };
 }

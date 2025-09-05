@@ -37,7 +37,6 @@ export default function QuoteForm({
         });
         setFormStarted(true);
       } catch (error) {
-        console.warn("GTM form start event failed:", error);
         setFormStarted(true); // Still mark as started to prevent retries
       }
     }
@@ -129,7 +128,7 @@ export default function QuoteForm({
           },
         });
       } catch (error) {
-        console.warn("GTM form submit event failed:", error);
+        // GTM form submit event failed
       }
     }
   };
@@ -143,7 +142,7 @@ export default function QuoteForm({
           url: window.location.href,
         });
       } catch (error) {
-        console.warn("GTM lead submitted event failed:", error);
+        // GTM lead submitted event failed
       }
     }
   };

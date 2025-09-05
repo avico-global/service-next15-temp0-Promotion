@@ -12,7 +12,6 @@ export default async function handler(req, res) {
 
   // Add timeout and request limiting to prevent infinite loops
   const requestTimeout = setTimeout(() => {
-    console.error(`Image API timeout for ${filename}`);
     if (!res.headersSent) {
       res.status(408).send("Request timeout");
     }
@@ -67,7 +66,7 @@ export default async function handler(req, res) {
             timeout: 5000, // 5 second timeout for restart
           });
           if (restartAppResponse.ok) {
-            console.log("App restarted successfully");
+            // App restarted successfully
           }
         }
       } finally {
@@ -78,7 +77,6 @@ export default async function handler(req, res) {
       }
     }
   } catch (error) {
-    console.error("Error in image API:", error);
     clearTimeout(requestTimeout);
     if (!res.headersSent) {
       return res.status(500).send("Internal Server Error");
@@ -89,7 +87,6 @@ export default async function handler(req, res) {
   const fullPath = path.resolve(filePath, filename);
 
   try {
-    console.log("🚀 ~ handler ~ fullPath:", fullPath)
     // Check if the file exists
     if (fs.existsSync(fullPath)) {
       const file = fs.readFileSync(fullPath);
@@ -101,7 +98,6 @@ export default async function handler(req, res) {
       res.status(404).send("File not found");
     }
   } catch (error) {
-    console.error("Error serving file:", error);
     res.status(500).send("Internal Server Error");
   } finally {
     clearTimeout(requestTimeout);

@@ -1,7 +1,9 @@
 import "@/styles/globals.css";
 import { Barlow } from "next/font/google";
+import { useEffect } from "react";
 
 import { Toaster } from "react-hot-toast";
+import { reportWebVitals, trackPageLoad, preloadCriticalResources } from "@/lib/webVitals";
 
 const barlow = Barlow({
   subsets: ["latin"],
@@ -10,6 +12,12 @@ const barlow = Barlow({
 });
 
 export default function App({ Component, pageProps }) {
+  useEffect(() => {
+    // Initialize performance tracking
+    trackPageLoad();
+    preloadCriticalResources();
+  }, []);
+
   return (
     <div className={barlow.className}>
       <Component {...pageProps} />
@@ -38,3 +46,6 @@ export default function App({ Component, pageProps }) {
     </div>
   );
 }
+
+// Export the reportWebVitals function for Next.js to use
+export { reportWebVitals };

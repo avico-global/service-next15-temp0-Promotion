@@ -17,12 +17,29 @@ const nextConfig = {
     ],
     formats: ["image/webp", "image/avif"],
     minimumCacheTTL: 60 * 60 * 24 * 365, // 1 year
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  swcMinify: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
+  },
+  
+  // Enable modern JavaScript features and optimize bundle
+  experimental: {
+    optimizePackageImports: [
+      'lucide-react',
+      'react-hot-toast',
+      'react-intersection-observer',
+      'react-markdown',
+      'react-scroll',
+    ],
+    scrollRestoration: true,
   },
 
   eslint: {
@@ -57,6 +74,19 @@ const nextConfig = {
           {
             key: "Referrer-Policy",
             value: "origin-when-cross-origin"
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), browsing-topics=()"
+          }
+        ]
+      },
+      {
+        source: "/api/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=86400, stale-while-revalidate=43200"
           }
         ]
       },

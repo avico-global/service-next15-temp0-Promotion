@@ -6,8 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
+    "build:profile": "PROFILE=true next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "perf": "npm run build && npm run start",
+    "lighthouse": "lhci autorun",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",

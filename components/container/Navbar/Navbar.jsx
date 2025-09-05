@@ -6,7 +6,6 @@ import FullContainer from "../../common/FullContainer";
 import { useRouter } from "next/router";
 import Logo from "@/components/Logo";
 import { sanitizeUrl } from "@/lib/myFun";
-import CallButton from "@/components/CallButton";
 
 export default function Navbar({ logo, imagePath, phone, data }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,18 +57,24 @@ export default function Navbar({ logo, imagePath, phone, data }) {
   // Don't render anything until mounted to prevent hydration mismatch
   if (!mounted) {
     return (
-      <FullContainer className="shadow-sm w-full sticky top-0 z-20 bg-white py-2 h-[82px] md:h-[112px]">
+      <FullContainer className="shadow-sm w-full sticky top-0 z-20 bg-white py-2 h-[70px] sm:h-[82px] md:h-[112px]">
         <Container>
           <div className="flex flex-row justify-between h-full items-center w-full md:pr-8">
-            <div className="h-full flex items-center justify-center">
+            <div className="h-full flex items-center justify-center flex-shrink-0">
               <Logo logo={logo} imagePath={imagePath} />
             </div>
-            <div className="flex items-center justify-end flex-row">
+            <div className="flex items-center justify-end flex-row gap-2 sm:gap-3">
               <div className="flex flex-col gap-1 md:gap-2 justify-center items-center">
                 <div className="text-xs">
-                  <CallButton phone={phone} />
+                  <a
+                    href={`tel:${phone}`}
+                    className="flex items-center justify-center gap-1 sm:gap-2 px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full bg-[#1A2956] text-white font-semibold text-sm sm:text-base md:text-lg shadow hover:bg-[#22397a] transition-all"
+                  >
+                    <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+                    {phone}
+                  </a>
                 </div>
-                <h2 className="text-primary font-bold lg:text-lg md:text-[25px] font-barlow leading-none">
+                <h2 className="text-primary font-bold text-xs sm:text-sm md:text-lg lg:text-lg md:text-[25px] font-barlow leading-none text-center">
                   Call Us Today
                 </h2>
               </div>
@@ -81,12 +86,16 @@ export default function Navbar({ logo, imagePath, phone, data }) {
   }
 
   return (
-    <FullContainer className="shadow-sm w-full sticky top-0 z-20 bg-white py-2 h-[82px] md:h-[112px]">
+    <FullContainer className="shadow-sm w-full sticky top-0 z-20 bg-white py-2 h-[70px] sm:h-[82px] md:h-[112px]">
       <Container>
-        <div className="flex flex-row justify-between h-full items-center w-full  md:pr-8">
-          <Logo logo={logo} imagePath={imagePath} />
+        <div className="flex flex-row justify-between h-full items-center w-full md:pr-8">
+          {/* Logo - optimized for mobile */}
+          <div className="flex-shrink-0">
+            <Logo logo={logo} imagePath={imagePath} />
+          </div>
 
-          <div className="hidden lg:flex items-center text-[26px] font-barlow justify-center font-semibold gap-4 ">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center text-[26px] font-barlow justify-center font-semibold gap-4">
             <Link
               href="/"
               className="cursor-pointer text-black hover:text-[#002B5B] transition-colors"
@@ -158,29 +167,36 @@ export default function Navbar({ logo, imagePath, phone, data }) {
             </button>
           </div>
 
-          <div className=" flex items-center justify-end flex-row">
+          {/* Call Button and Mobile Menu */}
+          <div className="flex items-center justify-end flex-row gap-2 sm:gap-3">
+            {/* Call Button - responsive sizing */}
             <div className="flex flex-col gap-1 md:gap-2 justify-center items-center">
-              <div className=" text-xs ">
-                <CallButton phone={phone} />
+              <div className="text-xs">
+                <a
+                  href={`tel:${phone}`}
+                  className="flex items-center justify-center gap-1 sm:gap-2 px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full bg-[#1A2956] text-white font-semibold text-sm sm:text-base md:text-lg shadow hover:bg-[#22397a] transition-all"
+                >
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+                  {phone}
+                </a>
               </div>
-              <h2
-                className={`text-primary font-bold lg:text-lg md:text-[25px] font-barlow leading-none`}
-              >
+              <h2 className="text-primary font-bold text-xs sm:text-sm md:text-lg lg:text-lg md:text-[25px] font-barlow leading-none text-center">
                 Call Us Today
               </h2>
             </div>
 
+            {/* Mobile Menu Button */}
             <div
-              className="lg:hidden text-white pl-5 cursor-pointer"
+              className="lg:hidden text-white cursor-pointer ml-2"
               onClick={toggleMenu}
             >
               {isOpen ? (
-                <div className="bg-primary  pt-1.5 rounded-[3px] p-0.5">
-                  <X className="w-7 h-6" />
+                <div className="bg-primary pt-1.5 rounded-[3px] p-0.5">
+                  <X className="w-6 h-5 sm:w-7 sm:h-6" />
                 </div>
               ) : (
-                <div className="bg-primary  pt-1.5 rounded-[3px] p-0.5">
-                  <Menu className="w-7 h-6" />
+                <div className="bg-primary pt-1.5 rounded-[3px] p-0.5">
+                  <Menu className="w-6 h-5 sm:w-7 sm:h-6" />
                 </div>
               )}
             </div>
@@ -190,7 +206,7 @@ export default function Navbar({ logo, imagePath, phone, data }) {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden py-2 bg-white absolute top-[75px] left-0 right-0 w-full transition-all duration-300 ${
+        className={`lg:hidden py-2 bg-white absolute top-[66px] sm:top-[78px] md:top-[108px] left-0 right-0 w-full transition-all duration-300 shadow-md ${
           isOpen
             ? "h-fit opacity-100 visible"
             : "h-0 opacity-0 invisible overflow-hidden"

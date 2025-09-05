@@ -174,7 +174,6 @@ export default function Contact() {
         });
         setFormStarted(true);
       } catch (error) {
-        console.warn("GTM form start event failed:", error);
         setFormStarted(true); // Still mark as started to prevent retries
       }
     }
@@ -196,7 +195,7 @@ export default function Contact() {
           },
         });
       } catch (error) {
-        console.warn("GTM form submit event failed:", error);
+        // GTM form submit event failed
       }
     }
   };
@@ -210,7 +209,7 @@ export default function Contact() {
           url: window.location.href,
         });
       } catch (error) {
-        console.warn("GTM lead submitted event failed:", error);
+        // GTM lead submitted event failed
       }
     }
   };

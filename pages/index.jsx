@@ -4,11 +4,9 @@ import Banner from "../components/container/home/Banner";
 import Navbar from "../components/container/Navbar/Navbar";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
-import Link from "next/link";
-import { Phone } from "lucide-react";
+import CallButton from "@/components/CallButton";
 
 import {
-  callBackendApi,
   callBackendApiAll,
   extractTagData,
   getDomain,
@@ -16,18 +14,55 @@ import {
   robotsTxt,
 } from "@/lib/myFun";
 
-// Dynamic imports for components below the fold
-const WhyChoose = dynamic(() => import("../components/container/home/WhyChoose"));
-const ServiceCities = dynamic(() => import("../components/container/ServiceCities"));
-const FAQs = dynamic(() => import("../components/container/FAQs"));
-const Testimonials = dynamic(() => import("../components/container/Testimonials"));
-const About = dynamic(() => import("../components/container/home/About"));
-const Footer = dynamic(() => import("../components/container/Footer"));
-const Contact = dynamic(() => import("../components/container/Contact"));
-const ServiceBenefits = dynamic(() => import("../components/container/home/ServiceBenefits"));
-const FullMonthPromotion = dynamic(() => import("@/components/Promotion"));
-const OurServices = dynamic(() => import("@/components/container/home/OurServices"));
-const BeforeAfter = dynamic(() => import("@/components/BeforeAfter"));
+// Dynamic imports for components below the fold with loading optimization
+const WhyChoose = dynamic(
+  () => import("../components/container/home/WhyChoose"),
+  {
+    loading: () => <div className="h-96 bg-gray-50 animate-pulse" />,
+  }
+);
+const ServiceCities = dynamic(
+  () => import("../components/container/ServiceCities"),
+  {
+    loading: () => <div className="h-64 bg-gray-50 animate-pulse" />,
+  }
+);
+const FAQs = dynamic(() => import("../components/container/FAQs"), {
+  loading: () => <div className="h-96 bg-gray-50 animate-pulse" />,
+});
+const Testimonials = dynamic(
+  () => import("../components/container/Testimonials"),
+  {
+    loading: () => <div className="h-64 bg-gray-50 animate-pulse" />,
+  }
+);
+const About = dynamic(() => import("../components/container/home/About"), {
+  loading: () => <div className="h-96 bg-gray-50 animate-pulse" />,
+});
+const Footer = dynamic(() => import("../components/container/Footer"), {
+  loading: () => <div className="h-64 bg-gray-50 animate-pulse" />,
+});
+const Contact = dynamic(() => import("../components/container/Contact"), {
+  loading: () => <div className="h-96 bg-gray-50 animate-pulse" />,
+});
+const ServiceBenefits = dynamic(
+  () => import("../components/container/home/ServiceBenefits"),
+  {
+    loading: () => <div className="h-96 bg-gray-50 animate-pulse" />,
+  }
+);
+const FullMonthPromotion = dynamic(() => import("@/components/Promotion"), {
+  loading: () => <div className="h-32 bg-gray-50 animate-pulse" />,
+});
+const OurServices = dynamic(
+  () => import("@/components/container/home/OurServices"),
+  {
+    loading: () => <div className="h-96 bg-gray-50 animate-pulse" />,
+  }
+);
+const BeforeAfter = dynamic(() => import("@/components/BeforeAfter"), {
+  loading: () => <div className="h-64 bg-gray-50 animate-pulse" />,
+});
 
 export default function Home({
   contact_info,
@@ -51,11 +86,28 @@ export default function Home({
   slogan_1,
   form_head,
   city_name,
+  phone_data,
   project,
 }) {
-  const phone = project?.phone || null;
+  // Try to get phone from multiple sources: project data first, then phone_data, then contact_info
+  const phone =
+    project?.phone ||
+    phone_data?.data?.[0]?.value ||
+    contact_info?.phone ||
+    contact_info?.phone_number ||
+    contact_info?.contact_number ||
+    contact_info?.mobile ||
+    contact_info?.telephone ||
+    contact_info?.tel ||
+    null;
+
+  // Extract GTM ID from project data
   const gtm_id = project?.additional_config?.gtm_id || null;
+
+  // Extract niche from project data
   const niche = project?.domain_id?.niche_id?.name || null;
+
+
 
   return (
     <div className="bg-white">
@@ -95,25 +147,52 @@ export default function Home({
           sizes="16x16"
           href={`${imagePath}/${favicon}`}
         />
-        
+
         {/* Preload critical resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
-        
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SITE_MANAGER} />
+
         {/* Preload LCP banner image for faster loading */}
         {banner?.file_name && (
+          <>
+            <link
+              rel="preload"
+              as="image"
+              href={`${imagePath}/${banner.file_name}`}
+              fetchPriority="high"
+            />
+            <link
+              rel="preload"
+              as="image"
+              href={`${imagePath}/${banner.file_name}`}
+              type="image/webp"
+              fetchPriority="high"
+            />
+          </>
+        )}
+
+        {/* Preload logo for above-the-fold content */}
+        {logo?.file_name && (
           <link
             rel="preload"
             as="image"
-            href={`${imagePath}/${banner.file_name}`}
+            href={`${imagePath}/${logo.file_name}`}
             fetchPriority="high"
           />
         )}
 
+        {/* Critical CSS hint */}
+        <link rel="preload" href="/_next/static/css/" as="style" />
+
         {/* <!-- Google Tag Manager --> */}
-        {gtm_id && gtm_id !== 'null' && gtm_id !== 'undefined' && (
+        {gtm_id && gtm_id !== "null" && gtm_id !== "undefined" && (
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -223,66 +302,45 @@ export default function Home({
       </div>
 
       {/* Fixed Call Button */}
-      <div className="grid md:hidden fixed bottom-0 left-0 right-0 z-50 p-2 bg-white">
-        <div className="w-full bg-gradient-to-b from-green-700 via-lime-600 to-green-600 rounded-md flex flex-col items-center justify-center py-3">
-          <Link
-            title="Call Button"
-            href={`tel:${phone}`}
-            className="flex flex-col text-white items-center justify-center w-full font-barlow"
-          >
-            <div className="flex items-center mb-1">
-              <Phone className="w-8 h-8 mr-3" />
-              <div className="uppercase text-4xl font-extrabold">
-                CALL US NOW
-              </div>
-            </div>
-            <div className="text-3xl font-semibold">
-              {phone ? phone : "Contact Us"}
-            </div>
-          </Link>
-        </div>
-      </div>
+      <CallButton phone={phone} />
     </div>
   );
 }
 
 export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
-  
+
   try {
     // ⚡ ULTRA-FAST: Single bulk data fetch
     const bulkData = await callBackendApiAll({ domain });
-    
+
     // Extract logo to get project_id for parallel project info fetch
     const logo = extractTagData(bulkData, "logo");
     const project_id = logo?.data[0]?.project_id || null;
-    
-    // ⚡ PARALLEL: Fetch project info while processing bulk data
-    const projectPromise = project_id ? (async () => {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
-      
+
+    // Fetch project data for GTM ID, niche, and phone
+    let project = null;
+    if (project_id) {
       try {
         const projectInfoResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/get_project_info/${project_id}`,
-          { 
-            signal: controller.signal,
-            headers: { 'Accept': 'application/json', 'Connection': 'keep-alive' }
-          }
+          `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/get_project_info/${project_id}`
         );
-        clearTimeout(timeoutId);
-        
+
         if (projectInfoResponse.ok) {
           const projectInfoData = await projectInfoResponse.json();
-          return projectInfoData?.data || null;
+          project = projectInfoData?.data || null;
+        } else {
+          console.error(
+            "Failed to fetch project info:",
+            projectInfoResponse.status
+          );
+          project = null;
         }
-        return null;
       } catch (error) {
-        clearTimeout(timeoutId);
-        console.warn("Project info fetch failed:", error.message);
-        return null;
+        console.error("Error fetching project info:", error);
+        project = null;
       }
-    })() : Promise.resolve(null);
+    }
 
     // ⚡ PARALLEL: Process data extraction while waiting for project info
     const [
@@ -304,8 +362,8 @@ export async function getServerSideProps({ req }) {
       slogan_1,
       form_head,
       city_name,
+      phone_data,
       imagePath,
-      project
     ] = await Promise.all([
       Promise.resolve(extractTagData(bulkData, "faqs")),
       Promise.resolve(extractTagData(bulkData, "contact_info")),
@@ -324,8 +382,8 @@ export async function getServerSideProps({ req }) {
       Promise.resolve(extractTagData(bulkData, "slogan_1")),
       Promise.resolve(extractTagData(bulkData, "form_head")),
       Promise.resolve(extractTagData(bulkData, "city_name")),
+      Promise.resolve(extractTagData(bulkData, "phone")),
       getImagePath(project_id, domain),
-      projectPromise
     ]);
 
     robotsTxt({ domain });
@@ -358,7 +416,8 @@ export async function getServerSideProps({ req }) {
         slogan_1: slogan_1?.data[0]?.value || null,
         form_head: form_head?.data[0]?.value || null,
         city_name: city_name?.data[0]?.value || null,
-        project,
+        phone_data: phone_data || null,
+        project: project || null,
       },
     };
   } catch (error) {
@@ -387,6 +446,7 @@ export async function getServerSideProps({ req }) {
         slogan_1: null,
         form_head: null,
         city_name: null,
+        phone_data: null,
         project: null,
       },
     };
