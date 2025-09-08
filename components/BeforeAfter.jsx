@@ -541,6 +541,7 @@ export default function BeforeAfter({ project_id, niche }) {
       "Mold Removal": moldRemoval,
       Painting: painting,
       Moving: Moving,
+      "Home Remodeling": homeRemodeling,
     };
     return imageMap[niche] || carpet;
   }, [niche]);
