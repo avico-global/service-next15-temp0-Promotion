@@ -492,6 +492,33 @@ export default function BeforeAfter({ project_id, niche }) {
       after_alt: "after",
     },
   ];
+  const homeRemodeling = [
+    {
+      before: "/st-images/beforeafter/homeRemodeling/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/homeRemodeling/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/homeRemodeling/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/homeRemodeling/after2.webp",
+      after_alt: "after",
+    },
+
+    {
+      before: "/st-images/beforeafter/homeRemodeling/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/homeRemodeling/after3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/homeRemodeling/before4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/homeRemodeling/after4.webp",
+      after_alt: "after",
+    },
+  ];
 
   // Memoize the selected images to prevent unnecessary re-computations
   const selectedImage = useMemo(() => {
