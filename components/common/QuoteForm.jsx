@@ -248,60 +248,124 @@ export default function QuoteForm({
         message: formData.message,
       };
 
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message || `HTTP error! status: ${response.status}`
-        );
-      }
-
-      if (result.success === false) {
-        // Handle server-side validation errors
-        if (result.errors && Array.isArray(result.errors)) {
-          const serverErrors = {};
-          result.errors.forEach((error) => {
-            if (error.includes("First name")) {
-              serverErrors.firstName = error;
-            } else if (error.includes("Last name")) {
-              serverErrors.lastName = error;
-            } else if (error.includes("Email") || error.includes("email")) {
-              serverErrors.email = error;
-            } else if (error.includes("Phone") || error.includes("phone")) {
-              serverErrors.phone = error;
-            } else if (error.includes("Message") || error.includes("message")) {
-              serverErrors.message = error;
-            }
+      // Retry up to 3 times, wait 2 seconds between attempts
+      let lastError;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        console.log(`QuoteForm: submitting attempt ${attempt}/3`);
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
           });
-          setFieldErrors((prev) => ({ ...prev, ...serverErrors }));
-          throw new Error("Please fix the validation errors above");
+          console.log(
+            `QuoteForm: attempt ${attempt}/3 response status: ${response.status}, ok: ${response.ok}`
+          );
+
+          let result = {};
+          try {
+            result = await response.json();
+          } catch (_) {}
+
+          const isOk = response.status === 200;
+          const hasValidationErrors = Array.isArray(result?.errors);
+          const isValidation =
+            response.status === 422 ||
+            (response.status === 400 && hasValidationErrors);
+
+          // Handle validation errors (do not retry)
+          if (!isOk && isValidation) {
+            if (hasValidationErrors) {
+              const serverErrors = {};
+              result.errors.forEach((error) => {
+                if (error.includes("First name")) {
+                  serverErrors.firstName = error;
+                } else if (error.includes("Last name")) {
+                  serverErrors.lastName = error;
+                } else if (error.includes("Email") || error.includes("email")) {
+                  serverErrors.email = error;
+                } else if (error.includes("Phone") || error.includes("phone")) {
+                  serverErrors.phone = error;
+                } else if (
+                  error.includes("Message") ||
+                  error.includes("message")
+                ) {
+                  serverErrors.message = error;
+                }
+              });
+              setFieldErrors((prev) => ({ ...prev, ...serverErrors }));
+            }
+            console.warn(
+              `QuoteForm: validation error on attempt ${attempt}/3 – not retrying`,
+              result
+            );
+            toast.error(
+              result?.message ||
+                (hasValidationErrors
+                  ? "Please fix the validation errors above"
+                  : "Form submission failed")
+            );
+            return;
+          }
+
+          // Success (do not retry)
+          if (isOk) {
+            console.log(`QuoteForm: success on attempt ${attempt}/3`);
+            // Fire GTM event for successful form submission
+            fireGTMEvent(formData);
+
+            toast.success(
+              result?.message ||
+                "Your request has been submitted successfully! We'll contact you shortly."
+            );
+
+            setFormSubmitted(true);
+            return;
+          }
+
+          lastError = new Error(
+            result?.message || `HTTP error! status: ${response.status}`
+          );
+          lastError.status = response.status;
+        } catch (attemptError) {
+          lastError =
+            attemptError instanceof Error
+              ? attemptError
+              : new Error("Request failed");
+          if (
+            attemptError &&
+            typeof attemptError === "object" &&
+            "status" in attemptError
+          ) {
+            lastError.status = attemptError.status;
+          }
+          console.error(
+            `QuoteForm: attempt ${attempt}/3 failed with network/server error`,
+            lastError
+          );
         }
-        throw new Error(result.message || "Form submission failed");
+
+        if (attempt < 3) {
+          console.log(`QuoteForm: retrying in 2000ms (attempt ${attempt}/3)`);
+          await new Promise((r) => setTimeout(r, 2000));
+          continue;
+        } else {
+          console.error(`QuoteForm: all 3 attempts failed`, lastError);
+          toast.error(
+            lastError?.message ||
+              "We couldn't submit your request. Please try again or contact support."
+          );
+          return;
+        }
       }
-
-      // Fire GTM event for successful form submission
-      fireGTMEvent(formData);
-
-      // Show success toast
-      toast.success(
-        result.message ||
-          "Your request has been submitted successfully! We'll contact you shortly."
-      );
-
-      // Set form as submitted
-      setFormSubmitted(true);
     } catch (err) {
       console.error("Error submitting form:", err);
-      // Show error toast instead of setting inline error
-      toast.error(err.message || "Something went wrong. Please try again.");
+      toast.error(
+        err?.message ||
+          "We couldn't submit your request. Please try again or contact support."
+      );
     } finally {
       setIsSubmitting(false);
     }
