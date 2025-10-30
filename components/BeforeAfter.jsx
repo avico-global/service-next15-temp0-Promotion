@@ -12,6 +12,33 @@ import FullContainer from "./common/FullContainer";
 import arrow from "../public/st-images/arrowhead.jpg";
 
 export default function BeforeAfter({ project_id, niche }) {
+  const fireplace = [
+    {
+      before: "/st-images/beforeafter/fireplace/before1.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/fireplace/after1.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/fireplace/before2.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/fireplace/after2.webp",
+      after_alt: "after",
+    },
+
+    {
+      before: "/st-images/beforeafter/fireplace/before3.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/fireplace/after3.webp",
+      after_alt: "after",
+    },
+    {
+      before: "/st-images/beforeafter/fireplace/before4.webp",
+      before_alt: "before",
+      after: "/st-images/beforeafter/fireplace/after4.webp",
+      after_alt: "after",
+    },
+  ];
   const chimeny = [
     {
       before: "/st-images/beforeafter/chimeny/before1.webp",
@@ -542,6 +569,7 @@ export default function BeforeAfter({ project_id, niche }) {
       Painting: painting,
       Moving: Moving,
       "Home Remodeling": homeRemodeling,
+      Fireplace: fireplace,
     };
     return imageMap[niche] || carpet;
   }, [niche]);
