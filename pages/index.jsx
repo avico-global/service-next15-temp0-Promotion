@@ -90,16 +90,7 @@ export default function Home({
   project,
 }) {
   // Try to get phone from multiple sources: project data first, then phone_data, then contact_info
-  const phone =
-    project?.phone ||
-    phone_data?.data?.[0]?.value ||
-    contact_info?.phone ||
-    contact_info?.phone_number ||
-    contact_info?.contact_number ||
-    contact_info?.mobile ||
-    contact_info?.telephone ||
-    contact_info?.tel ||
-    null;
+  const phone = project?.phone || null;
 
   // Extract GTM ID from project data
   const gtm_id = project?.additional_config?.gtm_id || null;
