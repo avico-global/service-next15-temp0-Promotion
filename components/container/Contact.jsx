@@ -169,7 +169,7 @@ export default function Contact() {
       try {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-          event: "form start",
+          event: "form_submit",
           url: window.location.href,
         });
         setFormStarted(true);
@@ -181,8 +181,9 @@ export default function Contact() {
 
   // Function to fire GTM event
   const fireGTMEvent = (submittedFormData) => {
-    if (typeof window !== "undefined" && window.dataLayer) {
+    if (typeof window !== "undefined") {
       try {
+        window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           event: "form_submit",
           url: window.location.href,
@@ -199,26 +200,8 @@ export default function Contact() {
       }
     }
   };
-
-  // Function to fire Lead Submitted GTM event
-  const fireLeadSubmittedEvent = () => {
-    if (typeof window !== "undefined" && window.dataLayer) {
-      try {
-        window.dataLayer.push({
-          event: "leadSubmitted",
-          url: window.location.href,
-        });
-      } catch (error) {
-        // GTM lead submitted event failed
-      }
-    }
-  };
-
   // Function to close thank you popup and reset form
   const closeThankYouPopup = () => {
-    // Fire Lead Submitted event when user acknowledges the thank you message
-    fireLeadSubmittedEvent();
-
     setFormSubmitted(false);
     setFormData({
       name: "",

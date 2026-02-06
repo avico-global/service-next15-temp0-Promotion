@@ -92,9 +92,6 @@ export default function Home({
   // Try to get phone from multiple sources: project data first, then phone_data, then contact_info
   const phone = project?.phone || null;
 
-  // Extract GTM ID from project data
-  const gtm_id = project?.additional_config?.gtm_id || null;
-
   // Extract niche from project data
   const niche = project?.domain_id?.niche_id?.name || null;
 
@@ -181,37 +178,7 @@ export default function Home({
 
         {/* Critical CSS hint */}
         <link rel="preload" href="/_next/static/css/" as="style" />
-
-        {/* <!-- Google Tag Manager --> */}
-        {gtm_id && gtm_id !== "null" && gtm_id !== "undefined" && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                  if (!window.gtmLoaded && typeof window !== 'undefined') {
-                    window.gtmLoaded = true;
-                    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                    })(window,document,'script','dataLayer','${gtm_id}');
-                  }
-                `,
-            }}
-          />
-        )}
-        {/* <!-- End Google Tag Manager --> */}
       </Head>
-      {/* {gtm_id && gtm_id} */}
-      {/* Google Tag Manager (noscript) */}
-      <noscript>
-        <iframe
-          src={`https://www.googletagmanager.com/ns.html?id=${gtm_id}`}
-          height="0"
-          width="10"
-          style={{ display: "none", visibility: "hidden" }}
-        ></iframe>
-      </noscript>
-      {/* End Google Tag Manager (noscript) */}
 
       <div>
         <Navbar
